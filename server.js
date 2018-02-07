@@ -6,6 +6,6 @@ app.use(express.static('public'))
 
 app.get('/status', (req, res) => {
   res.status('200').json()
-}
+})
 
 app.listen(process.env.PORT || 8080)
