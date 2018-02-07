@@ -1,2 +1,9 @@
 language: node_js
 node_js: node
+deploy:
+  provider: heroku
+  api_key:
+    secure: V/1HSrxGsZ2NOe/uJg/fZOZd5CjUFTcX6Zypeb2Yzwi7TRnky+wdwuI0fpp8ctO6Mk1E5av05VrRD6Z8nts8EET1bIGicgUM+f2kdjlclqughyFN0o40zTCsJdJ0JpZOO7pKNYFNL7YzR5/sabAWyUiPj4B843EDYzbNCgQreue2UVRDyZOf553sepJvtuW3hw/qTtQvNw2yd6xUIr3tw78H4voC7DkW8td4dkv+o47k92qysgKK6uJDsUl4wS8oR0++KfCV2riaBnd/xg3nVHroYIG6M1fC38s3XnzTYfdt/vYk/C4GcCOEOO+4ROCPoIPxBuuJ24e4NePZ5OmKKhpoc3aJYQPU2sdaLADKICg36x/aINwRCWB4UnV4LgwZSVdIH7hP7AwGBYaysmh9aPH8nHBY/8T3T+od+37hz0aqpj178g/BWA6NTFzQ42SETOz48pV0JVZukCQxtN/YZ78l0zRXYKngFWaQJuGFd1hGP5txGPldPmQKwwJrEBzco8G81NsuQmJm0m819d2Y+AFVa/+JM69ChKpI5j4rrhjxxSOpJrtxBBsBFa7ZrCFn/8dJzQKWPL/kimTqFMbk+i4yxq6z/OSIJyjIsfdR1qpo3yewRH+hCOxHcHJuyYAt5gK78J//IBnBKm3DeSnuhy0ROpD/eY656gK5AnwkMd8=
+  app: safe-coast-16974
+  on:
+    repo: pocketcalculator/vioth
