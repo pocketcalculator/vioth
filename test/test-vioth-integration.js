@@ -3,6 +3,8 @@ const chaiHttp = require('chai-http')
 const app = require('../server')
 const expect = chai.expect
 
+chai.use(chaiHttp)
+
 describe('GET endpoint', function() {
   it('should respond with a 200 status code', function() {
     let res
