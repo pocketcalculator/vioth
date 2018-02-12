@@ -19,15 +19,15 @@ const systemComponent = {
     }
     this.items[item.id] = item
     return item
-  }
+  },
   get: function() {
     console.log(`Retrieving system component list...`)
     return Object.keys(this.items).map(key => this.items[key])
-  }
+  },
   delete: function(itemId) {
     console.log(`Deleting system component \`${itemId}\``)
     delete this.items[itemId]
-  }
+  },
   update: function(updatedItem) {
     console.log(`Updating system component \`${itemId}\``)
     const {id} = updatedItem
