@@ -37,3 +37,13 @@ const systemComponent = {
     return updatedItem
   }
 }
+
+function createSystemComponent() {
+  const storage = Object.create(systemComponent)
+  storage.items = {}
+  return storage
+}
+
+module.exports = {
+  systemComponent: createSystemComponent()
+}
