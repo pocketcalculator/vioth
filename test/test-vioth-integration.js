@@ -33,8 +33,9 @@ describe('GET endpoint', function() {
 // each item should be an object with correct key/value pairs
         const expectedKeys = ['id', 'name', 'installedDate', 'safeTempThreshold', 'isHuman'];
         res.body.forEach(function(item) {
-          expect(item).to.be.a('object');
-          expect(item).to.include.keys(expectedKeys);
+          expect(item).to.be.a('object')
+          expect(item).to.include.keys(expectedKeys)
+        })
       })
   })
 })
