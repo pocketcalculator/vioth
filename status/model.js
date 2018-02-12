@@ -15,7 +15,8 @@ const systemComponent = {
       name: name,
       installedDate: Date.now(),
       safeTempThreshold: safeTempThreshold,
-      isHuman: isHuman
+      isHuman: isHuman,
+      readings: []
     }
     this.items[item.id] = item
     return item
@@ -45,6 +46,11 @@ function createSystemComponent() {
   return storage
 }
 
+systemComponent.create('roboticArm', 50, false)
+systemComponent.create('conveyerBelt2', 18, false)
+systemComponent.create('serverB', 28, false)
+systemComponent.create('packingEngineer', 36.8, true)
+
 module.exports = {
-  systemComponent: createSystemComponent()
+  Status: createSystemComponent()
 }
