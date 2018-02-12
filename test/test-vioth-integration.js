@@ -39,7 +39,6 @@ describe('GET endpoint', function() {
       })
   })
 })
-/*
 //  1. make a POST request with data for a new item
 //  2. inspect response object and prove it has right
 //  status code and that the returned object has an `id`
@@ -47,8 +46,8 @@ describe('POST endpoint', function() {
   it('should add an item on POST', function() {
     const newItem = {
       name: 'batteryInstaller',
-      isHuman: true,
       safeTempThreshold: 36.5,
+      isHuman: true,
     }
     return chai.request(app)
       .post('/status')
@@ -57,7 +56,7 @@ describe('POST endpoint', function() {
         expect(res).to.have.status(201);
         expect(res).to.be.json;
         expect(res.body).to.be.a('object');
-        expect(res.body).to.include.keys('id', 'name', 'ingredients');
+        expect(res.body).to.include.keys('id', 'name', 'safeTempThreshold', 'installedDate', 'isHuman');
         expect(res.body.id).to.not.equal(null);
         // response should be deep equal to `newItem` from above if we assign
         // `id` to it from `res.body.id`
@@ -65,4 +64,3 @@ describe('POST endpoint', function() {
       })
   })
 })
-*/
