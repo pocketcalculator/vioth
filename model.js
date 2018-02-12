@@ -11,7 +11,7 @@ const systemComponent = {
   create: function(deviceId, name, installedDate, healthyTempThreshold, isHuman) {
     console.log(`creating a new system component`)
     const item = {
-      id: uuid.v4()
+      id: uuid.v4(),
       name: name,
       installedDate: Date.now(),
       healthyTempThreshold: healthyTempThreshold,
