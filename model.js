@@ -14,7 +14,8 @@ const systemComponent = {
       id: uuid.v4()
       name: name,
       installedDate: Date.now(),
-      healthyTempThreshold: healthyTempThreshold
+      healthyTempThreshold: healthyTempThreshold,
+      isHuman: isHuman
     }
     this.items[item.id] = item
     return item
