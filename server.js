@@ -10,8 +10,12 @@ app.get('/status', (req, res) => {
 
 app.get("/", (request, res) => {
   res.sendFile(__dirname + '/public/index.html')
+  console.log('hello')
+  console.log(res.body)
   res.status('200').json()
 })
 
-app.listen(process.env.PORT || 8080)
+app.listen(process.env.PORT || 8080, () => {
+  console.log( 'Your app is listening on port ${process.env.PORT || 8080}')
+})
 module.exports = app
