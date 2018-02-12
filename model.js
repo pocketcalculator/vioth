@@ -8,7 +8,7 @@ function StorageException(message) {
 }
 
 const systemComponent = {
-  create: function(deviceId, name, installedDate, healthyTempThreshold, isHuman) {
+  create: function(name, healthyTempThreshold, isHuman) {
     console.log(`creating a new system component`)
     const item = {
       id: uuid.v4(),
