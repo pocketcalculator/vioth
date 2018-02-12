@@ -58,9 +58,6 @@ describe('POST endpoint', function() {
         expect(res.body).to.be.a('object');
         expect(res.body).to.include.keys('id', 'name', 'installedDate', 'safeTempThreshold', 'isHuman');
         expect(res.body.id).to.not.equal(null);
-        // response should be deep equal to `newItem` from above if we assign
-        // `id` to it from `res.body.id`
-        expect(res.body).to.deep.equal(Object.assign(newItem, {id: res.body.id}));
       })
   })
 })
