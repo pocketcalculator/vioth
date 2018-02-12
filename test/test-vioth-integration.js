@@ -9,6 +9,19 @@ describe('GET endpoint', function() {
   it('should respond with a 200 status code', function() {
     let res
     return chai.request(app)
+      .get('/')
+      .then(function(_res) {
+        res = _res
+        expect(res).to.have.status(200)
+        expect(res).to.be.a('array')
+      })
+  })
+})
+
+describe('GET endpoint', function() {
+  it('should respond with a 200 status code', function() {
+    let res
+    return chai.request(app)
       .get('/status')
       .then(function(_res) {
         res = _res

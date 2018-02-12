@@ -8,5 +8,10 @@ app.get('/status', (req, res) => {
   res.status('200').json()
 })
 
+app.get("/", (request, res) => {
+  res.sendFile(__dirname + '/public/index.html')
+  res.status('200').json()
+})
+
 app.listen(process.env.PORT || 8080)
 module.exports = app
