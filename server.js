@@ -11,7 +11,7 @@ app.use(morgan('common'))
 systemComponent.create('roboticArm', 50, false)
 systemComponent.create('conveyerBelt2', 18, false)
 systemComponent.create('serverB', 28, false)
-systemComponent.create('packingEngineer', 37, true)
+systemComponent.create('packingEngineer', 36.8, true)
 
 app.get("/", (request, res) => {
   res.sendFile(__dirname + '/public/index.html')
