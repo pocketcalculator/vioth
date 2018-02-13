@@ -11,7 +11,7 @@ app.get("/", (request, res) => {
   res.status('200').json()
 })
 
-app.use(statusRouter)
+app.use('/status', statusRouter)
 app.listen(process.env.PORT || 8080, () => {
   console.log( `Your app is listening on port ${process.env.PORT || 8080}`)
 })

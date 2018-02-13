@@ -46,11 +46,13 @@ function createSystemComponent() {
   return storage
 }
 
-systemComponent.create('roboticArm', 50, false)
-systemComponent.create('conveyerBelt2', 18, false)
-systemComponent.create('serverB', 28, false)
-systemComponent.create('packingEngineer', 36.8, true)
+const storage = createSystemComponent()
+
+storage.create('roboticArm', 50, false)
+storage.create('conveyerBelt2', 18, false)
+storage.create('serverB', 28, false)
+storage.create('packingEngineer', 36.8, true)
 
 module.exports = {
-  Status: createSystemComponent()
+  Status: storage
 }
