@@ -1,1 +1,81 @@
-Hello, World.
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>VIOTH: Visualizing the Internet of Things (and Humans)</title>
+    <meta name="keywords" content="IOT,Edge Computing">
+    <meta name="author" content="Paul Sczurek">
+    <meta name="description" content="An IOT Dashboard">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
+  </head>
+  <body>
+    <header role="banner">
+      <h1>viot(&h)</h1>
+      <p>Visualizing The Internet of Things (and Humans)</p>
+    </header>
+    <nav role="navigation">
+      <ul>
+        <li><a href="./status">status</a></li>
+        <li><a href="./register">register</a></li>
+        <li><a href="./login">log in</a></li>
+        <li><a href="#about">about</a></li>
+      </ul>
+    </nav>
+    <main role="main">
+      <section class="mainImage">
+      </section>
+      <section class="summaryGraph">
+      </section>
+      <section class="status">
+        <canvas id='systemStatusChart' width="400" height="400"></canvas>
+        <script>
+        const ctx = document.getElementById('systemStatusChart').getContext('2d')
+        const data = {
+// Labels should be Date objects
+          labels: [new Date(2017, 08, 16), new Date(2017, 08, 17), new Date(2017, 08, 18)],
+          datasets: [{
+            fill: false,
+            label: 'Page Views',
+            data: [280, 250, 340],
+            borderColor: '#fe8b36',
+            backgroundColor: '#fe8b36',
+            lineTension: 0,
+          }]
+        }
+        const options = {
+          type: 'line',
+          data: data,
+          options: {
+            fill: false,
+            responsive: true,
+            scales: {
+              xAxes: [{
+                type: 'time',
+                display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: "Date",
+                }
+              }],
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true,
+                },
+                display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: "Page Views",
+                }
+              }]
+            }
+          }
+        }
+        const chart = new Chart(ctx, options);
+        </script>
+      </section>
+    </main>
+      <script src="https://code.jquery.com/jquery.min.js"></script>
+      <script type="text/javascript" src="./index.js"></script>
+  </body>
+</html>
