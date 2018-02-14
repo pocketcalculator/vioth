@@ -2,6 +2,17 @@ body * {
   box-sizing: border-box;
 }
 
+.deviceStatusArea {
+  border: dotted blue 1px;
+  font-size: 0;
+}
+
+.deviceWindow {
+  width: 33.3%;
+  display: inline-block;
+  border: dotted green 1px;
+}
+
 .systemSummary {
   height: 500px;
   width: 100%;
@@ -14,4 +25,6 @@ body * {
   height: 250px;
   width: 60%;
   border: dotted black 1px;
+  margin-top: 200px;
+  margin-left: 35%;
 }
