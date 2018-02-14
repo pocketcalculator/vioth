@@ -94,15 +94,23 @@ function createSystemComponent() {
 const SYSTEMCOMPONENTS = createSystemComponent()
 
 
-function drawSummaryGraph(chartName) {
-  const ctx = document.getElementById(`${chartName}`).getContext('2d')
+function drawComponentGraph(systemComponent, user = null) {
+  const ctx = $('<canvas/>',{
+                   'class':'radHuh',
+                    id: 'myCanvas'
+                }).getContext('2d')
+                 //document.getElementById(`${chartName}`).getContext('2d')
   const data = {
 // Labels should be Date objects
-    labels: [new Date(2017, 08, 16), new Date(2017, 08, 17), new Date(2017, 08, 18)],
+    labels: systemComponent.readings.map(function(reading) {
+      return reading.date
+    }),
     datasets: [{
       fill: false,
       label: 'Temperature',
-      data: [28, 25, 34],
+      data: systemComponent.readings.map(function(reading) {
+        return reading.temperature
+      }),
       borderColor: '#fe8b36',
       backgroundColor: '#fe8b36',
       lineTension: 0,
@@ -138,8 +146,33 @@ function drawSummaryGraph(chartName) {
     }
   }
   const chart = new Chart(ctx, options)
+  return ctx
 }
-drawSummaryGraph('systemStatusChart')
-drawSummaryGraph('device1StatusChart')
-drawSummaryGraph('device2StatusChart')
-drawSummaryGraph('device3StatusChart')
+
+function renderHomeScreen(systemComponents, user = null) {
+  return ''
+}
+
+function renderLoginScreen() {
+  return ''
+}
+
+function renderSignUpScreen() {
+  return ''
+}
+
+function renderComponentStatusScreen(systemComponent, user = null) {
+  return ''
+}
+
+function renderAddComponentScreen(user = null) {
+  return ''
+}
+
+function renderUpdateComponentScreen(systemComponent, user = null) {
+  return ''
+}
+
+function renderAddReading(systemComponent, user = null) {
+  return ''
+}
