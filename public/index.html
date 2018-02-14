@@ -8,6 +8,7 @@
     <meta name="author" content="Paul Sczurek">
     <meta name="description" content="An IOT Dashboard">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
+    <link href="./style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <header role="banner">
@@ -25,9 +26,9 @@
     <main role="main">
       <section class="mainImage">
       </section>
-      <div class="status">
-        <section class="summaryGraph">
-          <canvas id='systemStatusChart' width="400" height="400"></canvas>
+      <div class="systemSummary">
+        <section class="systemChartArea">
+          <canvas id='systemStatusChart'></canvas>
         </section>
       </div>
     </main>

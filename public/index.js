@@ -1,3 +1,7 @@
+const SYSTEMCOMPONENTS = []
+
+
+
 function drawSummaryGraph() {
   const ctx = document.getElementById('systemStatusChart').getContext('2d')
   const data = {
@@ -17,6 +21,7 @@ function drawSummaryGraph() {
     data: data,
     options: {
       fill: false,
+      maintainAspectRatio: false,
       responsive: true,
       scales: {
         xAxes: [{
