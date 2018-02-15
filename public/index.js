@@ -1,52 +1,3 @@
-/**
- * Convert a number or array of integers to a string of padded hex octets.
- */
-function asHex(value: Array<number> | Uint8Array): string {
-  return Array.from(value).map(i => ('00' + i.toString(16)).slice(-2)).join('');
-}
-
-/**
- * Attempt to securely generate random bytes/
- */
-function getRandomBytes(size: number): Array<number> | Uint8Array {
-  // SPRNG
-  if ((typeof Uint8Array == 'function') && window.crypto) {
-    let buffer = new Uint8Array(size);
-    return window.crypto.getRandomValues(buffer);
-  }
-
-  // Insecure random
-  return Array.from(new Array(size), () => Math.random() * 255 | 0);
-}
-
-/**
- * Generate a RFC4122-compliant v4 UUID.
- *
- * @see http://www.ietf.org/rfc/rfc4122.txt
- */
-export function generateUuid(): string {
-  const version = 0b01000000;
-  const clockSeqHiAndReserved = getRandomBytes(1);
-  const timeHiAndVersion = getRandomBytes(2);
-
-  clockSeqHiAndReserved[0] &= 0b00111111 | 0b10000000;
-  timeHiAndVersion[0] &= 0b00001111 | version;
-
-  return [
-    asHex(getRandomBytes(4)),     // time-low
-    '-',
-    asHex(getRandomBytes(2)),     // time-mid
-    '-',
-    asHex(timeHiAndVersion),      // time-high-and-version
-    '-',
-    asHex(clockSeqHiAndReserved), // clock-seq-and-reserved
-    asHex(getRandomBytes(1)),     // clock-seq-loq
-    '-',
-    asHex(getRandomBytes(6))      // node
-  ].join('');
-}
-
-
 function StorageException(message) {
   this.message = message
   this.name = "StorageException"
@@ -57,10 +8,10 @@ const systemComponent = {
     console.log(`creating a new system component`)
     const item = {
       id: generateUuid(),
-      name: name,
+      name,
       installedDate: Date.now(),
-      safeTempThreshold: safeTempThreshold,
-      isHuman: isHuman,
+      safeTempThreshold,
+      isHuman,
       readings: []
     }
     this.items[item.id] = item
@@ -166,7 +117,28 @@ function renderComponentStatusScreen(systemComponent, user = null) {
 }
 
 function renderAddComponentScreen(user = null) {
-  return ''
+  const addSystemComponentForm = `
+  <form class="addSystemComponentForm">
+    <fieldset>
+      <legend>Add A Device For Management:</legend>
+      <input type="text" name="name" id="name" placeholder="Name" required>
+      <select name="isHuman" id="isHuman" required>
+        <option value="">Human or Machine?</option>
+        <option value="false">Machine</option>
+        <option value="true">Human</option>
+      </select>
+      <input type="text" name="safeTempThreshold" id="safeTempThreshold" placeholder="Safe Temperature Threshold" required>
+      <input type="text" name="tempReading1" id="tempReading1" placeholder="Temperature Reading 1">
+      <input type="text" name="tempReading2" id="tempReading2" placeholder="Temperature Reading 2">
+      <input type="text" name="tempReading3" id="tempReading3" placeholder="Temperature Reading 3">
+      <input type="text" name="tempReading4" id="tempReading4" placeholder="Temperature Reading 4">
+      <input type="text" name="tempReading5" id="tempReading5" placeholder="Temperature Reading 5">     
+      <input type="submit" value="ADD" id="submit"></input>
+    </fieldset>
+  </form>
+  `
+  $('.addSystemComponent').html(addSystemComponentForm)
+  handleAddComponentButton()
 }
 
 function renderUpdateComponentScreen(systemComponent, user = null) {
@@ -176,3 +148,34 @@ function renderUpdateComponentScreen(systemComponent, user = null) {
 function renderAddReading(systemComponent, user = null) {
   return ''
 }
+
+function handleAddComponent() {
+  console.log("waiting for someone to click the add component item...")
+  $('#addSystemComponent').click(function(event) {
+    renderAddComponentScreen()
+  })
+}
+
+function handleAddComponentButton() {
+  $('.addSystemComponentForm').submit(function(event){
+    event.preventDefault()
+    let newComponent = {
+      name,
+      isHuman,
+      safeTempThreshold,
+      readings: {
+        temperature: [],
+        time: []
+      }
+    }
+    newComponent.name = $('#name').val()
+    newComponent.isHuman = $('#isHuman').val()
+    newComponent.safeTempThreshold = $('#safeTempThreshold').val()
+    newComponent.readings.temperature.push($('#tempReading1').val())
+    newComponent.readings.time.push(Date.now())
+    console.log(newComponent)
+    return newComponent
+  })
+}
+
+handleAddComponent()
