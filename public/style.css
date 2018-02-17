@@ -28,3 +28,7 @@ body * {
   margin-top: 200px;
   margin-left: 35%;
 }
+
+.systemComponentWindow {
+  border: dotted green 1px;
+}

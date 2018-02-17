@@ -1,44 +1,54 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>VIOTH: Visualizing the Internet of Things (and Humans)</title>
-    <meta name="keywords" content="IOT,Edge Computing">
-    <meta name="author" content="Paul Sczurek">
-    <meta name="description" content="An IOT Dashboard">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
-    <link href="./style.css" rel="stylesheet" type="text/css" />
-  </head>
-  <body>
-    <header role="banner">
-      <h1>viot(&h)</h1>
-      <p>Visualizing The Internet of Things (and Humans)</p>
-    </header>
-    <nav role="navigation">
-      <ul>
-        <li><a href="./register">register</a></li>
-        <li><a href="./login">log in</a></li>
-        <li><a href="#about">about</a></li>
-        <li id="addSystemComponent">add component</li>
-      </ul>
-    </nav>
-    <main role="main">
-      <section class="mainImage">
-      </section>
-      <div class="systemSummary">
-        <section="systemSummaryText">This is some text that will contain some cool-sounding information for the app.
-      </section>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>VIOTH: Visualizing the Internet of Things (and Humans)</title>
+  <meta name="keywords" content="IOT,Edge Computing">
+  <meta name="author" content="Paul Sczurek">
+  <meta name="description" content="An IOT Dashboard">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
+  <link href="./style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <header role="banner">
+    <h1>viot(&h)</h1>
+    <p>Visualizing The Internet of Things (and Humans)</p>
+  </header>
+  <nav role="navigation">
+    <ul>
+      <li>
+        <a id="register">register</a>
+      </li>
+      <li>
+        <a id="login">log in</a>
+      </li>
+      <li>
+        <a href="#about">about</a>
+      </li>
+      <li>
+        <a id="addSystemComponent">add component</a>
+      </li>
+      <li>
+        <a id="updateSystemComponent">update component</a>
+      </li>
+    </ul>
+  </nav>
+  <main role="main">
+    <section class="mainImage">
+    </section>
+    <div class="systemSummary">
+      <section="systemSummaryText">This is some text that will contain some cool-sounding information for the app.
+        </section>
         <section class="systemChartArea">
           <canvas id="systemStatusChart"></canvas>
         </section>
-      </div>
-      <div class="deviceStatusArea">
-      </div>
-      <div class="addSystemComponent">
-      </div>
-    </main>
-    <script src="https://code.jquery.com/jquery.min.js"></script>
-    <script type="text/javascript" src="./index.js"></script>
-  </body>
+    </div>
+  </main>
+  <script src="https://code.jquery.com/jquery.min.js"></script>
+  <script type="text/javascript" src="./index.js"></script>
+</body>
+
 </html>
