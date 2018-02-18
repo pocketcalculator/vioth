@@ -1,6 +1,6 @@
 /**
  * Code to generate a v4 UUID
- */
+ **/
 function asHex(value) {
   return Array.from(value).map(i => ('00' + i.toString(16)).slice(-2)).join('');
 }
@@ -32,6 +32,10 @@ function generateUuid() {
 }
 
 
+/** 
+ * Building a model to store devices which will be managed via CRUD
+**/
+
 function StorageException(message) {
   this.message = message
   this.name = "StorageException"
@@ -44,7 +48,7 @@ const SYSTEMCOMPONENTS = {
       name,
       isHuman,
       safeTempThreshold,
-      deviceId: generateUuid(),
+      id: generateUuid(),
       installedDate: Date.now(),
       readings: [{
           temperature: 10,
@@ -70,22 +74,30 @@ const SYSTEMCOMPONENTS = {
     })
   },
   update: function (updatedItem) {
-    console.log(`Updating system component \`${itemId}\``)
+    console.log(`Running update...`)
+// Why does this below result in just the ID number??
     const {
       id
     } = updatedItem
     const index = this.items.findIndex(function(item){
-      return id == item.id
+      return item.id == id
     })
-    if (id < 0) {
+    if (index < 0) {
+// when this condition happens, the exception below is not being thrown
       throw StorageException(`\`${id}\` doesn't exist`)
     }
-    this.items[index] = updatedItem
+    console.log(this.items[index])
+    console.log(updatedItem)
+    let itemToChange = this.items[index]
+    Object.keys(updatedItem).forEach(function(key) {
+      console.log(`key is ${key}`)
+      console.log(`value is ${updatedItem[key]}`)
+      itemsToChange[key] = updatedItem[key]
+    })
     return updatedItem
   },
   items: []
 }
-
 
 // This function renders a Chart.js graph
 function drawComponentGraph(systemComponent, user = null) {
@@ -155,7 +167,7 @@ function renderSystemComponent(systemComponent, user = null) {
     'class': 'systemComponentWindow',
     id: '${systemComponent.name}-div'
   })
-  div.append(`<caption>${systemComponent.name} ${systemComponent.deviceId}</caption>`)
+  div.append(`<caption>${systemComponent.name} ${systemComponent.id}</caption>`)
   const graph = drawComponentGraph(systemComponent)
   div.append(graph)
   return div
@@ -173,7 +185,7 @@ function renderSignUpScreen() {
   return ''
 }
 
-// This will be a loop which joins all device components in the model as LIs in a UL and displays it
+// This will be a loop which joins all system components in the model as LIs in a UL and displays it
 function renderSystemComponentGroupStatusScreen(systemComponents, user = null) {
   console.log("Building System Component Group Status Screen...")
   const systemComponentListItems = systemComponents.map(function(systemComponent) {
@@ -234,22 +246,17 @@ function handleUpdateComponentShow() {
 
 function renderUpdateComponentScreen(systemComponent, user = null) {
   return `
-  <form class="UpdateSystemComponentForm">
+  <form class="updateSystemComponentForm">
     <fieldset>
       <legend>Modify A Device:</legend>
       <input type="text" name="id" id="id" placeholder="Device ID" required>
-      <input type="text" name="name" id="name" placeholder="Name" required>
-      <select name="isHuman" id="isHuman" required>
+      <input type="text" name="name" id="name" placeholder="Name">
+      <select name="isHuman" id="isHuman">
         <option value="">Human or Machine?</option>
         <option value="false">Machine</option>
         <option value="true">Human</option>
       </select>
-      <input type="text" name="safeTempThreshold" id="safeTempThreshold" placeholder="Safe Temperature Threshold" required>
-      <input type="text" name="reading1" id="reading1" placeholder="Reading 1">
-      <input type="text" name="reading2" id="reading2" placeholder="Reading 2">
-      <input type="text" name="reading3" id="reading3" placeholder="Reading 3">
-      <input type="text" name="reading4" id="reading4" placeholder="Reading 4">
-      <input type="text" name="reading5" id="reading5" placeholder="Reading 5">
+      <input type="text" name="safeTempThreshold" id="safeTempThreshold" placeholder="Safe Temperature Threshold">
       <input type="submit" value="UPDATE" id="submit"></input>
     </fieldset>
   </form>
@@ -259,8 +266,17 @@ function renderUpdateComponentScreen(systemComponent, user = null) {
 function handleUpdateComponentFormSubmit() {
   $('main').on('submit', '.updateSystemComponentForm', function (event) {
     event.preventDefault()
-    SYSTEMCOMPONENTS.update($('#id').val(), $('#name').val(), $('#safeTempThreshold').val(), $('#isHuman').val(), $('#reading1').val())
-//    $('.updateSystemComponent').remove()
+    const formData = $( ":input" ).serializeArray()
+    const componentUpdates = {}
+    $(formData).each(function(index, obj){
+      if (obj.value) {
+        componentUpdates[obj.name] = obj.value
+      }
+    })
+    $('.updateSystemComponent').remove()
+    console.log(componentUpdates)
+    SYSTEMCOMPONENTS.update(componentUpdates)
+    $('.updateSystemComponent').remove()
     console.log(SYSTEMCOMPONENTS.get())
     renderSystemComponentGroupStatusScreen(SYSTEMCOMPONENTS.get())
   })
