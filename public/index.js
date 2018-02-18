@@ -1,9 +1,11 @@
 /**
  * Code to generate a v4 UUID
  **/
+
 function asHex(value) {
   return Array.from(value).map(i => ('00' + i.toString(16)).slice(-2)).join('');
 }
+
 function getRandomBytes(size) {
   if ((typeof Uint8Array == 'function') && window.crypto) {
     let buffer = new Uint8Array(size);
@@ -11,6 +13,7 @@ function getRandomBytes(size) {
   }
   return Array.from(new Array(size), () => Math.random() * 255 | 0);
 }
+
 function generateUuid() {
   const version = 0b01000000;
   const clockSeqHiAndReserved = getRandomBytes(1);
@@ -31,10 +34,9 @@ function generateUuid() {
   ].join('');
 }
 
-
 /** 
  * Building a model to store devices which will be managed via CRUD
-**/
+ **/
 
 function StorageException(message) {
   this.message = message
@@ -50,15 +52,7 @@ const SYSTEMCOMPONENTS = {
       safeTempThreshold,
       id: generateUuid(),
       installedDate: Date.now(),
-      readings: [{
-          temperature: 10,
-          date: Date.now()
-        },
-        {
-          temperature: 11,
-          date: Date.now()
-        }
-      ]
+      readings: []
     }
     this.items.push(item)
     return item
@@ -69,30 +63,37 @@ const SYSTEMCOMPONENTS = {
   },
   delete: function (itemId) {
     console.log(`Deleting system component \`${itemId}\``)
-    delete this.items.find(function(item){
+    delete this.items.find(function (item) {
       return itemId == item.id
     })
   },
   update: function (updatedItem) {
     console.log(`Running update...`)
-// Why does this below result in just the ID number??
+    // Why does this below result in just the ID number??
     const {
       id
     } = updatedItem
-    const index = this.items.findIndex(function(item){
+    const index = this.items.findIndex(function (item) {
       return item.id == id
     })
     if (index < 0) {
-// when this condition happens, the exception below is not being thrown
+      // when this condition happens, the exception below is not being thrown
       throw StorageException(`\`${id}\` doesn't exist`)
     }
     console.log(this.items[index])
     console.log(updatedItem)
-    let itemToChange = this.items[index]
-    Object.keys(updatedItem).forEach(function(key) {
+    let itemsToChange = this.items[index]
+    Object.keys(updatedItem).forEach(function (key) {
       console.log(`key is ${key}`)
       console.log(`value is ${updatedItem[key]}`)
-      itemsToChange[key] = updatedItem[key]
+      if ( key == 'readings' ) {
+        console.log('push new readings onto items')
+        console.log(itemsToChange.readings)
+        console.log(updatedItem.readings)
+        itemsToChange[key].push(updatedItem[key])
+      } else {
+        itemsToChange[key] = updatedItem[key]
+      }
     })
     return updatedItem
   },
@@ -109,16 +110,16 @@ function drawComponentGraph(systemComponent, user = null) {
   //document.getElementById(`${chartName}`).getContext('2d')
   const data = {
     // Labels should be Date objects
-//    labels: [new Date(2017, 08, 16), new Date(2017, 08, 17), new Date(2017, 08, 18)],
-//  code below is not working using hard-coded dates instead
-  labels: systemComponent.readings.map(function (reading) {
+    //    labels: [new Date(2017, 08, 16), new Date(2017, 08, 17), new Date(2017, 08, 18)],
+    //  code below is not working using hard-coded dates instead
+    labels: systemComponent.readings.map(function (reading) {
       return reading.date
     }),
     datasets: [{
       fill: false,
       label: 'Temperature',
-//      data: [20, 25, 34],
-// code below is not working, using hard-coded values instead
+      //      data: [20, 25, 34],
+      // code below is not working, using hard-coded values instead
       data: systemComponent.readings.map(function (reading) {
         return reading.temperature
       }),
@@ -188,11 +189,11 @@ function renderSignUpScreen() {
 // This will be a loop which joins all system components in the model as LIs in a UL and displays it
 function renderSystemComponentGroupStatusScreen(systemComponents, user = null) {
   console.log("Building System Component Group Status Screen...")
-  const systemComponentListItems = systemComponents.map(function(systemComponent) {
+  const systemComponentListItems = systemComponents.map(function (systemComponent) {
     return $('<li></li>').append(renderSystemComponent(systemComponent))
   })
   const systemComponentList = $('<ul></ul>').append(systemComponentListItems)
-// should not be doing appends within the render functions, just spit out text  
+  // should not be doing appends within the render functions, just spit out text  
   $('main').html(systemComponentList)
 }
 
@@ -266,9 +267,9 @@ function renderUpdateComponentScreen(systemComponent, user = null) {
 function handleUpdateComponentFormSubmit() {
   $('main').on('submit', '.updateSystemComponentForm', function (event) {
     event.preventDefault()
-    const formData = $( ":input" ).serializeArray()
+    const formData = $(":input").serializeArray()
     const componentUpdates = {}
-    $(formData).each(function(index, obj){
+    $(formData).each(function (index, obj) {
       if (obj.value) {
         componentUpdates[obj.name] = obj.value
       }
@@ -282,8 +283,51 @@ function handleUpdateComponentFormSubmit() {
   })
 }
 
-function renderAddReading(systemComponent, user = null) {
-  return ''
+function handleAddReadingShow() {
+  console.log("waiting for someone to click the add reading item...")
+  $('nav').on('click', '#addReading', function (event) {
+    console.log("add reading clicked")
+    $('main').append(`
+      <div class="addReading">
+      </div>`)
+    $('.addReading').html(renderAddReadingScreen())
+  })
+}
+
+function renderAddReadingScreen(systemComponent, user = null) {
+  return `
+  <form class="addReadingForm">
+    <fieldset>
+      <legend>Add A Device Reading:</legend>
+      <input type="text" name="id" id="id" placeholder="Device ID" required>
+      <input type="text" name="temperature" id="temperature" placeholder="Temperature">
+      <input type="submit" value="UPDATE" id="submit"></input>
+    </fieldset>
+  </form>
+  `
+}
+
+function handleAddReadingFormSubmit() {
+  $('main').on('submit', '.addReadingForm', function (event) {
+    event.preventDefault()
+    //    const formData = $( ":input" ).serializeArray()
+    const componentUpdates = {
+      id: [],
+      readings: [{
+        temperature: "",
+        date: ""
+      }]
+    }
+    componentUpdates.id = $('#id').val()
+    componentUpdates.readings.temperature = $('#temperature').val() 
+    componentUpdates.readings.date = Date.now()
+    $('.addReading').remove()
+    console.log('component updates for readings...')
+    console.log(componentUpdates)
+    SYSTEMCOMPONENTS.update(componentUpdates)
+    console.log(SYSTEMCOMPONENTS.get())
+    renderSystemComponentGroupStatusScreen(SYSTEMCOMPONENTS.get())
+  })
 }
 
 function setupEventHandlers() {
@@ -292,6 +336,8 @@ function setupEventHandlers() {
   handleAddComponentFormSubmit()
   handleUpdateComponentShow()
   handleUpdateComponentFormSubmit()
+  handleAddReadingShow()
+  handleAddReadingFormSubmit()
 }
 
 $(setupEventHandlers)
