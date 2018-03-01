@@ -86,7 +86,7 @@ const SYSTEMCOMPONENTS = {
     Object.keys(updatedItem).forEach(function (key) {
       console.log(`key is ${key}`)
       console.log(`value is ${updatedItem[key]}`)
-      if ( key == 'readings' ) {
+      if (key == 'readings') {
         console.log('push new readings onto items')
         console.log(itemsToChange.readings)
         console.log(updatedItem.readings)
@@ -166,10 +166,22 @@ function renderSystemComponent(systemComponent, user = null) {
   console.log(systemComponent)
   const div = $('<div></div>', {
     'class': 'systemComponentWindow',
-    id: '${systemComponent.name}-div'
+    id: `${systemComponent.name}-div`
+  })
+  const editButton = $('<button></button>', {
+    'class': 'editComponentButton',
+    'data-id': `${systemComponent.id}`,
+    'value': 'EDIT'
+  })
+  const deleteButton = $('<button></button>', {
+    'class': 'deleteComponentButton',
+    'data-id': `${systemComponent.id}`,
+    'value': 'DELETE'
   })
   div.append(`<caption>${systemComponent.name} ${systemComponent.id}</caption>`)
   const graph = drawComponentGraph(systemComponent)
+  div.append(editButton)
+  div.append(deleteButton)
   div.append(graph)
   return div
 }
@@ -194,7 +206,7 @@ function renderSystemComponentGroupStatusScreen(systemComponents, user = null) {
   })
   const systemComponentList = $('<ul></ul>').append(systemComponentListItems)
   // should not be doing appends within the render functions, just spit out text  
-  $('main').html(systemComponentList)
+  return systemComponentList
 }
 
 function handleAddComponentShow() {
@@ -231,7 +243,7 @@ function handleAddComponentFormSubmit() {
     SYSTEMCOMPONENTS.create($('#name').val(), $('#safeTempThreshold').val(), $('#isHuman').val())
     $('.addSystemComponent').remove()
     console.log(SYSTEMCOMPONENTS.get())
-    renderSystemComponentGroupStatusScreen(SYSTEMCOMPONENTS.get())
+    $('main').html(renderSystemComponentGroupStatusScreen(SYSTEMCOMPONENTS.get()))
   })
 }
 
@@ -247,17 +259,16 @@ function handleUpdateComponentShow() {
 
 function renderUpdateComponentScreen(systemComponent, user = null) {
   return `
-  <form class="updateSystemComponentForm">
+  <form class="updateSystemComponentForm" data-id="${systemComponent.id}">
     <fieldset>
-      <legend>Modify A Device:</legend>
-      <input type="text" name="id" id="id" placeholder="Device ID" required>
-      <input type="text" name="name" id="name" placeholder="Name">
+      <legend>Modify Device "${systemComponent.id}"</legend>
+      <input type="text" name="name" id="name" placeholder="Name" value="${systemComponent.name}">
       <select name="isHuman" id="isHuman">
         <option value="">Human or Machine?</option>
-        <option value="false">Machine</option>
-        <option value="true">Human</option>
+        <option value="false"${systemComponent.isHuman?'':' selected'}>Machine</option>
+        <option value="true"${systemComponent.isHuman?' selected':''}>Human</option>
       </select>
-      <input type="text" name="safeTempThreshold" id="safeTempThreshold" placeholder="Safe Temperature Threshold">
+      <input type="text" name="safeTempThreshold" id="safeTempThreshold" placeholder="Safe Temperature Threshold" value="${systemComponent.safeTempThreshold}">
       <input type="submit" value="UPDATE" id="submit"></input>
     </fieldset>
   </form>
@@ -268,7 +279,9 @@ function handleUpdateComponentFormSubmit() {
   $('main').on('submit', '.updateSystemComponentForm', function (event) {
     event.preventDefault()
     const formData = $(":input").serializeArray()
+    formData.push({ name: 'id', value: $(event.currentTarget).data('id') })
     const componentUpdates = {}
+    console.log(formData)
     $(formData).each(function (index, obj) {
       if (obj.value) {
         componentUpdates[obj.name] = obj.value
@@ -319,7 +332,7 @@ function handleAddReadingFormSubmit() {
       }]
     }
     componentUpdates.id = $('#id').val()
-    componentUpdates.readings.temperature = $('#temperature').val() 
+    componentUpdates.readings.temperature = $('#temperature').val()
     componentUpdates.readings.date = Date.now()
     $('.addReading').remove()
     console.log('component updates for readings...')
@@ -327,6 +340,21 @@ function handleAddReadingFormSubmit() {
     SYSTEMCOMPONENTS.update(componentUpdates)
     console.log(SYSTEMCOMPONENTS.get())
     renderSystemComponentGroupStatusScreen(SYSTEMCOMPONENTS.get())
+  })
+}
+
+function handleEditComponentButton() {
+  $('main').on('click', '.editComponentButton', function (event) {
+    const id = $(event.currentTarget).data('id')
+    const systemComponent = SYSTEMCOMPONENTS.get().find(function (systemComponent) {
+      return systemComponent.id === id
+    })
+    $('main').append(renderUpdateComponentScreen(systemComponent))
+  })
+}
+
+function handleDeleteComponentButton() {
+  $('main').on('click', '.deleteComponentButton', function(event) {
   })
 }
 
@@ -338,6 +366,8 @@ function setupEventHandlers() {
   handleUpdateComponentFormSubmit()
   handleAddReadingShow()
   handleAddReadingFormSubmit()
+  handleEditComponentButton()
+  handleDeleteComponentButton()
 }
 
 $(setupEventHandlers)
