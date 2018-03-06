@@ -63,12 +63,14 @@ const SYSTEMCOMPONENTS = {
   },
   delete: function (itemId) {
     console.log(`Deleting system component \`${itemId}\``)
-    delete this.items.find(function (item) {
+    const index = this.items.findIndex(function (item) {
       return itemId == item.id
     })
+    this.items.splice(index,1)
   },
   update: function (updatedItem) {
     console.log(`Running update...`)
+    console.log(updatedItem)
     // Why does this below result in just the ID number??
     const {
       id
@@ -173,6 +175,11 @@ function renderSystemComponent(systemComponent, user = null) {
     'data-id': `${systemComponent.id}`,
     'value': 'EDIT'
   })
+  const addReadingButton = $('<button></button>', {
+    'class': 'addReadingButton',
+    'data-id': `${systemComponent.id}`,
+    'value': 'ADD READING'
+  })
   const deleteButton = $('<button></button>', {
     'class': 'deleteComponentButton',
     'data-id': `${systemComponent.id}`,
@@ -180,9 +187,10 @@ function renderSystemComponent(systemComponent, user = null) {
   })
   div.append(`<caption>${systemComponent.name} ${systemComponent.id}</caption>`)
   const graph = drawComponentGraph(systemComponent)
-  div.append(editButton)
-  div.append(deleteButton)
   div.append(graph)
+  div.append(editButton)
+  div.append(addReadingButton)
+  div.append(deleteButton)
   return div
 }
 
@@ -292,27 +300,27 @@ function handleUpdateComponentFormSubmit() {
     SYSTEMCOMPONENTS.update(componentUpdates)
     $('.updateSystemComponent').remove()
     console.log(SYSTEMCOMPONENTS.get())
-    renderSystemComponentGroupStatusScreen(SYSTEMCOMPONENTS.get())
+    $('main').html(renderSystemComponentGroupStatusScreen(SYSTEMCOMPONENTS.get()))
   })
 }
-
+/*
 function handleAddReadingShow() {
   console.log("waiting for someone to click the add reading item...")
-  $('nav').on('click', '#addReading', function (event) {
+  $('nav').on('click', '.addReading', function (event) {
     console.log("add reading clicked")
     $('main').append(`
       <div class="addReading">
       </div>`)
-    $('.addReading').html(renderAddReadingScreen())
+    $('.addReading').append(renderAddReadingScreen())
   })
 }
+*/
 
 function renderAddReadingScreen(systemComponent, user = null) {
   return `
-  <form class="addReadingForm">
+  <form class="addReadingForm" data-id="${systemComponent.id}">
     <fieldset>
-      <legend>Add A Device Reading:</legend>
-      <input type="text" name="id" id="id" placeholder="Device ID" required>
+      <legend>Add A Device Reading for "${systemComponent.id}":</legend>
       <input type="text" name="temperature" id="temperature" placeholder="Temperature">
       <input type="submit" value="UPDATE" id="submit"></input>
     </fieldset>
@@ -331,7 +339,7 @@ function handleAddReadingFormSubmit() {
         date: ""
       }]
     }
-    componentUpdates.id = $('#id').val()
+    componentUpdates.id = $(event.currentTarget).data('id')
     componentUpdates.readings.temperature = $('#temperature').val()
     componentUpdates.readings.date = Date.now()
     $('.addReading').remove()
@@ -339,7 +347,7 @@ function handleAddReadingFormSubmit() {
     console.log(componentUpdates)
     SYSTEMCOMPONENTS.update(componentUpdates)
     console.log(SYSTEMCOMPONENTS.get())
-    renderSystemComponentGroupStatusScreen(SYSTEMCOMPONENTS.get())
+    $('main').html(renderSystemComponentGroupStatusScreen(SYSTEMCOMPONENTS.get()))
   })
 }
 
@@ -353,8 +361,21 @@ function handleEditComponentButton() {
   })
 }
 
+function handleAddReadingButton() {
+  $('main').on('click', '.addReadingButton', function (event) {
+    const id = $(event.currentTarget).data('id')
+    const systemComponent = SYSTEMCOMPONENTS.get().find(function (systemComponent) {
+      return systemComponent.id === id
+    })
+    $('main').append(renderAddReadingScreen(systemComponent))
+  })
+}
+
 function handleDeleteComponentButton() {
   $('main').on('click', '.deleteComponentButton', function(event) {
+    const id = $(event.currentTarget).data('id')
+    SYSTEMCOMPONENTS.delete(id)
+    $('main').html(renderSystemComponentGroupStatusScreen(SYSTEMCOMPONENTS.get()))
   })
 }
 
@@ -364,7 +385,7 @@ function setupEventHandlers() {
   handleAddComponentFormSubmit()
   handleUpdateComponentShow()
   handleUpdateComponentFormSubmit()
-  handleAddReadingShow()
+  handleAddReadingButton()
   handleAddReadingFormSubmit()
   handleEditComponentButton()
   handleDeleteComponentButton()
