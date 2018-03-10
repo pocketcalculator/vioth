@@ -66,7 +66,7 @@ const SYSTEMCOMPONENTS = {
     const index = this.items.findIndex(function (item) {
       return itemId == item.id
     })
-    this.items.splice(index,1)
+    this.items.splice(index, 1)
   },
   update: function (updatedItem) {
     console.log(`Running update...`)
@@ -273,8 +273,8 @@ function renderUpdateComponentScreen(systemComponent, user = null) {
       <input type="text" name="name" id="name" placeholder="Name" value="${systemComponent.name}">
       <select name="isHuman" id="isHuman">
         <option value="">Human or Machine?</option>
-        <option value="false"${systemComponent.isHuman?'':' selected'}>Machine</option>
-        <option value="true"${systemComponent.isHuman?' selected':''}>Human</option>
+        <option value="false"${systemComponent.isHuman ? '' : ' selected'}>Machine</option>
+        <option value="true"${systemComponent.isHuman ? ' selected' : ''}>Human</option>
       </select>
       <input type="text" name="safeTempThreshold" id="safeTempThreshold" placeholder="Safe Temperature Threshold" value="${systemComponent.safeTempThreshold}">
       <input type="submit" value="UPDATE" id="submit"></input>
@@ -372,7 +372,7 @@ function handleAddReadingButton() {
 }
 
 function handleDeleteComponentButton() {
-  $('main').on('click', '.deleteComponentButton', function(event) {
+  $('main').on('click', '.deleteComponentButton', function (event) {
     const id = $(event.currentTarget).data('id')
     SYSTEMCOMPONENTS.delete(id)
     $('main').html(renderSystemComponentGroupStatusScreen(SYSTEMCOMPONENTS.get()))
