@@ -88,28 +88,6 @@ describe('System Components API resource', function() {
         })
     })
   })
-  //  1. make a POST request with data for a new item
-  //  2. inspect response object and prove it has right
-  //  status code and that the returned object has an `id`
-  describe('POST endpoint', function() {
-    it('should add an item on POST', function() {
-      const newItem = {
-        name: 'batteryInstaller',
-        safeTempThreshold: 36.5,
-        isHuman: true,
-      }
-      return chai.request(app)
-        .post('/systemcomponents')
-        .send(newItem)
-        .then(function(res) {
-          expect(res).to.have.status(201);
-          expect(res).to.be.json;
-          expect(res.body).to.be.a('object');
-          expect(res.body).to.include.keys('id', 'name', 'installedDate', 'safeTempThreshold', 'isHuman');
-          expect(res.body.id).to.not.equal(null);
-        })
-    })
-  })
   // 1. make a request to `/systemcomponents`
   // 2. inspect response object and ensure code is correct and has
   //    matching keys.
@@ -130,6 +108,28 @@ describe('System Components API resource', function() {
             expect(item).to.be.a('object')
             expect(item).to.include.keys(expectedKeys)
           })
+        })
+    })
+  })
+  //  1. make a POST request with data for a new item
+  //  2. inspect response object and prove it has right
+  //  status code and that the returned object has an `id`
+  describe('POST endpoint', function() {
+    it('should add an item on POST', function() {
+      const newItem = {
+        name: 'batteryInstaller',
+        safeTempThreshold: 36.5,
+        isHuman: true,
+      }
+      return chai.request(app)
+        .post('/systemcomponents')
+        .send(newItem)
+        .then(function(res) {
+          expect(res).to.have.status(201);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a('object');
+          expect(res.body).to.include.keys('id', 'name', 'installedDate', 'safeTempThreshold', 'isHuman');
+          expect(res.body.id).to.not.equal(null);
         })
     })
   })
