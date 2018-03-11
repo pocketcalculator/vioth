@@ -5,12 +5,13 @@ const systemComponentSchema = mongoose.Schema({
   name: { type: String, required: true },
   isHuman: { type: Boolean, required: true },
   safeTempThreshold: { type: Number, required: true },
-  _id: { type: String, default: uuid.v4(), required: true },
-  installedDate: { type: Date, default: Date.now(), required: true },
+  installedDate: { type: Date, default: Date.now(), required: true }
+/*
   readings: [{
     temperature: Number,
     date: Date
   }]
+*/
 })
 
 systemComponentSchema.methods.serialize = function () {

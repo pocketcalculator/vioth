@@ -42,8 +42,6 @@ function generateSystemComponentsData() {
     name: faker.commerce.productName(),
     safeTempThreshold: faker.random.number(),
     isHuman: false
-//    installedDate: faker.date.past(),
-//    id: uuid.v4()
   }
 }
 
