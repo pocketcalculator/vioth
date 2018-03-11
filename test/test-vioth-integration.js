@@ -31,7 +31,7 @@ describe('POST endpoint', function() {
       isHuman: true,
     }
     return chai.request(app)
-      .post('/status')
+      .post('/systemcomponents')
       .send(newItem)
       .then(function(res) {
         expect(res).to.have.status(201);
