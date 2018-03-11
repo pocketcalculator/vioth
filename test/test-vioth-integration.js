@@ -1,6 +1,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http')
 const mongoose = require('mongoose')
+const faker = require('faker')
 const expect = chai.expect
 const {SystemComponent} = require('../model');
 const {app, runServer, closeServer} = require('../server');
@@ -8,6 +9,65 @@ const {DATABASE_URL} = require('../config');
 
 
 chai.use(chaiHttp)
+
+// used to put randomish documents in db
+// so we have data to work with and assert about.
+// we use the Faker library to automatically
+// generate placeholder values for author, title, content
+// and then we insert that data into mongo
+function seedSystemComponentsData() {
+  console.info('seeding system components data');
+  const seedData = [];
+
+  for (let i=1; i<=10; i++) {
+    seedData.push(generateSystemComponentsData());
+  }
+  // this will return a promise
+  return SystemComponent.insertMany(seedData);
+}
+
+// generate an object represnting a restaurant.
+// can be used to generate seed data for db
+// or request.body data
+function generateSystemComponentsData() {
+  return {
+    name: faker.commerce.productName(),
+    safeTempThreshold: faker.random.number(),
+    installedDate: faker.date.past(),
+    isHuman: false
+  }
+}
+
+// this function deletes the entire database.
+// we'll call it in an `afterEach` block below
+// to ensure data from one test does not stick
+// around for next one
+function tearDownDb() {
+  console.warn('Deleting database');
+  return mongoose.connection.dropDatabase();
+}
+
+describe('System Components API resource', function() {
+
+  // we need each of these hook functions to return a promise
+  // otherwise we'd need to call a `done` callback. `runServer`,
+  // `seedRestaurantData` and `tearDownDb` each return a promise,
+  // so we return the value returned by these function calls.
+  before(function() {
+    return runServer(DATABASE_URL);
+  });
+
+  beforeEach(function() {
+    return seedSystemComponentsData();
+  });
+
+  afterEach(function() {
+    return tearDownDb();
+  });
+
+  after(function() {
+    return closeServer();
+});
 
 describe('GET endpoint', function() {
   it('should respond with a 200 status code', function() {
@@ -42,7 +102,7 @@ describe('POST endpoint', function() {
       })
   })
 })
-// 1. make a request to `/status`
+// 1. make a request to `/systemcomponents`
 // 2. inspect response object and ensure code is correct and has
 //    matching keys.
 describe('GET endpoint', function() {
