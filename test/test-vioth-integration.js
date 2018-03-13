@@ -98,6 +98,7 @@ describe('System Components API resource', function() {
         .get('/systemcomponents')
         .then(function(_res) {
           res = _res
+          console.log(res)
           expect(res).to.have.status(200)
           expect(res).to.be.json;
           expect(res.body.length).to.be.at.least(1)
