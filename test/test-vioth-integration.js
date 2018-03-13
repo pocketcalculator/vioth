@@ -5,7 +5,7 @@ const faker = require('faker')
 const expect = chai.expect
 const {
   SystemComponent
-} = require('../model');
+} = require('../systemcomponent');
 const {
   app,
   runServer,
@@ -95,7 +95,7 @@ describe('System Components API resource', function() {
     it('should list items on GET', function() {
       let res
       return chai.request(app)
-        .get('/systemcomponents')
+        .get('/systemcomponent')
         .then(function(_res) {
           res = _res
           console.log(res.body)
@@ -125,7 +125,7 @@ describe('System Components API resource', function() {
         installedDate: Date.now()
       }
       return chai.request(app)
-        .post('/systemcomponents')
+        .post('/systemcomponent')
         .send(newItem)
         .then(function(res) {
           expect(res).to.have.status(201);
@@ -151,7 +151,7 @@ describe('System Components API resource', function() {
         .findOne()
         .then(function(_res) {
           res = _res
-          return chai.request(app).delete(`/systemcomponents/${res.id}`)
+          return chai.request(app).delete(`/systemcomponent/${res.id}`)
         })
         .then(function(res) {
           expect(res).to.have.status(204)
