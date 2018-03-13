@@ -2,7 +2,7 @@ const router = require('express').Router()
 const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
 const {
-  Status
+  SystemComponent
 } = require('./model.js')
 
 router.get('/', (req, res) => {
@@ -37,7 +37,7 @@ router.get('/:id', (req, res) => {
     })
 })
 
-router.post('/', (req, res) => {
+router.post('/', jsonParser, (req, res) => {
   const requiredFields = ['name', 'isHuman', 'safeTempThreshold', 'installedDate'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i]
@@ -63,7 +63,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', jsonParser, (req, res) => {
   // ensure that the id in the request path and the one in request body match
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     const message = (
@@ -95,7 +95,7 @@ router.put('/:id', (req, res) => {
     }))
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', jsonParser, (req, res) => {
   SystemComponent
     .findByIdAndRemove(req.params.id)
     .then(systemComponent => res.status(204).end())
