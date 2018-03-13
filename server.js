@@ -47,7 +47,7 @@ app.get('/systemcomponents/:id', (req, res) => {
 })
 
 app.post('/systemcomponents', (req, res) => {
-  const requiredFields = ['name', 'isHuman', 'safeTempThreshold'];
+  const requiredFields = ['name', 'isHuman', 'safeTempThreshold', 'installedDate'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i]
     if (!(field in req.body)) {
