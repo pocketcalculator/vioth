@@ -41,8 +41,8 @@ function generateSystemComponentsData() {
   return {
     name: faker.commerce.productName(),
     safeTempThreshold: faker.random.number(),
-    installedDate: faker.date.recent(),
-    isHuman: false
+    isHuman: false,
+    installedDate: faker.date.recent()
   }
 }
 
@@ -128,7 +128,7 @@ describe('System Components API resource', function() {
           expect(res).to.have.status(201);
           expect(res).to.be.json;
           expect(res.body).to.be.a('object');
-          expect(res.body).to.include.keys('id', 'name', 'installedDate', 'safeTempThreshold', 'isHuman');
+          expect(res.body).to.include.keys('id', 'name', 'safeTempThreshold', 'isHuman', 'installedDate');
           expect(res.body.id).to.not.equal(null);
         })
     })
