@@ -41,7 +41,8 @@ function generateSystemComponentsData() {
   return {
     name: faker.commerce.productName(),
     safeTempThreshold: faker.random.number(),
-    isHuman: false
+    isHuman: false,
+    installedDate: Date.now()
   }
 }
 
