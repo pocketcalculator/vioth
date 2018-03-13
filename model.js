@@ -5,7 +5,7 @@ const systemComponentSchema = mongoose.Schema({
   name: { type: String, required: true },
   isHuman: { type: Boolean, required: true },
   safeTempThreshold: { type: Number, required: true },
-  installedDate: { type: Date, default: Date.now(), required: true }
+  installedDate: { type: Date, required: true }
 /*
   readings: [{
     temperature: Number,
