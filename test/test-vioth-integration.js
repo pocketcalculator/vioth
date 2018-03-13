@@ -101,7 +101,7 @@ describe('System Components API resource', function() {
           console.log(res.body)
           expect(res).to.have.status(200)
           expect(res).to.be.json
-          expect(res.body.systemComponents).to.be.an.array
+          expect(res.body.systemComponents).to.be.a('array')
           console.log(res.body.length)
           expect(res.body.systemComponents.length).to.be.at.least(1)
           // each item should be an object with correct key/value pairs
