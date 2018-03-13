@@ -41,8 +41,7 @@ function generateSystemComponentsData() {
   return {
     name: faker.commerce.productName(),
     safeTempThreshold: faker.random.number(),
-    isHuman: false,
-    installedDate: faker.date.recent()
+    isHuman: false
   }
 }
 
@@ -103,7 +102,7 @@ describe('System Components API resource', function() {
           expect(res).to.be.json;
           expect(res.body.length).to.be.at.least(1)
           // each item should be an object with correct key/value pairs
-          const expectedKeys = ['id', 'name', 'safeTempThreshold', 'isHuman', 'installedDate'];
+          const expectedKeys = ['id', 'name', 'safeTempThreshold', 'isHuman', 'installedDate']
           res.body.forEach(function(item) {
             expect(item).to.be.a('object')
             expect(item).to.include.keys(expectedKeys)
@@ -130,6 +129,32 @@ describe('System Components API resource', function() {
           expect(res.body).to.be.a('object');
           expect(res.body).to.include.keys('id', 'name', 'safeTempThreshold', 'isHuman', 'installedDate');
           expect(res.body.id).to.not.equal(null);
+        })
+    })
+  })
+
+  describe('DELETE endpoint', function() {
+    // strategy:
+    //  1. get a restaurant
+    //  2. make a DELETE request for that restaurant's id
+    //  3. assert that response has right status code
+    //  4. prove that restaurant with the id doesn't exist in db anymore
+    it('delete a system component by id', function() {
+
+      let res
+
+      return SystemComponent
+        .findOne()
+        .then(function(_res) {
+          res = _res
+          return chai.request(app).delete(`/systemcomponents/${res.id}`)
+        })
+        .then(function(res) {
+          expect(res).to.have.status(204)
+          return SystemComponent.findById(res.id)
+        })
+        .then(function(_res) {
+          expect(_res).to.be.null
         })
     })
   })
