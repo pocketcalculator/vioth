@@ -98,7 +98,7 @@ describe('System Components API resource', function() {
         .get('/systemcomponents')
         .then(function(_res) {
           res = _res
-          console.log(res)
+          console.log(res.body)
           expect(res).to.have.status(200)
           expect(res).to.be.json;
           expect(res.body.length).to.be.at.least(1)
@@ -120,6 +120,7 @@ describe('System Components API resource', function() {
         name: 'batteryInstaller',
         safeTempThreshold: 36.5,
         isHuman: true,
+        installedDate: Date.now()
       }
       return chai.request(app)
         .post('/systemcomponents')
