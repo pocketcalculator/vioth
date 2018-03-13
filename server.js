@@ -60,7 +60,8 @@ app.post('/systemcomponents', (req, res) => {
     .create({
       name: req.body.name,
       isHuman: req.body.isHuman,
-      safeTempThreshold: req.body.safeTempThreshold
+      safeTempThreshold: req.body.safeTempThreshold,
+      installedDate: req.body.installedDate
     })
     .then(systemComponent => res.status(201).json(systemComponent.serialize()))
     .catch(err => {
