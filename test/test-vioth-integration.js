@@ -102,7 +102,7 @@ describe('System Components API resource', function() {
           expect(res).to.be.json;
           expect(res.body.length).to.be.at.least(1)
           // each item should be an object with correct key/value pairs
-          const expectedKeys = ['id', 'name', 'installedDate', 'safeTempThreshold', 'isHuman'];
+          const expectedKeys = ['id', 'name', 'safeTempThreshold', 'isHuman', 'installedDate'];
           res.body.forEach(function(item) {
             expect(item).to.be.a('object')
             expect(item).to.include.keys(expectedKeys)
