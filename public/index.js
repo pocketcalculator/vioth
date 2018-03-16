@@ -1,3 +1,5 @@
+const SYSTEMCOMPONENTURL = '/api/systemcomponent'
+let jwt
 /**
  * Code to generate a v4 UUID
  **/
@@ -34,7 +36,7 @@ function generateUuid() {
   ].join('');
 }
 
-/** 
+/**
  * Building a model to store devices which will be managed via CRUD
  **/
 
@@ -213,8 +215,12 @@ function renderSystemComponentGroupStatusScreen(systemComponents, user = null) {
     return $('<li></li>').append(renderSystemComponent(systemComponent))
   })
   const systemComponentList = $('<ul></ul>').append(systemComponentListItems)
-  // should not be doing appends within the render functions, just spit out text  
+  // should not be doing appends within the render functions, just spit out text
   return systemComponentList
+}
+
+function displaySystemComponentGroupStatusScreen(systemComponents, user = null) {
+  $('main').html(renderSystemComponentGroupStatusScreen(systemComponents, user))
 }
 
 function handleAddComponentShow() {
@@ -248,10 +254,9 @@ function renderAddComponentScreen(user = null) {
 function handleAddComponentFormSubmit() {
   $('main').on('submit', '.addSystemComponentForm', function (event) {
     event.preventDefault()
-    SYSTEMCOMPONENTS.create($('#name').val(), $('#safeTempThreshold').val(), $('#isHuman').val())
+    const systemComponent = { name: $('#name').val(), safeTempThreshold: $('#safeTempThreshold').val(), isHuman: $('#isHuman').val(), installedDate: Date.now() }
     $('.addSystemComponent').remove()
-    console.log(SYSTEMCOMPONENTS.get())
-    $('main').html(renderSystemComponentGroupStatusScreen(SYSTEMCOMPONENTS.get()))
+    postSystemComponent(systemComponent, getAndDisplaySystemComponentGroupStatusScreen)
   })
 }
 
@@ -300,7 +305,7 @@ function handleUpdateComponentFormSubmit() {
     SYSTEMCOMPONENTS.update(componentUpdates)
     $('.updateSystemComponent').remove()
     console.log(SYSTEMCOMPONENTS.get())
-    $('main').html(renderSystemComponentGroupStatusScreen(SYSTEMCOMPONENTS.get()))
+    getSystemComponents(displaySystemComponentGroupStatusScreen)
   })
 }
 /*
@@ -347,7 +352,7 @@ function handleAddReadingFormSubmit() {
     console.log(componentUpdates)
     SYSTEMCOMPONENTS.update(componentUpdates)
     console.log(SYSTEMCOMPONENTS.get())
-    $('main').html(renderSystemComponentGroupStatusScreen(SYSTEMCOMPONENTS.get()))
+    getSystemComponents(displaySystemComponentGroupStatusScreen)
   })
 }
 
@@ -375,7 +380,7 @@ function handleDeleteComponentButton() {
   $('main').on('click', '.deleteComponentButton', function (event) {
     const id = $(event.currentTarget).data('id')
     SYSTEMCOMPONENTS.delete(id)
-    $('main').html(renderSystemComponentGroupStatusScreen(SYSTEMCOMPONENTS.get()))
+    getSystemComponents(displaySystemComponentGroupStatusScreen)
   })
 }
 
@@ -391,5 +396,74 @@ function setupEventHandlers() {
   handleDeleteComponentButton()
 }
 
-$(setupEventHandlers)
+function apiFailure(error) {
+  console.error(error)
+}
+
+function getAndDisplaySystemComponentGroupStatusScreen() {
+  getSystemComponents(displaySystemComponentGroupStatusScreen)
+}
+
+function getSystemComponents(callback) {
+  const settings = {
+    url: SYSTEMCOMPONENTURL,
+    dataType: 'json',
+    type: 'GET',
+    success: function(data) {
+      callback(data, jwt)
+    },
+    failure: apiFailure
+  }
+  $.ajax(settings)
+}
+
+function postSystemComponent(systemComponent, callback) {
+  const settings = {
+    url: SYSTEMCOMPONENTURL,
+    data: JSON.stringify(systemComponent),
+    contentType: 'application/json',
+    dataType: 'json',
+    type: 'POST',
+    success: function(data) {
+      callback(data, jwt)
+    },
+    failure: apiFailure
+  }
+  $.ajax(settings)
+}
+
+function putSystemComponent(systemComponent, callback) {
+  const settings = {
+    url: `${SYSTEMCOMPONENTURL}/${systemComponent.id}`,
+    data: JSON.stringify(systemComponent),
+    contentType: 'application/json',
+    dataType: 'json',
+    type: 'PUT',
+    success: function(data) {
+      callback(data, jwt)
+    },
+    failure: apiFailure
+  }
+  $.ajax(settings)
+}
+
+function deleteSystemComponent(systemComponent, callback) {
+  const settings = {
+    url: `${SYSTEMCOMPONENTURL}/${systemComponent.id}`,
+    dataType: 'json',
+    type: 'DELETE',
+    success: function(data) {
+      callback(data, jwt)
+    },
+    failure: apiFailure
+  }
+  $.ajax(settings)
+}
+
+function initializeUI() {
+  setupEventHandlers()
+  getAndDisplaySystemComponentGroupStatusScreen()
+}
+
+$(initializeUI)
 console.log("Loaded.")

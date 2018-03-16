@@ -5,6 +5,8 @@ const {
   SystemComponent
 } = require('./model.js')
 
+const jwtAuth = passport.authenticate('jwt', { session: false })
+
 router.get('/', (req, res) => {
   SystemComponent
     .find()

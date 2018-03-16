@@ -1,6 +1,10 @@
 const express = require('express')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
+const passport = require('passport')
+const { router: usersRouter } = require('./users');
+const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
+
 mongoose.Promise = global.Promise
 
 const { DATABASE_URL, PORT } = require('./config')
@@ -11,12 +15,26 @@ const {router:componentRouter} = require('./systemcomponent')
 app.use(express.static('public'))
 app.use(morgan('common'))
 
+// CORS
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
+  if (req.method === 'OPTIONS') {
+    return res.send(204);
+  }
+  next();
+});
+
 app.get('/', (request, res) => {
   res.sendFile(__dirname + '/public/index.html')
   res.status('200').json()
 })
 
-app.use('/systemcomponent/', componentRouter)
+app.use('/api/users/', usersRouter)
+app.use('/api/auth/', authRouter)
+
+app.use('/api/systemcomponent/', componentRouter)
 
 // catch-all endpoint if client makes request to non-existent endpoint
 app.use('*', function (req, res) {

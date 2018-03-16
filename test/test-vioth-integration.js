@@ -95,7 +95,7 @@ describe('System Components API resource', function() {
     it('should list items on GET', function() {
       let res
       return chai.request(app)
-        .get('/systemcomponent')
+        .get('/api/systemcomponent')
         .then(function(_res) {
           res = _res
           console.log(res.body)
@@ -126,7 +126,7 @@ describe('System Components API resource', function() {
         installedDate: Date.now()
       }
       return chai.request(app)
-        .post('/systemcomponent')
+        .post('/api/systemcomponent')
         .send(newItem)
         .then(function(res) {
           expect(res).to.have.status(201);
@@ -159,7 +159,7 @@ describe('System Components API resource', function() {
           // make request then inspect it to make sure it reflects
           // data we sent
           return chai.request(app)
-            .put(`/systemcomponent/${systemcomponent.id}`)
+            .put(`/api/systemcomponent/${systemcomponent.id}`)
             .send(updateData)
         })
         .then(function(res) {
@@ -189,7 +189,7 @@ describe('System Components API resource', function() {
         .findOne()
         .then(function(_res) {
           res = _res
-          return chai.request(app).delete(`/systemcomponent/${res.id}`)
+          return chai.request(app).delete(`/api/systemcomponent/${res.id}`)
         })
         .then(function(res) {
           expect(res).to.have.status(204)
