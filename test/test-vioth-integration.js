@@ -5,15 +5,15 @@ const faker = require('faker')
 const expect = chai.expect
 const {
   SystemComponent
-} = require('../model');
+} = require('../systemcomponent')
 const {
   app,
   runServer,
   closeServer
-} = require('../server');
+} = require('../server')
 const {
   DATABASE_URL
-} = require('../config');
+} = require('../config')
 
 
 chai.use(chaiHttp)
@@ -77,7 +77,7 @@ describe('System Components API resource', function() {
     return closeServer();
   })
 
-  describe('GET endpoint', function() {
+  describe('GET static endpoint', function() {
     it('should respond with a 200 status code', function() {
       let res
       return chai.request(app)
@@ -95,22 +95,25 @@ describe('System Components API resource', function() {
     it('should list items on GET', function() {
       let res
       return chai.request(app)
-        .get('/systemcomponents')
+        .get('/systemcomponent')
         .then(function(_res) {
           res = _res
           console.log(res.body)
           expect(res).to.have.status(200)
-          expect(res).to.be.json;
-          expect(res.body.length).to.be.at.least(1)
+          expect(res).to.be.json
+          expect(res.body.systemComponents).to.be.a('array')
+          console.log(res.body.length)
+          expect(res.body.systemComponents.length).to.be.at.least(1)
           // each item should be an object with correct key/value pairs
           const expectedKeys = ['id', 'name', 'safeTempThreshold', 'isHuman', 'installedDate']
-          res.body.forEach(function(item) {
+          res.body.systemComponents.forEach(function(item) {
             expect(item).to.be.a('object')
             expect(item).to.include.keys(expectedKeys)
           })
         })
     })
   })
+
   //  1. make a POST request with data for a new item
   //  2. inspect response object and prove it has right
   //  status code and that the returned object has an `id`
@@ -123,7 +126,7 @@ describe('System Components API resource', function() {
         installedDate: Date.now()
       }
       return chai.request(app)
-        .post('/systemcomponents')
+        .post('/systemcomponent')
         .send(newItem)
         .then(function(res) {
           expect(res).to.have.status(201);
@@ -131,6 +134,43 @@ describe('System Components API resource', function() {
           expect(res.body).to.be.a('object');
           expect(res.body).to.include.keys('id', 'name', 'safeTempThreshold', 'isHuman', 'installedDate');
           expect(res.body.id).to.not.equal(null);
+        })
+    })
+  })
+
+  describe('PUT endpoint', function() {
+    // strategy:
+    //  1. Get an existing system component from db
+    //  2. Make a PUT request to update that system component
+    //  3. Prove system componnt returned by request contains data we sent
+    //  4. Prove system component in db is correctly updated
+    it('should update fields you send over', function() {
+      const updateData = {
+        name: 'Paul Sczurek',
+        isHuman: true,
+        safeTempThreshold: 37
+      }
+
+      return SystemComponent
+        .findOne()
+        .then(function(systemcomponent) {
+          updateData.id = systemcomponent.id
+
+          // make request then inspect it to make sure it reflects
+          // data we sent
+          return chai.request(app)
+            .put(`/systemcomponent/${systemcomponent.id}`)
+            .send(updateData)
+        })
+        .then(function(res) {
+          expect(res).to.have.status(204)
+
+          return SystemComponent.findById(updateData.id)
+        })
+        .then(function(systemcomponent) {
+          expect(systemcomponent.name).to.equal(updateData.name)
+          expect(systemcomponent.isHuman).to.equal(updateData.isHuman)
+          expect(systemcomponent.safeTempThreshold).to.equal(updateData.safeTempThreshold)
         })
     })
   })
@@ -149,7 +189,7 @@ describe('System Components API resource', function() {
         .findOne()
         .then(function(_res) {
           res = _res
-          return chai.request(app).delete(`/systemcomponents/${res.id}`)
+          return chai.request(app).delete(`/systemcomponent/${res.id}`)
         })
         .then(function(res) {
           expect(res).to.have.status(204)
