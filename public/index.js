@@ -1,8 +1,9 @@
 const SYSTEMCOMPONENTURL = '/api/systemcomponent'
+const LOGINURL = '/api/users'
 let jwt
+
 /**
  * Code to generate a v4 UUID
- **/
 
 function asHex(value) {
   return Array.from(value).map(i => ('00' + i.toString(16)).slice(-2)).join('');
@@ -16,6 +17,7 @@ function getRandomBytes(size) {
   return Array.from(new Array(size), () => Math.random() * 255 | 0);
 }
 
+/*
 function generateUuid() {
   const version = 0b01000000;
   const clockSeqHiAndReserved = getRandomBytes(1);
@@ -35,15 +37,15 @@ function generateUuid() {
     asHex(getRandomBytes(6)) // node
   ].join('');
 }
-
-/**
- * Building a model to store devices which will be managed via CRUD
- **/
+*/
 
 function StorageException(message) {
   this.message = message
   this.name = "StorageException"
 }
+
+/**
+ * Building a model to store devices which will be managed via CRUD
 
 const SYSTEMCOMPONENTS = {
   create: function (name, safeTempThreshold, isHuman) {
@@ -103,6 +105,7 @@ const SYSTEMCOMPONENTS = {
   },
   items: []
 }
+*/
 
 // This function renders a Chart.js graph
 function drawComponentGraph(systemComponent, user = null) {
@@ -196,16 +199,48 @@ function renderSystemComponent(systemComponent, user = null) {
   return div
 }
 
-function renderHomeScreen(systemComponents, user = null) {
-  return ''
+function renderRegisterScreen() {
+  return `<form class="registerForm">
+    <fieldset>
+      <legend>Register:</legend>
+      <input type="text" name="firstName" id="firstName" placeholder="First Name" required>
+      <input type="text" name="lastName" id="lastName" placeholder="Last Name" required>
+      <input type="text" name="username" id="username" placeholder="User ID" required>
+      <input type="text" name="password" id="password" placeholder="Password" required>
+      <input type="submit" value="ADD" id="submit"></input>
+    </fieldset>
+  </form>`
 }
 
-function renderLoginScreen() {
-  return ''
+function renderLogInScreen() {
+  return `<form class="logInForm">
+    <fieldset>
+      <legend>Log In:</legend>
+      <input type="text" name="username" id="username" placeholder="username" required>
+      <input type="text" name="password" id="password" placeholder="password" required>
+      <input type="submit" value="ADD" id="submit"></input>
+    </fieldset>
+  </form>`
 }
 
-function renderSignUpScreen() {
-  return ''
+function handleRegistershow() {
+  console.log("Waiting for someone to click the register item...")
+  $('nav').on('click', '#register', function (event) {
+    $('main').append(`
+      <div class="register">
+      </div>`)
+    $('.register').html(renderRegisterScreen())
+  })
+}
+
+function handleLogInshow() {
+  console.log("Waiting for someone to click the log in item...")
+  $('nav').on('click', '#login', function (event) {
+    $('main').append(`
+      <div class="login">
+      </div>`)
+    $('.login').html(renderLogInScreen())
+  })
 }
 
 // This will be a loop which joins all system components in the model as LIs in a UL and displays it
@@ -286,6 +321,22 @@ function renderUpdateComponentScreen(systemComponent, user = null) {
     </fieldset>
   </form>
   `
+}
+
+function handleRegisterFormSubmit() {
+  $('main').on('submit', '.registerForm', function (event) {
+    event.preventDefault()
+    const registerData = { firstName: $('#firstName').val(), lastName: $('#lastName').val(), username: $('#username').val(), password: $('#password').val() }
+    console.log(registerData)
+    addUser(registerData)
+  })
+}
+
+function handleLogInFormSubmit() {
+  $('main').on('submit', '.logInForm', function (event) {
+    event.preventDefault()
+    const logInData = $()
+  })
 }
 
 function handleUpdateComponentFormSubmit() {
@@ -394,10 +445,45 @@ function setupEventHandlers() {
   handleAddReadingFormSubmit()
   handleEditComponentButton()
   handleDeleteComponentButton()
+  handleRegistershow()
+  handleRegisterFormSubmit()
 }
 
 function apiFailure(error) {
+  console.log("API Failure")
   console.error(error)
+}
+
+function addUser(userData, callback) {
+  console.log("running addUser...")
+  const settings = {
+    url: '/api/users',
+    data: JSON.stringify(userData),
+    contentType: 'application/json',
+    dataType: 'json',
+    type: 'POST',
+    success: function(data) {
+      callback(data)
+      console.log("new user added!")
+    },
+    failure: apiFailure
+  }
+  $.ajax(settings)
+}
+
+function loginUser(userData, callback) {
+  const settings = {
+    url: '/login',
+    data: JSON.stringify(userData),
+    contentType: 'application/json',
+    dataType: 'json',
+    type: 'POST',
+    success: function(data) {
+      callback(data)
+    },
+    failure: apiFailure
+  }
+  $.ajax(settings)
 }
 
 function getAndDisplaySystemComponentGroupStatusScreen() {
