@@ -336,7 +336,9 @@ function handleRegisterFormSubmit() {
 function handleLogInFormSubmit() {
   $('main').on('submit', '.logInForm', function (event) {
     event.preventDefault()
-    const logInData = $()
+    const logInData = { username: $('#username').val(), password: $('#password').val() }
+    console.log(loginData)
+    loginUser(loginData)
   })
 }
 
@@ -448,6 +450,8 @@ function setupEventHandlers() {
   handleDeleteComponentButton()
   handleRegistershow()
   handleRegisterFormSubmit()
+  handleLogInshow()
+  handleLogInFormSubmit()
 }
 
 function apiFailure(error) {
@@ -464,8 +468,8 @@ function addUser(userData, callback) {
     dataType: 'json',
     type: 'POST',
     success: function(data) {
-      callback(data)
       console.log("new user added!")
+      callback(userData, data)
     },
     failure: apiFailure
   }
