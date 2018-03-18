@@ -1,5 +1,4 @@
 const SYSTEMCOMPONENTURL = '/api/systemcomponent'
-const LOGINURL = '/api/users'
 let jwt
 
 /**
@@ -246,7 +245,7 @@ function handleLogInshow() {
 // This will be a loop which joins all system components in the model as LIs in a UL and displays it
 function renderSystemComponentGroupStatusScreen(systemComponents, user = null) {
   console.log("Building System Component Group Status Screen...")
-  console.log(`system components: ${systemComponents}`)
+  console.log(`systemComponents: ${systemComponents}`)
   const systemComponentListItems = systemComponents.map(function (systemComponent) {
     return $('<li></li>').append(renderSystemComponent(systemComponent))
   })
@@ -356,24 +355,11 @@ function handleUpdateComponentFormSubmit() {
     })
     $('.updateSystemComponent').remove()
     console.log(componentUpdates)
-    SYSTEMCOMPONENTS.update(componentUpdates)
+    putSystemComponent(componentUpdates)
     $('.updateSystemComponent').remove()
-    console.log(SYSTEMCOMPONENTS.get())
     getSystemComponents(displaySystemComponentGroupStatusScreen)
   })
 }
-/*
-function handleAddReadingShow() {
-  console.log("waiting for someone to click the add reading item...")
-  $('nav').on('click', '.addReading', function (event) {
-    console.log("add reading clicked")
-    $('main').append(`
-      <div class="addReading">
-      </div>`)
-    $('.addReading').append(renderAddReadingScreen())
-  })
-}
-*/
 
 function renderAddReadingScreen(systemComponent, user = null) {
   return `
@@ -391,21 +377,21 @@ function handleAddReadingFormSubmit() {
   $('main').on('submit', '.addReadingForm', function (event) {
     event.preventDefault()
     //    const formData = $( ":input" ).serializeArray()
-    const componentUpdates = {
+    const componentUpdate = {
       id: [],
-      readings: [{
-        temperature: "",
-        date: ""
-      }]
+      reading: {
+        temperature: [],
+        date: []
+      }
     }
-    componentUpdates.id = $(event.currentTarget).data('id')
-    componentUpdates.readings.temperature = $('#temperature').val()
-    componentUpdates.readings.date = Date.now()
+    componentUpdate.id = $(event.currentTarget).data('id')
+    componentUpdate.reading.temperature = $('#temperature').val()
+    componentUpdate.reading.date = Date.now()
     $('.addReading').remove()
     console.log('component updates for readings...')
     console.log(componentUpdates)
-    SYSTEMCOMPONENTS.update(componentUpdates)
-    console.log(SYSTEMCOMPONENTS.get())
+    putSystemComponent(componentUpdates)
+    console.log(getSystemComponents())
     getSystemComponents(displaySystemComponentGroupStatusScreen)
   })
 }
@@ -413,7 +399,7 @@ function handleAddReadingFormSubmit() {
 function handleEditComponentButton() {
   $('main').on('click', '.editComponentButton', function (event) {
     const id = $(event.currentTarget).data('id')
-    const systemComponent = SYSTEMCOMPONENTS.get().find(function (systemComponent) {
+    const systemComponent = getSystemComponents.find(function (systemComponent) {
       return systemComponent.id === id
     })
     $('main').append(renderUpdateComponentScreen(systemComponent))
@@ -423,7 +409,7 @@ function handleEditComponentButton() {
 function handleAddReadingButton() {
   $('main').on('click', '.addReadingButton', function (event) {
     const id = $(event.currentTarget).data('id')
-    const systemComponent = SYSTEMCOMPONENTS.get().find(function (systemComponent) {
+    const systemComponent = getSystemComponents.find(function (systemComponent) {
       return systemComponent.id === id
     })
     $('main').append(renderAddReadingScreen(systemComponent))
@@ -433,7 +419,7 @@ function handleAddReadingButton() {
 function handleDeleteComponentButton() {
   $('main').on('click', '.deleteComponentButton', function (event) {
     const id = $(event.currentTarget).data('id')
-    SYSTEMCOMPONENTS.delete(id)
+    deleteSystemComponent(id)
     getSystemComponents(displaySystemComponentGroupStatusScreen)
   })
 }
