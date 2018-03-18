@@ -18,7 +18,8 @@ systemComponentSchema.methods.serialize = function () {
     name: this.name,
     isHuman: this.isHuman,
     safeTempThreshold: this.safeTempThreshold,
-    installedDate: this.installedDate
+    installedDate: this.installedDate,
+    readings: this.readings
   };
 };
 
