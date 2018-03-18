@@ -337,8 +337,8 @@ function handleLogInFormSubmit() {
   $('main').on('submit', '.logInForm', function (event) {
     event.preventDefault()
     const logInData = { username: $('#username').val(), password: $('#password').val() }
-    console.log(loginData)
-    loginUser(loginData)
+    console.log(logInData)
+    loginUser(logInData)
   })
 }
 
@@ -477,6 +477,7 @@ function addUser(userData, callback) {
 }
 
 function loginUser(userData, callback) {
+  console.log("attempting login...")
   const settings = {
     url: '/login',
     data: JSON.stringify(userData),
