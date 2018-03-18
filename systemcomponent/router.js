@@ -80,7 +80,7 @@ router.put('/:id', jsonParser, (req, res) => {
   // if the user sent over any of the updatableFields, we udpate those values
   // in document
   const toUpdate = {}
-  const updateableFields = ['name', 'isHuman', 'safeTempThreshold']
+  const updateableFields = ['name', 'isHuman', 'safeTempThreshold', 'readings']
   updateableFields.forEach(field => {
     if (field in req.body) {
       toUpdate[field] = req.body[field]
