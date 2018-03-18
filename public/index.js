@@ -246,6 +246,7 @@ function handleLogInshow() {
 // This will be a loop which joins all system components in the model as LIs in a UL and displays it
 function renderSystemComponentGroupStatusScreen(systemComponents, user = null) {
   console.log("Building System Component Group Status Screen...")
+  console.log(`system components: ${systemComponents}`)
   const systemComponentListItems = systemComponents.map(function (systemComponent) {
     return $('<li></li>').append(renderSystemComponent(systemComponent))
   })
