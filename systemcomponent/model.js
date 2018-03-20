@@ -20,8 +20,8 @@ systemComponentSchema.methods.serialize = function () {
     safeTempThreshold: this.safeTempThreshold,
     installedDate: this.installedDate,
     readings: this.readings
-  };
-};
+  }
+}
 
 const SystemComponent = mongoose.model('SystemComponent', systemComponentSchema)
 

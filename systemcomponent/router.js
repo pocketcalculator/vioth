@@ -39,7 +39,7 @@ router.get('/:id', (req, res) => {
     })
 })
 
-router.post('/', jsonParser, (req, res) => {
+router.post('/', [jwtAuth, jsonParser], (req, res) => {
   const requiredFields = ['name', 'isHuman', 'safeTempThreshold', 'installedDate'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i]
@@ -65,7 +65,7 @@ router.post('/', jsonParser, (req, res) => {
     })
 })
 
-router.put('/:id', jsonParser, (req, res) => {
+router.put('/:id', [jwtAuth, jsonParser], (req, res) => {
   // ensure that the id in the request path and the one in request body match
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     const message = (
@@ -97,7 +97,7 @@ router.put('/:id', jsonParser, (req, res) => {
     }))
 })
 
-router.delete('/:id', jsonParser, (req, res) => {
+router.delete('/:id', [jwtAuth, jsonParser], (req, res) => {
   SystemComponent
     .findByIdAndRemove(req.params.id)
     .then(systemComponent => res.status(204).end())

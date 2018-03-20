@@ -106,6 +106,29 @@ const SYSTEMCOMPONENTS = {
 }
 */
 
+function renderNavigation(user = null){
+  return `<ul>
+    ${!user? `<li>
+      <a id="register">register</a>
+    </li>
+    <li>
+      <a id="login">log in</a>
+    </li>`: `<li>
+      <a id="logout">log out</a>
+    </li>`}
+    <li>
+      <a href="#about">about</a>
+    </li>
+    ${user? `<li>
+      <a id="addSystemComponent">add component</a>
+    </li>`: ''}
+  </ul>`
+}
+
+function displayNavigation(user = null) {
+  $('nav').html(renderNavigation(user))
+}
+
 // This function renders the systemSummary Chart.js graph
 function drawSystemSummaryChart(systemComponents) {
   console.log("Creating the system components summary chart...")
@@ -113,23 +136,24 @@ function drawSystemSummaryChart(systemComponents) {
     'class': 'systemSummaryChart',
     id: 'systemSummaryChart'
   })
+  console.log(systemComponents)
   //document.getElementById(`${chartName}`).getContext('2d')
   const data = {
     // Labels should be Date objects
     //    labels: [new Date(2017, 08, 16), new Date(2017, 08, 17), new Date(2017, 08, 18)],
     //  code below is not working using hard-coded dates instead
-    labels: systemComponents.map(function (name) {
-      return systemComponents.name
+    labels: systemComponents.map(function(systemComponent) {
+      return systemComponent.name
     }),
     datasets: [{
       fill: false,
       label: 'Safe Temperature Threshold',
       //      data: [20, 25, 34],
       // code below is not working, using hard-coded values instead
-      data: systemComponents.map(function (safeTempThreshold) {
+      data: systemComponents.map(function(safeTempThreshold) {
         return systemComponents.safeTempThreshold
       }),
-      backgroundColor: window.chartColors.red
+      backgroundColor: '#ff0000'
     }]
   }
   const options = {
@@ -171,7 +195,7 @@ function drawComponentGraph(systemComponent, user = null) {
     // Labels should be Date objects
     //    labels: [new Date(2017, 08, 16), new Date(2017, 08, 17), new Date(2017, 08, 18)],
     //  code below is not working using hard-coded dates instead
-    labels: systemComponent.readings.map(function (reading) {
+    labels: systemComponent.readings.map(function(reading) {
       return reading.date
     }),
     datasets: [{
@@ -179,7 +203,7 @@ function drawComponentGraph(systemComponent, user = null) {
       label: 'Temperature',
       //      data: [20, 25, 34],
       // code below is not working, using hard-coded values instead
-      data: systemComponent.readings.map(function (reading) {
+      data: systemComponent.readings.map(function(reading) {
         return reading.temperature
       }),
       borderColor: '#fe8b36',
@@ -244,9 +268,11 @@ function renderSystemComponent(systemComponent, user = null) {
   div.append(`<caption>${systemComponent.name} ${systemComponent.id}</caption>`)
   const graph = drawComponentGraph(systemComponent)
   div.append(graph)
-  div.append(editButton)
-  div.append(addReadingButton)
-  div.append(deleteButton)
+  if (user) {
+    div.append(editButton)
+    div.append(addReadingButton)
+    div.append(deleteButton)
+  }
   return div
 }
 
@@ -276,7 +302,7 @@ function renderLogInScreen() {
 
 function handleRegistershow() {
   console.log("Waiting for someone to click the register item...")
-  $('nav').on('click', '#register', function (event) {
+  $('nav').on('click', '#register', function(event) {
     $('main').append(`
       <div class="register">
       </div>`)
@@ -286,7 +312,7 @@ function handleRegistershow() {
 
 function handleLogInshow() {
   console.log("Waiting for someone to click the log in item...")
-  $('nav').on('click', '#login', function (event) {
+  $('nav').on('click', '#login', function(event) {
     $('main').append(`
       <div class="login">
       </div>`)
@@ -298,7 +324,7 @@ function handleLogInshow() {
 function renderSystemComponentGroupStatusScreen(systemComponents, user = null) {
   console.log("Building System Component Group Status Screen...")
   console.log(`systemComponents: ${systemComponents}`)
-  const systemComponentListItems = systemComponents.map(function (systemComponent) {
+  const systemComponentListItems = systemComponents.map(function(systemComponent) {
     return $('<li></li>').append(renderSystemComponent(systemComponent))
   })
   const systemComponentList = $('<ul></ul>').append(systemComponentListItems)
@@ -307,12 +333,13 @@ function renderSystemComponentGroupStatusScreen(systemComponents, user = null) {
 }
 
 function displaySystemComponentGroupStatusScreen(systemComponents, user = null) {
+  displayNavigation()
   $('main').html(renderSystemComponentGroupStatusScreen(systemComponents, user))
 }
 
 function handleAddComponentShow() {
   console.log("waiting for someone to click the add component item...")
-  $('nav').on('click', '#addSystemComponent', function (event) {
+  $('nav').on('click', '#addSystemComponent', function(event) {
     $('main').append(`
       <div class="addSystemComponent">
       </div>`)
@@ -339,9 +366,14 @@ function renderAddComponentScreen(user = null) {
 }
 
 function handleAddComponentFormSubmit() {
-  $('main').on('submit', '.addSystemComponentForm', function (event) {
+  $('main').on('submit', '.addSystemComponentForm', function(event) {
     event.preventDefault()
-    const systemComponent = { name: $('#name').val(), safeTempThreshold: $('#safeTempThreshold').val(), isHuman: $('#isHuman').val(), installedDate: Date.now() }
+    const systemComponent = {
+      name: $('#name').val(),
+      safeTempThreshold: $('#safeTempThreshold').val(),
+      isHuman: $('#isHuman').val(),
+      installedDate: Date.now()
+    }
     $('.addSystemComponent').remove()
     postSystemComponent(systemComponent, getAndDisplaySystemComponentGroupStatusScreen)
   })
@@ -349,7 +381,7 @@ function handleAddComponentFormSubmit() {
 
 function handleUpdateComponentShow() {
   console.log("waiting for someone to click the update component item...")
-  $('nav').on('click', '#updateSystemComponent', function (event) {
+  $('nav').on('click', '#updateSystemComponent', function(event) {
     $('main').append(`
       <div class="updateSystemComponent">
       </div>`)
@@ -358,6 +390,7 @@ function handleUpdateComponentShow() {
 }
 
 function renderUpdateComponentScreen(systemComponent, user = null) {
+  displayNavigation()
   return `
   <form class="updateSystemComponentForm" data-id="${systemComponent.id}">
     <fieldset>
@@ -376,31 +409,42 @@ function renderUpdateComponentScreen(systemComponent, user = null) {
 }
 
 function handleRegisterFormSubmit() {
-  $('main').on('submit', '.registerForm', function (event) {
+  $('main').on('submit', '.registerForm', function(event) {
     event.preventDefault()
-    const registerData = { firstName: $('#firstName').val(), lastName: $('#lastName').val(), username: $('#username').val(), password: $('#password').val() }
+    const registerData = {
+      firstName: $('#firstName').val(),
+      lastName: $('#lastName').val(),
+      username: $('#username').val(),
+      password: $('#password').val()
+    }
     console.log(registerData)
     addUser(registerData)
   })
 }
 
 function handleLogInFormSubmit() {
-  $('main').on('submit', '.logInForm', function (event) {
+  $('main').on('submit', '.logInForm', function(event) {
     event.preventDefault()
-    const logInData = { username: $('#username').val(), password: $('#password').val() }
+    const logInData = {
+      username: $('#username').val(),
+      password: $('#password').val()
+    }
     console.log(logInData)
     loginUser(logInData)
   })
 }
 
 function handleUpdateComponentFormSubmit() {
-  $('main').on('submit', '.updateSystemComponentForm', function (event) {
+  $('main').on('submit', '.updateSystemComponentForm', function(event) {
     event.preventDefault()
     const formData = $(":input").serializeArray()
-    formData.push({ name: 'id', value: $(event.currentTarget).data('id') })
+    formData.push({
+      name: 'id',
+      value: $(event.currentTarget).data('id')
+    })
     const componentUpdates = {}
     console.log(formData)
-    $(formData).each(function (index, obj) {
+    $(formData).each(function(index, obj) {
       if (obj.value) {
         componentUpdates[obj.name] = obj.value
       }
@@ -426,7 +470,7 @@ function renderAddReadingScreen(systemComponent, user = null) {
 }
 
 function handleAddReadingFormSubmit() {
-  $('main').on('submit', '.addReadingForm', function (event) {
+  $('main').on('submit', '.addReadingForm', function(event) {
     event.preventDefault()
     //    const formData = $( ":input" ).serializeArray()
     const componentUpdate = {
@@ -449,9 +493,9 @@ function handleAddReadingFormSubmit() {
 }
 
 function handleEditComponentButton() {
-  $('main').on('click', '.editComponentButton', function (event) {
+  $('main').on('click', '.editComponentButton', function(event) {
     const id = $(event.currentTarget).data('id')
-    const systemComponent = getSystemComponents.find(function (systemComponent) {
+    const systemComponent = getSystemComponents.find(function(systemComponent) {
       return systemComponent.id === id
     })
     $('main').append(renderUpdateComponentScreen(systemComponent))
@@ -459,9 +503,9 @@ function handleEditComponentButton() {
 }
 
 function handleAddReadingButton() {
-  $('main').on('click', '.addReadingButton', function (event) {
+  $('main').on('click', '.addReadingButton', function(event) {
     const id = $(event.currentTarget).data('id')
-    const systemComponent = getSystemComponents.find(function (systemComponent) {
+    const systemComponent = getSystemComponents.find(function(systemComponent) {
       return systemComponent.id === id
     })
     $('main').append(renderAddReadingScreen(systemComponent))
@@ -469,11 +513,19 @@ function handleAddReadingButton() {
 }
 
 function handleDeleteComponentButton() {
-  $('main').on('click', '.deleteComponentButton', function (event) {
+  $('main').on('click', '.deleteComponentButton', function(event) {
     const id = $(event.currentTarget).data('id')
     deleteSystemComponent(id)
     getSystemComponents(displaySystemComponentGroupStatusScreen)
   })
+}
+
+function handleLogout() {
+  $('nav').on('click', '#logout', function(event) {
+    user = null
+    renderNavigation()
+    getSystemComponents(displaySystemComponentGroupStatusScreen)
+  }
 }
 
 function setupEventHandlers() {
@@ -540,7 +592,7 @@ function getSystemComponents(callback) {
     dataType: 'json',
     type: 'GET',
     success: function(data) {
-      callback(data, jwt)
+      callback(data.systemComponents, jwt)
     },
     failure: apiFailure
   }
@@ -592,7 +644,7 @@ function deleteSystemComponent(systemComponent, callback) {
 
 function initializeUI() {
   setupEventHandlers()
-  drawSystemSummaryChart(getSystemComponents())
+  getSystemComponents(drawSystemSummaryChart)
   getAndDisplaySystemComponentGroupStatusScreen()
 }
 
