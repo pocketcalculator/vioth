@@ -600,6 +600,7 @@ function deleteSystemComponent(systemComponent, callback) {
 
 function initializeUI() {
   setupEventHandlers()
+  drawSystemSummaryChart(getSystemComponents())
   getAndDisplaySystemComponentGroupStatusScreen()
 }
 
