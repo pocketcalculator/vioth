@@ -106,6 +106,59 @@ const SYSTEMCOMPONENTS = {
 }
 */
 
+// This function renders the systemSummary Chart.js graph
+function drawSystemSummaryChart(systemComponents) {
+  console.log("Creating the system components summary chart...")
+  const ctx = $('<canvas/>', {
+    'class': 'systemSummaryChart',
+    id: 'systemSummaryChart'
+  })
+  //document.getElementById(`${chartName}`).getContext('2d')
+  const data = {
+    // Labels should be Date objects
+    //    labels: [new Date(2017, 08, 16), new Date(2017, 08, 17), new Date(2017, 08, 18)],
+    //  code below is not working using hard-coded dates instead
+    labels: systemComponents.map(function (name) {
+      return systemComponents.name
+    }),
+    datasets: [{
+      fill: false,
+      label: 'Safe Temperature Threshold',
+      //      data: [20, 25, 34],
+      // code below is not working, using hard-coded values instead
+      data: systemComponents.map(function (safeTempThreshold) {
+        return systemComponents.safeTempThreshold
+      }),
+      backgroundColor: window.chartColors.red
+    }]
+  }
+  const options = {
+    type: 'bar',
+    data: data,
+    options: {
+      title: {
+        display: true,
+        text: 'System Components - Safe Temperature Threshold'
+      },
+      tooltips: {
+        mode: 'index',
+        intersect: false
+      },
+      responsive: true,
+      scales: {
+        xAxes: [{
+          stacked: true,
+        }],
+        yAxes: [{
+          stacked: true
+        }]
+      }
+    }
+  }
+  const chart = new Chart(ctx, options)
+  return ctx
+}
+
 // This function renders a Chart.js graph
 function drawComponentGraph(systemComponent, user = null) {
   console.log("Creating a graph...")
@@ -166,7 +219,6 @@ function drawComponentGraph(systemComponent, user = null) {
   const chart = new Chart(ctx, options)
   return ctx
 }
-
 
 function renderSystemComponent(systemComponent, user = null) {
   console.log(systemComponent)
@@ -540,6 +592,7 @@ function deleteSystemComponent(systemComponent, callback) {
 
 function initializeUI() {
   setupEventHandlers()
+  drawSystemSummaryChart(getSystemComponents())
   getAndDisplaySystemComponentGroupStatusScreen()
 }
 
