@@ -419,6 +419,8 @@ function handleRegisterFormSubmit() {
     }
     console.log(registerData)
     addUser(registerData)
+    displayNavigation()
+    $('main').html(renderSystemComponentGroupStatusScreen(systemComponents, user))
   })
 }
 
@@ -431,6 +433,8 @@ function handleLogInFormSubmit() {
     }
     console.log(logInData)
     loginUser(logInData)
+    displayNavigation()
+    $('main').html(renderSystemComponentGroupStatusScreen(systemComponents, user))
   })
 }
 
@@ -525,7 +529,7 @@ function handleLogout() {
     user = null
     renderNavigation()
     getSystemComponents(displaySystemComponentGroupStatusScreen)
-  }
+  })
 }
 
 function setupEventHandlers() {
@@ -559,7 +563,7 @@ function addUser(userData, callback) {
     type: 'POST',
     success: function(data) {
       console.log("new user added!")
-      callback(userData, data)
+      callback(data)
     },
     failure: apiFailure
   }
@@ -575,6 +579,7 @@ function loginUser(userData, callback) {
     dataType: 'json',
     type: 'POST',
     success: function(data) {
+      console.log("login successful!")
       callback(data)
     },
     failure: apiFailure
