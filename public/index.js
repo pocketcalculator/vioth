@@ -434,7 +434,7 @@ function handleLogInFormSubmit() {
     console.log(logInData)
     loginUser(logInData)
     displayNavigation()
-    $('main').append(renderSystemComponentGroupStatusScreen(systemComponents, user))
+    getAndDisplaySystemComponentGroupStatusScreen()
   })
 }
 
@@ -573,7 +573,7 @@ function addUser(userData, callback) {
 function loginUser(userData, callback) {
   console.log("attempting login...")
   const settings = {
-    url: '/login',
+    url: '/api/auth/login',
     data: JSON.stringify(userData),
     contentType: 'application/json',
     dataType: 'json',
