@@ -129,6 +129,10 @@ function displayNavigation(user = null) {
   $('nav').html(renderNavigation(user))
 }
 
+function renderSystemSummaryChart() {
+  $('.systemSummaryChartArea').html(drawSystemSummaryChart())
+}
+
 // This function renders the systemSummary Chart.js graph
 function drawSystemSummaryChart(systemComponents) {
   console.log("Creating the system components summary chart...")
@@ -139,27 +143,22 @@ function drawSystemSummaryChart(systemComponents) {
   console.log(systemComponents)
   //document.getElementById(`${chartName}`).getContext('2d')
   const data = {
-    // Labels should be Date objects
-    //    labels: [new Date(2017, 08, 16), new Date(2017, 08, 17), new Date(2017, 08, 18)],
-    //  code below is not working using hard-coded dates instead
-    labels: systemComponents.map(function(systemComponent) {
-      return systemComponent.name
-    }),
-    datasets: [{
-      fill: false,
-      label: 'Safe Temperature Threshold',
-      //      data: [20, 25, 34],
-      // code below is not working, using hard-coded values instead
-      data: systemComponents.map(function(safeTempThreshold) {
-        return systemComponents.safeTempThreshold
-      }),
-      backgroundColor: '#ff0000'
+    "labels": ["device1", "device2", "device3", "device4", "device5", "device6", "device7"],
+    "datasets": [{
+      "label": "Active System Components",
+      "data": [65, 59, 80, 81, 56, 55, 40],
+      "fill": false,
+      "backgroundColor": ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)", "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(153, 102, 255, 0.2)", "rgba(201, 203, 207, 0.2)"],
+      "borderColor": ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "rgb(201, 203, 207)"],
+      "borderWidth": 1
     }]
   }
   const options = {
     type: 'bar',
     data: data,
     options: {
+      maintainAspectRatio: false,
+      responsive: true,
       title: {
         display: true,
         text: 'System Components - Safe Temperature Threshold'
@@ -284,7 +283,7 @@ function renderRegisterScreen() {
       <input type="text" name="lastName" id="lastName" placeholder="Last Name" required>
       <input type="text" name="username" id="username" placeholder="User ID" required>
       <input type="text" name="password" id="password" placeholder="Password" required>
-      <input type="submit" value="ADD" id="submit"></input>
+      <input type="submit" value="SUBMIT" id="submit"></input>
     </fieldset>
   </form>`
 }
@@ -295,7 +294,7 @@ function renderLogInScreen() {
       <legend>Log In:</legend>
       <input type="text" name="username" id="username" placeholder="username" required>
       <input type="text" name="password" id="password" placeholder="password" required>
-      <input type="submit" value="ADD" id="submit"></input>
+      <input type="submit" value="SUBMIT" id="submit"></input>
     </fieldset>
   </form>`
 }
@@ -334,7 +333,7 @@ function renderSystemComponentGroupStatusScreen(systemComponents, user = null) {
 
 function displaySystemComponentGroupStatusScreen(systemComponents, user = null) {
   displayNavigation()
-  $('main').html(renderSystemComponentGroupStatusScreen(systemComponents, user))
+  $('main').append(renderSystemComponentGroupStatusScreen(systemComponents, user))
 }
 
 function handleAddComponentShow() {
@@ -419,8 +418,9 @@ function handleRegisterFormSubmit() {
     }
     console.log(registerData)
     addUser(registerData)
+    $('.registerForm').remove()
     displayNavigation()
-    $('main').html(renderSystemComponentGroupStatusScreen(systemComponents, user))
+    $('main').append(renderSystemComponentGroupStatusScreen(systemComponents, user))
   })
 }
 
@@ -434,7 +434,7 @@ function handleLogInFormSubmit() {
     console.log(logInData)
     loginUser(logInData)
     displayNavigation()
-    $('main').html(renderSystemComponentGroupStatusScreen(systemComponents, user))
+    $('main').append(renderSystemComponentGroupStatusScreen(systemComponents, user))
   })
 }
 
@@ -580,9 +580,15 @@ function loginUser(userData, callback) {
     type: 'POST',
     success: function(data) {
       console.log("login successful!")
+      $('.logInForm').remove()
       callback(data)
     },
-    failure: apiFailure
+    failure: function(data) {
+      console.log("login failed.")
+      console.log(userData)
+      $('.logInForm').remove()
+      apiFailure
+    }
   }
   $.ajax(settings)
 }
@@ -648,8 +654,9 @@ function deleteSystemComponent(systemComponent, callback) {
 }
 
 function initializeUI() {
+  renderSystemSummaryChart()
   setupEventHandlers()
-  getSystemComponents(drawSystemSummaryChart)
+  getSystemComponents(drawComponentGraph)
   getAndDisplaySystemComponentGroupStatusScreen()
 }
 
