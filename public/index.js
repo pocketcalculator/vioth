@@ -130,6 +130,7 @@ function displayNavigation(user = null) {
 }
 
 function renderSystemSummaryChart() {
+//  $('.systemSummaryChartArea').html(getSystemComponents(drawSystemSummaryChart))
   $('.systemSummaryChartArea').html(drawSystemSummaryChart())
 }
 
@@ -580,13 +581,13 @@ function loginUser(userData, callback) {
     type: 'POST',
     success: function(data) {
       console.log("login successful!")
-      $('.logInForm').remove()
+      $('.login').remove()
       callback(data)
     },
     failure: function(data) {
       console.log("login failed.")
       console.log(userData)
-      $('.logInForm').remove()
+      $('.login').remove()
       apiFailure
     }
   }
