@@ -129,9 +129,8 @@ function displayNavigation(user = null) {
   $('nav').html(renderNavigation(user))
 }
 
-function renderSystemSummaryChart() {
-//  $('.systemSummaryChartArea').html(getSystemComponents(drawSystemSummaryChart))
-  $('.systemSummaryChartArea').html(drawSystemSummaryChart())
+function displaySystemSummaryChart(systemComponents) {
+  $('.systemSummaryChartArea').html(drawSystemSummaryChart(systemComponents))
 }
 
 // This function renders the systemSummary Chart.js graph
@@ -332,9 +331,12 @@ function renderSystemComponentGroupStatusScreen(systemComponents, user = null) {
   return systemComponentList
 }
 
-function displaySystemComponentGroupStatusScreen(systemComponents, user = null) {
-  displayNavigation()
-  $('main').append(renderSystemComponentGroupStatusScreen(systemComponents, user))
+function displaySystemComponentGroupStatusScreen(systemComponents, user = jwt) {
+  displayNavigation(user)
+  displaySystemSummaryChart(systemComponents)
+  if (jwt) {
+    $('main').append(renderSystemComponentGroupStatusScreen(systemComponents, user))
+  }
 }
 
 function handleAddComponentShow() {
@@ -390,7 +392,6 @@ function handleUpdateComponentShow() {
 }
 
 function renderUpdateComponentScreen(systemComponent, user = null) {
-  displayNavigation()
   return `
   <form class="updateSystemComponentForm" data-id="${systemComponent.id}">
     <fieldset>
@@ -418,10 +419,8 @@ function handleRegisterFormSubmit() {
       password: $('#password').val()
     }
     console.log(registerData)
-    addUser(registerData)
+    addUser(registerData,getAndDisplaySystemComponentGroupStatusScreen)
     $('.registerForm').remove()
-    displayNavigation()
-    $('main').append(renderSystemComponentGroupStatusScreen(systemComponents, user))
   })
 }
 
@@ -433,9 +432,7 @@ function handleLogInFormSubmit() {
       password: $('#password').val()
     }
     console.log(logInData)
-    loginUser(logInData)
-    displayNavigation()
-    getAndDisplaySystemComponentGroupStatusScreen()
+    loginUser(logInData, getAndDisplaySystemComponentGroupStatusScreen)
   })
 }
 
@@ -580,9 +577,11 @@ function loginUser(userData, callback) {
     dataType: 'json',
     type: 'POST',
     success: function(data) {
+      console.log(data)
       console.log("login successful!")
       $('.login').remove()
-      callback(data)
+      jwt = data.authToken
+      callback()
     },
     failure: function(data) {
       console.log("login failed.")
@@ -623,6 +622,9 @@ function postSystemComponent(systemComponent, callback) {
     },
     failure: apiFailure
   }
+  if (jwt) {
+    settings.headers = {Authorization: `Bearer ${jwt}`}
+  }
   $.ajax(settings)
 }
 
@@ -638,6 +640,9 @@ function putSystemComponent(systemComponent, callback) {
     },
     failure: apiFailure
   }
+  if (jwt) {
+    settings.headers = {Authorization: `Bearer ${jwt}`}
+  }
   $.ajax(settings)
 }
 
@@ -651,13 +656,14 @@ function deleteSystemComponent(systemComponent, callback) {
     },
     failure: apiFailure
   }
+  if (jwt) {
+    settings.headers = {Authorization: `Bearer ${jwt}`}
+  }
   $.ajax(settings)
 }
 
 function initializeUI() {
-  renderSystemSummaryChart()
   setupEventHandlers()
-  getSystemComponents(drawComponentGraph)
   getAndDisplaySystemComponentGroupStatusScreen()
 }
 
