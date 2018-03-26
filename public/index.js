@@ -136,20 +136,25 @@ function displaySystemSummaryChart(systemComponents) {
 // This function renders the systemSummary Chart.js graph
 function drawSystemSummaryChart(systemComponents) {
   console.log("Creating the system components summary chart...")
+  const nameLabels = systemComponents.map(function(systemComponent) {
+    return systemComponent.name
+  })
+  const temperatureData = systemComponents.map(function(systemComponent) {
+    return systemComponent.safeTempThreshold
+  })
   const ctx = $('<canvas/>', {
     'class': 'systemSummaryChart',
     id: 'systemSummaryChart'
   })
-  console.log(systemComponents)
   //document.getElementById(`${chartName}`).getContext('2d')
   const data = {
-    "labels": ["device1", "device2", "device3", "device4", "device5", "device6", "device7"],
+    "labels": nameLabels,
     "datasets": [{
-      "label": "Active System Components",
-      "data": [65, 59, 80, 81, 56, 55, 40],
+      "label": "Safe Temperature Threshold (℃)",
+      "data": temperatureData,
       "fill": false,
-      "backgroundColor": ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)", "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(153, 102, 255, 0.2)", "rgba(201, 203, 207, 0.2)"],
-      "borderColor": ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "rgb(201, 203, 207)"],
+      "backgroundColor": "rgba(54, 162, 235, 0.2)",
+      "borderColor": "rgb(54, 162, 235)",
       "borderWidth": 1
     }]
   }
@@ -267,11 +272,9 @@ function renderSystemComponent(systemComponent, user = null) {
   div.append(`<caption>${systemComponent.name} ${systemComponent.id}</caption>`)
   const graph = drawComponentGraph(systemComponent)
   div.append(graph)
-  if (user) {
-    div.append(editButton)
-    div.append(addReadingButton)
-    div.append(deleteButton)
-  }
+  div.append(editButton)
+  div.append(addReadingButton)
+  div.append(deleteButton)
   return div
 }
 
@@ -419,7 +422,7 @@ function handleRegisterFormSubmit() {
       password: $('#password').val()
     }
     console.log(registerData)
-    addUser(registerData,getAndDisplaySystemComponentGroupStatusScreen)
+    addUser(registerData, getAndDisplaySystemComponentGroupStatusScreen)
     $('.registerForm').remove()
   })
 }
@@ -517,7 +520,10 @@ function handleAddReadingButton() {
 function handleDeleteComponentButton() {
   $('main').on('click', '.deleteComponentButton', function(event) {
     const id = $(event.currentTarget).data('id')
-    deleteSystemComponent(id)
+    const systemComponent = getSystemComponents.find(function(systemComponent) {
+      return systemComponent.id === id
+    })
+    deleteSystemComponent(systemComponent, getAndDisplaySystemComponentGroupStatusScreen)
     getSystemComponents(displaySystemComponentGroupStatusScreen)
   })
 }
