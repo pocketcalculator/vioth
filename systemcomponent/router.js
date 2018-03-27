@@ -81,16 +81,22 @@ router.put('/:id', [jwtAuth, jsonParser], (req, res) => {
   // in document
   const toUpdate = {}
   const updateableFields = ['name', 'isHuman', 'safeTempThreshold', 'readings']
+  let updateOptions = {
+    $set: toUpdate
+  }
   updateableFields.forEach(field => {
     if (field in req.body) {
-      toUpdate[field] = req.body[field]
+      if (field !== 'readings') {
+        toUpdate[field] = req.body[field]
+      }
+      else if (field === 'readings') {
+        updateOptions.$push = { readings: req.body['readings'] }
+      }
     }
   })
   SystemComponent
     // all key/value pairs in toUpdate will be updated -- that's what `$set` does
-    .findByIdAndUpdate(req.params.id, {
-      $set: toUpdate
-    })
+    .findByIdAndUpdate(req.params.id, updateOptions)
     .then(systemComponent => res.status(204).end())
     .catch(err => res.status(500).json({
       message: 'Internal server error'

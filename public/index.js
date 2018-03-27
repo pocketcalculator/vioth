@@ -479,31 +479,27 @@ function handleAddReadingFormSubmit() {
     event.preventDefault()
     //    const formData = $( ":input" ).serializeArray()
     const componentUpdate = {
-      id: [],
+      id: $(event.currentTarget).data('id'),
       reading: {
-        temperature: [],
-        date: []
+        temperature: $('#temperature').val(),
+        date: Date.now()
       }
     }
-    componentUpdate.id = $(event.currentTarget).data('id')
-    componentUpdate.reading.temperature = $('#temperature').val()
-    componentUpdate.reading.date = Date.now()
     $('.addReading').remove()
     console.log('component updates for readings...')
     console.log(componentUpdates)
-    putSystemComponent(componentUpdates)
-    console.log(getSystemComponents())
-    getSystemComponents(displaySystemComponentGroupStatusScreen)
+    putSystemComponent(componentUpdates, getAndDisplaySystemComponentGroupStatusScreen)
   })
+}
+
+function displayUpdateComponentScreen(systemComponent) {
+  $('main').append(renderUpdateComponentScreen(systemComponent))
 }
 
 function handleEditComponentButton() {
   $('main').on('click', '.editComponentButton', function(event) {
     const id = $(event.currentTarget).data('id')
-    const systemComponent = getSystemComponents.find(function(systemComponent) {
-      return systemComponent.id === id
-    })
-    $('main').append(renderUpdateComponentScreen(systemComponent))
+    getSystemComponentById(id, displayUpdateComponentScreen)
   })
 }
 
