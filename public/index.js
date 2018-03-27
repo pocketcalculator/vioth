@@ -338,7 +338,7 @@ function displaySystemComponentGroupStatusScreen(systemComponents, user = jwt) {
   displayNavigation(user)
   displaySystemSummaryChart(systemComponents)
   if (jwt) {
-    $('main').append(renderSystemComponentGroupStatusScreen(systemComponents, user))
+    $('.componentGroupArea').html(renderSystemComponentGroupStatusScreen(systemComponents, user))
   }
 }
 
@@ -520,11 +520,8 @@ function handleAddReadingButton() {
 function handleDeleteComponentButton() {
   $('main').on('click', '.deleteComponentButton', function(event) {
     const id = $(event.currentTarget).data('id')
-    const systemComponent = getSystemComponents.find(function(systemComponent) {
-      return systemComponent.id === id
-    })
+    const systemComponent = { id }
     deleteSystemComponent(systemComponent, getAndDisplaySystemComponentGroupStatusScreen)
-    getSystemComponents(displaySystemComponentGroupStatusScreen)
   })
 }
 
@@ -665,6 +662,7 @@ function deleteSystemComponent(systemComponent, callback) {
   if (jwt) {
     settings.headers = {Authorization: `Bearer ${jwt}`}
   }
+  console.log(`Deleting ${systemComponent.id}`)
   $.ajax(settings)
 }
 
