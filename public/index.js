@@ -600,6 +600,18 @@ function getAndDisplaySystemComponentGroupStatusScreen() {
   getSystemComponents(displaySystemComponentGroupStatusScreen)
 }
 
+function getSystemComponentById(id, callback) {
+  const settings = {
+    url: `${SYSTEMCOMPONENTURL}/${id}`,
+    dataType: 'json',
+    type: 'GET',
+    success: function(data) {
+      callback(data, jwt)
+    },
+    failure: apiFailure
+  }
+  $.ajax(settings)}
+
 function getSystemComponents(callback) {
   const settings = {
     url: SYSTEMCOMPONENTURL,
