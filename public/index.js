@@ -503,14 +503,15 @@ function handleEditComponentButton() {
   })
 }
 
+function displayAddReadingScreen(systemComponent) {
+  $('main').append(renderAddReadingScreen(systemComponent))
+}
+
 function handleAddReadingButton() {
   $('main').on('click', '.addReadingButton', function(event) {
     const id = $(event.currentTarget).data('id')
-    const systemComponent = getSystemComponents.find(function(systemComponent) {
-      return systemComponent.id === id
-    })
-    $('main').append(renderAddReadingScreen(systemComponent))
-  })
+    getSystemComponentById(id, displayAddReadingScreen)
+  }
 }
 
 function handleDeleteComponentButton() {
