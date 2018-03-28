@@ -487,8 +487,8 @@ function handleAddReadingFormSubmit() {
     }
     $('.addReading').remove()
     console.log('component updates for readings...')
-    console.log(componentUpdates)
-    putSystemComponent(componentUpdates, getAndDisplaySystemComponentGroupStatusScreen)
+    console.log(componentUpdate)
+    putSystemComponent(componentUpdate, getAndDisplaySystemComponentGroupStatusScreen)
   })
 }
 
@@ -511,7 +511,7 @@ function handleAddReadingButton() {
   $('main').on('click', '.addReadingButton', function(event) {
     const id = $(event.currentTarget).data('id')
     getSystemComponentById(id, displayAddReadingScreen)
-  }
+  })
 }
 
 function handleDeleteComponentButton() {
