@@ -454,10 +454,9 @@ function handleUpdateComponentFormSubmit() {
         componentUpdates[obj.name] = obj.value
       }
     })
-    $('.updateSystemComponent').remove()
     console.log(componentUpdates)
     putSystemComponent(componentUpdates)
-    $('.updateSystemComponent').remove()
+    $('.updateSystemComponentForm').remove()
     getSystemComponents(displaySystemComponentGroupStatusScreen)
   })
 }
@@ -485,9 +484,9 @@ function handleAddReadingFormSubmit() {
         date: Date.now()
       }
     }
-    $('.addReading').remove()
     console.log('component updates for readings...')
     console.log(componentUpdate)
+    $('.addReadingForm').remove()
     putSystemComponent(componentUpdate, getAndDisplaySystemComponentGroupStatusScreen)
   })
 }
