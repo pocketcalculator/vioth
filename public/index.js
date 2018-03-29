@@ -479,7 +479,7 @@ function handleAddReadingFormSubmit() {
     //    const formData = $( ":input" ).serializeArray()
     const componentUpdate = {
       id: $(event.currentTarget).data('id'),
-      reading: {
+      readings: {
         temperature: $('#temperature').val(),
         date: Date.now()
       }
