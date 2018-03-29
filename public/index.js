@@ -422,8 +422,8 @@ function handleRegisterFormSubmit() {
       password: $('#password').val()
     }
     console.log(registerData)
-    addUser(registerData, getAndDisplaySystemComponentGroupStatusScreen)
     $('.registerForm').remove()
+    addUser(registerData, getAndDisplaySystemComponentGroupStatusScreen)
   })
 }
 
@@ -435,6 +435,7 @@ function handleLogInFormSubmit() {
       password: $('#password').val()
     }
     console.log(logInData)
+    $('.logInForm').remove()
     loginUser(logInData, getAndDisplaySystemComponentGroupStatusScreen)
   })
 }
@@ -455,9 +456,8 @@ function handleUpdateComponentFormSubmit() {
       }
     })
     console.log(componentUpdates)
-    putSystemComponent(componentUpdates)
     $('.updateSystemComponentForm').remove()
-    getSystemComponents(displaySystemComponentGroupStatusScreen)
+    putSystemComponent(componentUpdates, getAndDisplaySystemComponentGroupStatusScreen)
   })
 }
 
