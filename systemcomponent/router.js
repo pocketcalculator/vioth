@@ -56,7 +56,11 @@ router.post('/', [jwtAuth, jsonParser], (req, res) => {
       safeTempThreshold: req.body.safeTempThreshold,
       installedDate: req.body.installedDate
     })
-    .then(systemComponent => res.status(201).json(systemComponent.serialize()))
+    .then(systemComponent => {
+      const component = systemComponent.serialize()
+      req.app.io.emit('Component Added', component)
+      res.status(201).json(component)
+    })
     .catch(err => {
       console.error(err)
       res.status(500).json({

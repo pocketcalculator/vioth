@@ -65,6 +65,8 @@ function runServer(databaseUrl, port = PORT) {
           mongoose.disconnect()
           reject(err)
         })
+        const io = require('socket.io')(server)
+        app.io = io
     })
   })
 }

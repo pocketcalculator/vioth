@@ -529,6 +529,15 @@ function handleLogout() {
   })
 }
 
+function cancelButton() {
+// run getAndDisplaySystemComponentGroupStatusScreen
+}
+
+function setUpSocketListener() {
+  const socket = io()
+  socket.on('Component Added', getAndDisplaySystemComponentGroupStatusScreen)
+}
+
 function setupEventHandlers() {
   console.log("Running Event Handlers...")
   handleAddComponentShow()
@@ -676,6 +685,7 @@ function deleteSystemComponent(systemComponent, callback) {
 
 function initializeUI() {
   setupEventHandlers()
+  setUpSocketListener()
   getAndDisplaySystemComponentGroupStatusScreen()
 }
 
