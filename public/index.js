@@ -390,6 +390,7 @@ function handleAddComponentFormSubmit() {
   })
 }
 
+/*
 function handleUpdateComponentShow() {
   console.log("waiting for someone to click the update component item...")
   $('nav').on('click', '#updateSystemComponent', function(event) {
@@ -399,6 +400,7 @@ function handleUpdateComponentShow() {
     $('.updateSystemComponent').html(renderUpdateComponentScreen())
   })
 }
+*/
 
 function renderUpdateComponentScreen(systemComponent, user = null) {
   return `
@@ -500,7 +502,10 @@ function handleAddReadingFormSubmit() {
 }
 
 function displayUpdateComponentScreen(systemComponent) {
-  $('main').append(renderUpdateComponentScreen(systemComponent))
+  $('main').append(`
+    <div class="updateSystemComponent">
+    </div>`)
+  $('.updateSystemComponent').html(renderUpdateComponentScreen(systemComponent))
 }
 
 function handleEditComponentButton() {
@@ -511,7 +516,10 @@ function handleEditComponentButton() {
 }
 
 function displayAddReadingScreen(systemComponent) {
-  $('main').append(renderAddReadingScreen(systemComponent))
+  $('main').append(`
+    <div class="addReading">
+    </div>`)
+  $('.addReading').append(renderAddReadingScreen(systemComponent))
 }
 
 function handleAddReadingButton() {
@@ -539,7 +547,7 @@ function handleLogout() {
 
 function handleCancelButton() {
   $('main').on('click', '#cancelButton', function(event) {
-    $('main').empty()
+    $(this).closest('div').remove()
     getAndDisplaySystemComponentGroupStatusScreen()
   })
 }
@@ -551,18 +559,17 @@ function setUpSocketListener() {
 
 function setupEventHandlers() {
   console.log("Running Event Handlers...")
-  handleAddComponentShow()
-  handleAddComponentFormSubmit()
-  handleUpdateComponentShow()
-  handleUpdateComponentFormSubmit()
-  handleAddReadingButton()
-  handleAddReadingFormSubmit()
-  handleEditComponentButton()
-  handleDeleteComponentButton()
   handleRegistershow()
   handleRegisterFormSubmit()
   handleLogInshow()
   handleLogInFormSubmit()
+  handleAddComponentShow()
+  handleAddComponentFormSubmit()
+  handleEditComponentButton()
+  handleUpdateComponentFormSubmit()
+  handleAddReadingButton()
+  handleAddReadingFormSubmit()
+  handleDeleteComponentButton()
   handleCancelButton()
 }
 
