@@ -257,17 +257,20 @@ function renderSystemComponent(systemComponent, user = null) {
   const editButton = $('<button></button>', {
     'class': 'editComponentButton',
     'data-id': `${systemComponent.id}`,
-    'value': 'EDIT'
+    'value': 'EDIT',
+    'text': 'EDIT'
   })
   const addReadingButton = $('<button></button>', {
     'class': 'addReadingButton',
     'data-id': `${systemComponent.id}`,
-    'value': 'ADD READING'
+    'value': 'ADD READING',
+    'text': 'ADD READING'
   })
   const deleteButton = $('<button></button>', {
     'class': 'deleteComponentButton',
     'data-id': `${systemComponent.id}`,
-    'value': 'DELETE'
+    'value': 'DELETE',
+    'text': 'DELETE'
   })
   div.append(`<caption>${systemComponent.name} ${systemComponent.id}</caption>`)
   const graph = drawComponentGraph(systemComponent)
@@ -287,6 +290,7 @@ function renderRegisterScreen() {
       <input type="text" name="username" id="username" placeholder="User ID" required>
       <input type="text" name="password" id="password" placeholder="Password" required>
       <input type="submit" value="SUBMIT" id="submit"></input>
+      <button type="button" id="cancelButton">CANCEL</button>
     </fieldset>
   </form>`
 }
@@ -298,6 +302,7 @@ function renderLogInScreen() {
       <input type="text" name="username" id="username" placeholder="username" required>
       <input type="text" name="password" id="password" placeholder="password" required>
       <input type="submit" value="SUBMIT" id="submit"></input>
+      <button type="button" id="cancelButton">CANCEL</button>
     </fieldset>
   </form>`
 }
@@ -365,6 +370,7 @@ function renderAddComponentScreen(user = null) {
       </select>
       <input type="text" name="safeTempThreshold" id="safeTempThreshold" placeholder="Safe Temperature Threshold" required>
       <input type="submit" value="ADD" id="submit"></input>
+      <button type="button" id="cancelButton">CANCEL</button>
     </fieldset>
   </form>
   `
@@ -407,6 +413,7 @@ function renderUpdateComponentScreen(systemComponent, user = null) {
       </select>
       <input type="text" name="safeTempThreshold" id="safeTempThreshold" placeholder="Safe Temperature Threshold" value="${systemComponent.safeTempThreshold}">
       <input type="submit" value="UPDATE" id="submit"></input>
+      <button type="button" id="cancelButton">CANCEL</button>
     </fieldset>
   </form>
   `
@@ -468,6 +475,7 @@ function renderAddReadingScreen(systemComponent, user = null) {
       <legend>Add A Device Reading for "${systemComponent.id}":</legend>
       <input type="text" name="temperature" id="temperature" placeholder="Temperature">
       <input type="submit" value="UPDATE" id="submit"></input>
+      <button type="button" id="cancelButton">CANCEL</button>
     </fieldset>
   </form>
   `
@@ -529,8 +537,11 @@ function handleLogout() {
   })
 }
 
-function cancelButton() {
-// run getAndDisplaySystemComponentGroupStatusScreen
+function handleCancelButton() {
+  $('main').on('click', '#cancelButton', function(event) {
+    $('main').empty()
+    getAndDisplaySystemComponentGroupStatusScreen()
+  })
 }
 
 function setUpSocketListener() {
@@ -552,6 +563,7 @@ function setupEventHandlers() {
   handleRegisterFormSubmit()
   handleLogInshow()
   handleLogInFormSubmit()
+  handleCancelButton()
 }
 
 function apiFailure(error) {

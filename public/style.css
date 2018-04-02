@@ -31,4 +31,5 @@ body * {
 
 .systemComponentWindow {
   border: dotted green 1px;
+  height: 200px;
 }
