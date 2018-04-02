@@ -221,7 +221,7 @@ function drawComponentGraph(systemComponent, user = null) {
     options: {
       fill: false,
       maintainAspectRatio: false,
-      responsive: true,
+      responsive: false,
       scales: {
         xAxes: [{
           type: 'time',

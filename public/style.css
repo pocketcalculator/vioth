@@ -29,7 +29,21 @@ body * {
   margin-left: 35%;
 }
 
+.componentGroupArea ul li {
+  display: inline-block;
+}
+
+.componentGroupArea li {
+}
+
 .systemComponentWindow {
   border: dotted green 1px;
-  height: 200px;
+  width: 300px;
+  margin: 3px;
+  padding: 4px;
+}
+
+.systemComponentGraph {
+  height: 200px !important;
+  width: 296px !important;
 }
