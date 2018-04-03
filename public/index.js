@@ -139,9 +139,27 @@ function drawSystemSummaryChart(systemComponents) {
   const nameLabels = systemComponents.map(function(systemComponent) {
     return systemComponent.name
   })
-  const temperatureData = systemComponents.map(function(systemComponent) {
+  const thresholdTemperatureData = systemComponents.map(function(systemComponent) {
     return systemComponent.safeTempThreshold
   })
+  const currentTemperatureData = systemComponents.map(function(systemComponent) {
+    if (systemComponent.readings.length) {
+     return systemComponent.readings[systemComponent.readings.length - 1].temperature
+   }
+  })
+  const greenBackgroundColor = "rgba(70, 191, 189, 0.2)"
+  const greenBorderColor = "rgb(70, 191, 189)"
+  const redBackgroundColor = "rgba(247, 70, 74, 0.2)"
+  const redBorderColor = "rgb(247, 70, 74)"
+  let temperatureBackgroundColor
+  let temperatureBorderColor
+  if (thresholdTemperatureData < currentTemperatureData) {
+    temperatureBackgroundColor = redBackgroundColor
+    temperatureBorderColor = redBorderColor
+  } else {
+    temperatureBackgroundColor = greenBackgroundColor
+    temperatureBorderColor = greenBorderColor
+  }
   const ctx = $('<canvas/>', {
     'class': 'systemSummaryChart',
     id: 'systemSummaryChart'
@@ -151,10 +169,19 @@ function drawSystemSummaryChart(systemComponents) {
     "labels": nameLabels,
     "datasets": [{
       "label": "Safe Temperature Threshold (℃)",
-      "data": temperatureData,
+      "data": thresholdTemperatureData,
       "fill": false,
+      "yAxisID": "y-axis-1",
       "backgroundColor": "rgba(54, 162, 235, 0.2)",
       "borderColor": "rgb(54, 162, 235)",
+      "borderWidth": 1
+    }, {
+      "label": "Current Temperature (℃)",
+      "yAxisID": "y-axis-2",
+      "data": currentTemperatureData,
+      "fill": false,
+      "backgroundColor": temperatureBackgroundColor,
+      "borderColor": temperatureBorderColor,
       "borderWidth": 1
     }]
   }
@@ -166,19 +193,27 @@ function drawSystemSummaryChart(systemComponents) {
       responsive: true,
       title: {
         display: true,
-        text: 'System Components - Safe Temperature Threshold'
+        text: 'System Component Temperature (℃)'
       },
       tooltips: {
         mode: 'index',
-        intersect: false
+        intersect: true
       },
       responsive: true,
       scales: {
-        xAxes: [{
-          stacked: true,
-        }],
         yAxes: [{
-          stacked: true
+          type: 'linear',
+          display: true,
+          position: 'left',
+          id: 'y-axis-1',
+        }, {
+          type: 'linear',
+          display: true,
+          position: 'right',
+          id: 'y-axis-2',
+          gridLines: {
+            drawOnChartArea: false
+          }
         }]
       }
     }
