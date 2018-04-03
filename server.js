@@ -34,7 +34,7 @@ app.get('/', (request, res) => {
   res.status('200').json()
 })
 
-app.use('/api/users/', usersRouter)
+app.use('/api/user/', usersRouter)
 app.use('/api/auth/', authRouter)
 
 app.use('/api/systemcomponent/', componentRouter)

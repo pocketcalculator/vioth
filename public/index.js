@@ -616,7 +616,7 @@ function apiFailure(error) {
 function addUser(userData, callback) {
   console.log("running addUser...")
   const settings = {
-    url: '/api/users',
+    url: '/api/user',
     data: JSON.stringify(userData),
     contentType: 'application/json',
     dataType: 'json',
