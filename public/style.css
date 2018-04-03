@@ -39,11 +39,7 @@ body * {
 .systemComponentWindow {
   border: dotted green 1px;
   width: 300px;
+  height: 200px;
   margin: 3px;
   padding: 4px;
-}
-
-.systemComponentGraph {
-  height: 200px !important;
-  width: 296px !important;
 }

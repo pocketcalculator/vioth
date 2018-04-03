@@ -15,8 +15,13 @@ const {
   DATABASE_URL
 } = require('../config')
 
-
 chai.use(chaiHttp)
+
+let authToken
+const username = 'testUser'
+const password = 'testPassword'
+
+
 
 // used to put randomish documents in db
 // so we have data to work with and assert about.
@@ -62,19 +67,23 @@ describe('System Components API resource', function() {
   // `seedRestaurantData` and `tearDownDb` each return a promise,
   // so we return the value returned by these function calls.
   before(function() {
-    return runServer(DATABASE_URL);
-  });
-
-  beforeEach(function() {
-    return seedSystemComponentsData();
-  });
-
-  afterEach(function() {
-    return tearDownDb();
-  });
+    return runServer(DATABASE_URL)
+    .then(function() {
+      return chai.request(app).post('/api/user').send({username,password})
+    })
+    .then(function() {
+      return chai.request(app).post('/api/auth/login').send({username,password})
+    })
+    .then(function(res) {
+      authToken = res.body.authToken
+      return seedSystemComponentsData()
+    })
+  })
 
   after(function() {
-    return closeServer();
+    return closeServer().then(function() {
+      return tearDownDb()
+    })
   })
 
   describe('GET static endpoint', function() {
@@ -127,6 +136,7 @@ describe('System Components API resource', function() {
       }
       return chai.request(app)
         .post('/api/systemcomponent')
+        .set('Authorization',`Bearer ${authToken}`)
         .send(newItem)
         .then(function(res) {
           expect(res).to.have.status(201);
@@ -160,6 +170,7 @@ describe('System Components API resource', function() {
           // data we sent
           return chai.request(app)
             .put(`/api/systemcomponent/${systemcomponent.id}`)
+            .set('Authorization',`Bearer ${authToken}`)
             .send(updateData)
         })
         .then(function(res) {
@@ -190,6 +201,7 @@ describe('System Components API resource', function() {
         .then(function(_res) {
           res = _res
           return chai.request(app).delete(`/api/systemcomponent/${res.id}`)
+          .set('Authorization',`Bearer ${authToken}`)
         })
         .then(function(res) {
           expect(res).to.have.status(204)
