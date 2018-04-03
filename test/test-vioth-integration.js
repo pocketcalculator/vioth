@@ -81,8 +81,8 @@ describe('System Components API resource', function() {
   })
 
   after(function() {
-    return closeServer().then(function() {
-      return tearDownDb()
+    return tearDownDb().then(function() {
+      return closeServer()
     })
   })
 
