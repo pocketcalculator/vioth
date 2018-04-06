@@ -58,7 +58,7 @@ router.post('/', [jwtAuth, jsonParser], (req, res) => {
     })
     .then(systemComponent => {
       const component = systemComponent.serialize()
-      req.app.io.broadcast('Component Added', component)
+      req.app.io.broadcast.emit('Component Added', component)
       res.status(201).json(component)
     })
     .catch(err => {
@@ -103,7 +103,7 @@ router.put('/:id', [jwtAuth, jsonParser], (req, res) => {
     .findByIdAndUpdate(req.params.id, updateOptions)
     .then(systemComponent => {
       const component = systemComponent.serialize()
-      req.app.io.broadcast('Component Modified', component)
+      req.app.io.broadcast.emit('Component Modified', component)
       res.status(204).end()
     })
     .catch(err => res.status(500).json({
@@ -116,7 +116,7 @@ router.delete('/:id', [jwtAuth, jsonParser], (req, res) => {
     .findByIdAndRemove(req.params.id)
     .then(systemComponent => {
       const component = systemComponent.serialize()
-      req.app.io.broadcast('Component Deleted', component)
+      req.app.io.broadcast.emit('Component Deleted', component)
       res.status(204).end()
     })
     .catch(err => res.status(500).json({
