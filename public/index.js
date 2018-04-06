@@ -136,6 +136,12 @@ function displaySystemSummaryChart(systemComponents) {
 // This function renders the systemSummary Chart.js graph
 function drawSystemSummaryChart(systemComponents) {
   console.log("Creating the system components summary chart...")
+  const greenBackgroundColor = "rgba(70, 191, 189, 0.2)"
+  const greenBorderColor = "rgb(70, 191, 189)"
+  const redBackgroundColor = "rgba(247, 70, 74, 0.2)"
+  const redBorderColor = "rgb(247, 70, 74)"
+  const blueBorderColor = "rgb(54, 162, 235)"
+  const blueBackgroundColor = "rgba(54, 162, 235, 0.2)"
   const nameLabels = systemComponents.map(function(systemComponent) {
     return systemComponent.name
   })
@@ -147,19 +153,32 @@ function drawSystemSummaryChart(systemComponents) {
      return systemComponent.readings[systemComponent.readings.length - 1].temperature
    }
   })
-  const greenBackgroundColor = "rgba(70, 191, 189, 0.2)"
-  const greenBorderColor = "rgb(70, 191, 189)"
-  const redBackgroundColor = "rgba(247, 70, 74, 0.2)"
-  const redBorderColor = "rgb(247, 70, 74)"
-  let temperatureBackgroundColor
-  let temperatureBorderColor
-  if (thresholdTemperatureData < currentTemperatureData) {
-    temperatureBackgroundColor = redBackgroundColor
-    temperatureBorderColor = redBorderColor
-  } else {
-    temperatureBackgroundColor = greenBackgroundColor
-    temperatureBorderColor = greenBorderColor
-  }
+  const temperatureBackgroundColor = systemComponents.map(function(systemComponent) {
+    if (systemComponent.readings.length) {
+      if (systemComponent.readings[systemComponent.readings.length - 1].temperature >= systemComponent.safeTempThreshold) {
+       return redBackgroundColor
+     }
+     else {
+       return greenBackgroundColor
+     }
+    }
+  })
+  const temperatureBorderColor = systemComponents.map(function(systemComponent) {
+    if (systemComponent.readings.length) {
+      if (systemComponent.readings[systemComponent.readings.length - 1].temperature >= systemComponent.safeTempThreshold) {
+       return redBorderColor
+     }
+     else {
+       return greenBorderColor
+     }
+    }
+  })
+  const tempThresholdBorderColor = systemComponents.map(function(systemComponent) {
+    return blueBorderColor
+  })
+  const tempThresholdBackgroundColor = systemComponents.map(function(systemComponent) {
+    return blueBackgroundColor
+  })
   const ctx = $('<canvas/>', {
     'class': 'systemSummaryChart',
     id: 'systemSummaryChart'
@@ -171,13 +190,11 @@ function drawSystemSummaryChart(systemComponents) {
       "label": "Safe Temperature Threshold (℃)",
       "data": thresholdTemperatureData,
       "fill": false,
-      "yAxisID": "y-axis-1",
-      "backgroundColor": "rgba(54, 162, 235, 0.2)",
-      "borderColor": "rgb(54, 162, 235)",
+      "backgroundColor": tempThresholdBackgroundColor,
+      "borderColor": tempThresholdBorderColor,
       "borderWidth": 1
     }, {
       "label": "Current Temperature (℃)",
-      "yAxisID": "y-axis-2",
       "data": currentTemperatureData,
       "fill": false,
       "backgroundColor": temperatureBackgroundColor,
@@ -198,23 +215,6 @@ function drawSystemSummaryChart(systemComponents) {
       tooltips: {
         mode: 'index',
         intersect: true
-      },
-      responsive: true,
-      scales: {
-        yAxes: [{
-          type: 'linear',
-          display: true,
-          position: 'left',
-          id: 'y-axis-1',
-        }, {
-          type: 'linear',
-          display: true,
-          position: 'right',
-          id: 'y-axis-2',
-          gridLines: {
-            drawOnChartArea: false
-          }
-        }]
       }
     }
   }
