@@ -58,7 +58,7 @@ router.post('/', [jwtAuth, jsonParser], (req, res) => {
     })
     .then(systemComponent => {
       const component = systemComponent.serialize()
-      req.app.io.emit('Component Added', component)
+      req.app.io.broadcast('Component Added', component)
       res.status(201).json(component)
     })
     .catch(err => {
@@ -101,7 +101,11 @@ router.put('/:id', [jwtAuth, jsonParser], (req, res) => {
   SystemComponent
     // all key/value pairs in toUpdate will be updated -- that's what `$set` does
     .findByIdAndUpdate(req.params.id, updateOptions)
-    .then(systemComponent => res.status(204).end())
+    .then(systemComponent => {
+      const component = systemComponent.serialize()
+      req.app.io.broadcast('Component Modified', component)
+      res.status(204).json(component)
+    })
     .catch(err => res.status(500).json({
       message: 'Internal server error'
     }))
@@ -110,7 +114,11 @@ router.put('/:id', [jwtAuth, jsonParser], (req, res) => {
 router.delete('/:id', [jwtAuth, jsonParser], (req, res) => {
   SystemComponent
     .findByIdAndRemove(req.params.id)
-    .then(systemComponent => res.status(204).end())
+    .then(systemComponent => {
+      const component = systemComponent.serialize()
+      req.app.io.broadcast('Component Deleted', component)
+      res.status(204).json(component)
+    })
     .catch(err => res.status(500).json({
       message: 'Internal server error'
     }))
