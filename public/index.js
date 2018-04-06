@@ -589,7 +589,7 @@ function handleCancelButton() {
 
 function setUpSocketListener() {
   const socket = io()
-  socket.on('Component Added', getAndDisplaySystemComponentGroupStatusScreen)
+  socket.on('Components Updated', getAndDisplaySystemComponentGroupStatusScreen)
 }
 
 function setupEventHandlers() {
