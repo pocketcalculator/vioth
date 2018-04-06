@@ -104,7 +104,7 @@ router.put('/:id', [jwtAuth, jsonParser], (req, res) => {
     .then(systemComponent => {
       const component = systemComponent.serialize()
       req.app.io.broadcast('Component Modified', component)
-      res.status(204).json(component)
+      res.status(204).end()
     })
     .catch(err => res.status(500).json({
       message: 'Internal server error'
@@ -117,7 +117,7 @@ router.delete('/:id', [jwtAuth, jsonParser], (req, res) => {
     .then(systemComponent => {
       const component = systemComponent.serialize()
       req.app.io.broadcast('Component Deleted', component)
-      res.status(204).json(component)
+      res.status(204).end()
     })
     .catch(err => res.status(500).json({
       message: 'Internal server error'
