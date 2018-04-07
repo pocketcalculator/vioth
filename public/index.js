@@ -1,110 +1,10 @@
 const SYSTEMCOMPONENTURL = '/api/systemcomponent'
 let jwt
 
-/**
- * Code to generate a v4 UUID
-
-function asHex(value) {
-  return Array.from(value).map(i => ('00' + i.toString(16)).slice(-2)).join('');
-}
-
-function getRandomBytes(size) {
-  if ((typeof Uint8Array == 'function') && window.crypto) {
-    let buffer = new Uint8Array(size);
-    return window.crypto.getRandomValues(buffer);
-  }
-  return Array.from(new Array(size), () => Math.random() * 255 | 0);
-}
-
-/*
-function generateUuid() {
-  const version = 0b01000000;
-  const clockSeqHiAndReserved = getRandomBytes(1);
-  const timeHiAndVersion = getRandomBytes(2);
-  clockSeqHiAndReserved[0] &= 0b00111111 | 0b10000000;
-  timeHiAndVersion[0] &= 0b00001111 | version;
-  return [
-    asHex(getRandomBytes(4)), // time-low
-    '-',
-    asHex(getRandomBytes(2)), // time-mid
-    '-',
-    asHex(timeHiAndVersion), // time-high-and-version
-    '-',
-    asHex(clockSeqHiAndReserved), // clock-seq-and-reserved
-    asHex(getRandomBytes(1)), // clock-seq-loq
-    '-',
-    asHex(getRandomBytes(6)) // node
-  ].join('');
-}
-*/
-
 function StorageException(message) {
   this.message = message
   this.name = "StorageException"
 }
-
-/**
- * Building a model to store devices which will be managed via CRUD
-
-const SYSTEMCOMPONENTS = {
-  create: function (name, safeTempThreshold, isHuman) {
-    console.log(`creating a new system component`)
-    const item = {
-      name,
-      isHuman,
-      safeTempThreshold,
-      id: generateUuid(),
-      installedDate: Date.now(),
-      readings: []
-    }
-    this.items.push(item)
-    return item
-  },
-  get: function () {
-    console.log(`Retrieving system component list...`)
-    return this.items
-  },
-  delete: function (itemId) {
-    console.log(`Deleting system component \`${itemId}\``)
-    const index = this.items.findIndex(function (item) {
-      return itemId == item.id
-    })
-    this.items.splice(index, 1)
-  },
-  update: function (updatedItem) {
-    console.log(`Running update...`)
-    console.log(updatedItem)
-    // Why does this below result in just the ID number??
-    const {
-      id
-    } = updatedItem
-    const index = this.items.findIndex(function (item) {
-      return item.id == id
-    })
-    if (index < 0) {
-      // when this condition happens, the exception below is not being thrown
-      throw StorageException(`\`${id}\` doesn't exist`)
-    }
-    console.log(this.items[index])
-    console.log(updatedItem)
-    let itemsToChange = this.items[index]
-    Object.keys(updatedItem).forEach(function (key) {
-      console.log(`key is ${key}`)
-      console.log(`value is ${updatedItem[key]}`)
-      if (key == 'readings') {
-        console.log('push new readings onto items')
-        console.log(itemsToChange.readings)
-        console.log(updatedItem.readings)
-        itemsToChange[key].push(updatedItem[key])
-      } else {
-        itemsToChange[key] = updatedItem[key]
-      }
-    })
-    return updatedItem
-  },
-  items: []
-}
-*/
 
 function renderNavigation(user = null){
   return `<ul>
@@ -210,11 +110,23 @@ function drawSystemSummaryChart(systemComponents) {
       responsive: true,
       title: {
         display: true,
-        text: 'System Component Temperature (℃)'
+        text: 'System Component Operations Status'
       },
       tooltips: {
         mode: 'index',
         intersect: true
+      },
+      scales: {
+        yAxes: [{
+          scaleLabel: {
+           display: true,
+           labelString: "Temperature (℃)",
+          },
+          ticks: {
+            min: -100,
+            max: 100
+          }
+        }]
       }
     }
   }
@@ -231,23 +143,28 @@ function drawComponentGraph(systemComponent, user = null) {
   })
   //document.getElementById(`${chartName}`).getContext('2d')
   const data = {
-    // Labels should be Date objects
-    //    labels: [new Date(2017, 08, 16), new Date(2017, 08, 17), new Date(2017, 08, 18)],
-    //  code below is not working using hard-coded dates instead
     labels: systemComponent.readings.map(function(reading) {
       return reading.date
     }),
     datasets: [{
       fill: false,
-      label: 'Temperature',
+      label: 'Reading',
       //      data: [20, 25, 34],
       // code below is not working, using hard-coded values instead
       data: systemComponent.readings.map(function(reading) {
         return reading.temperature
       }),
-      borderColor: '#fe8b36',
-      backgroundColor: '#fe8b36',
+      borderColor: 'rgb(54, 162, 235)',
+      backgroundColor: 'rgb(54, 162, 235)',
       lineTension: 0,
+    }, {
+      fill: false,
+      label: 'Threshold',
+      data: systemComponent.readings.map(function(reading) {
+        return systemComponent.safeTempThreshold
+      }),
+      borderColor: 'rgb(247, 70, 74)',
+      backgroundColor: 'rgb(247, 70, 74)'
     }]
   }
   const options = {
@@ -273,7 +190,7 @@ function drawComponentGraph(systemComponent, user = null) {
           display: true,
           scaleLabel: {
             display: true,
-            labelString: 'Temperature',
+            labelString: 'Temperature (℃)',
           }
         }]
       }
@@ -362,7 +279,7 @@ function handleLogInshow() {
   })
 }
 
-// This will be a loop which joins all system components in the model as LIs in a UL and displays it
+// Loop which joins all system components in the model as LIs in a UL and displays it
 function renderSystemComponentGroupStatusScreen(systemComponents, user = null) {
   console.log("Building System Component Group Status Screen...")
   console.log(`systemComponents: ${systemComponents}`)
@@ -370,7 +287,6 @@ function renderSystemComponentGroupStatusScreen(systemComponents, user = null) {
     return $('<li></li>').append(renderSystemComponent(systemComponent))
   })
   const systemComponentList = $('<ul></ul>').append(systemComponentListItems)
-  // should not be doing appends within the render functions, just spit out text
   return systemComponentList
 }
 
@@ -424,18 +340,6 @@ function handleAddComponentFormSubmit() {
     postSystemComponent(systemComponent, getAndDisplaySystemComponentGroupStatusScreen)
   })
 }
-
-/*
-function handleUpdateComponentShow() {
-  console.log("waiting for someone to click the update component item...")
-  $('nav').on('click', '#updateSystemComponent', function(event) {
-    $('main').append(`
-      <div class="updateSystemComponent">
-      </div>`)
-    $('.updateSystemComponent').html(renderUpdateComponentScreen())
-  })
-}
-*/
 
 function renderUpdateComponentScreen(systemComponent, user = null) {
   return `
@@ -521,7 +425,6 @@ function renderAddReadingScreen(systemComponent, user = null) {
 function handleAddReadingFormSubmit() {
   $('main').on('submit', '.addReadingForm', function(event) {
     event.preventDefault()
-    //    const formData = $( ":input" ).serializeArray()
     const componentUpdate = {
       id: $(event.currentTarget).data('id'),
       readings: {
