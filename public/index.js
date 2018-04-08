@@ -9,18 +9,16 @@ function StorageException(message) {
 function renderNavigation(user = null){
   return `<ul>
     ${!user? `<li>
-      <a id="register">register</a>
+      <a id="login">Log In</a>
     </li>
     <li>
-      <a id="login">log in</a>
+      <a id="register">Register</a>
     </li>`: `<li>
-      <a id="logout">log out</a>
+      <a id="logout">Log Out</a>
     </li>`}
-    <li>
-      <a href="#about">about</a>
-    </li>
     ${user? `<li>
-      <a id="addSystemComponent">add component</a>
+      <a id="status" href="#status">Status</a>
+      <a id="addSystemComponent">Add Component</a>
     </li>`: ''}
   </ul>`
 }
