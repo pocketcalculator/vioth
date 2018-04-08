@@ -17,7 +17,7 @@ function renderNavigation(user = null){
       <a id="logout">Log Out</a>
     </li>`}
     ${user? `<li>
-      <a id="status" href="#status">Status</a>
+      <a id="status" href="#componentGroupArea">Status</a>
       <a id="addSystemComponent">Add Component</a>
     </li>`: ''}
   </ul>`
@@ -170,8 +170,8 @@ function drawComponentGraph(systemComponent, user = null) {
     data: data,
     options: {
       fill: false,
-      maintainAspectRatio: false,
-      responsive: false,
+      maintainAspectRatio: true,
+      responsive: true,
       scales: {
         xAxes: [{
           type: 'time',
@@ -368,7 +368,7 @@ function handleRegisterFormSubmit() {
       password: $('#password').val()
     }
     console.log(registerData)
-    $('.registerForm').remove()
+    $('.register').remove()
     addUser(registerData, getAndDisplaySystemComponentGroupStatusScreen)
   })
 }
@@ -432,7 +432,7 @@ function handleAddReadingFormSubmit() {
     }
     console.log('component updates for readings...')
     console.log(componentUpdate)
-    $('.addReadingForm').remove()
+    $('.addReading').remove()
     putSystemComponent(componentUpdate, getAndDisplaySystemComponentGroupStatusScreen)
   })
 }
