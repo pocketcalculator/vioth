@@ -39,17 +39,6 @@ header a {
   text-decoration: none;
 }
 
-.deviceStatusArea {
-  border: dotted blue 1px;
-  font-size: 0;
-}
-
-.deviceWindow {
-  width: 33.3%;
-  display: inline-block;
-  border: dotted green 1px;
-}
-
 .systemSummary {
   background-color: white;
   height: 500px;
@@ -57,32 +46,38 @@ header a {
   border: solid rgba(255,0,0,0.25) 1px;
   margin-left: auto;
   margin-right: auto;
-  -webkit-box-shadow: 0px 2px 11px -3px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 2px 11px -3px rgba(0,0,0,0.75);
-  box-shadow: 0px 2px 11px -3px rgba(0,0,0,0.75);
 }
 
 .systemSummaryChartArea {
   height: 250px;
   width: 95%;
   border: dotted black 1px;
-  margin-top: 50px;
+  margin-top: 75px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.componentGroupArea ul li {
-  display: inline-block;
+.componentGroupArea {
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.componentGroupArea li {
+.componentGroupArea ul {
+  padding-left: 0;
+}
+
+.componentGroupArea ul li {
+  display: inline;
 }
 
 .systemComponentWindow {
   background-color: white;
   border: solid rgba(100,100,100,0.25) 1px;
   border-radius: 3px;
-  height: 250px;
+  -webkit-box-shadow: 6px 7px 13px -5px rgba(0,0,0,0.75);
+  -moz-box-shadow: 6px 7px 13px -5px rgba(0,0,0,0.75);
+  box-shadow: 6px 7px 11px -5px rgba(0,0,0,0.75);
   margin: 3px;
   padding: 4px;
 }
