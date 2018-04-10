@@ -170,7 +170,7 @@ function drawComponentGraph(systemComponent, user = null) {
     data: data,
     options: {
       fill: false,
-      maintainAspectRatio: true,
+      maintainAspectRatio: false,
       responsive: true,
       scales: {
         xAxes: [{

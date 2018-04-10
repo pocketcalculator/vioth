@@ -58,17 +58,14 @@ header a {
 }
 
 .componentGroupArea {
-  max-width: 90%;
+  max-width: 90vw;
   margin-left: auto;
   margin-right: auto;
 }
 
 .componentGroupArea ul {
   padding-left: 0;
-}
-
-.componentGroupArea ul li {
-  display: inline;
+  list-style-type: none;
 }
 
 .systemComponentWindow {
@@ -78,8 +75,11 @@ header a {
   -webkit-box-shadow: 6px 7px 13px -5px rgba(0,0,0,0.75);
   -moz-box-shadow: 6px 7px 13px -5px rgba(0,0,0,0.75);
   box-shadow: 6px 7px 11px -5px rgba(0,0,0,0.75);
-  margin: 3px;
+  margin-left: 0;
+  margin-right: 0;
   padding: 4px;
+  min-height: 33vh;
+  margin-bottom: 1vh;
 }
 
 #login {
