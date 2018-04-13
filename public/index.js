@@ -232,7 +232,7 @@ function renderSystemComponent(systemComponent, user = null) {
 }
 
 function renderRegisterScreen() {
-  return `<form class="registerForm">
+  return `<form class="registerForm overlay-content">
     <fieldset>
       <legend>Register:</legend>
       <input type="text" name="firstName" id="firstName" placeholder="First Name" required>
@@ -261,9 +261,11 @@ function handleRegistershow() {
   console.log("Waiting for someone to click the register item...")
   $('nav').on('click', '#register', function(event) {
     $('main').append(`
-      <div class="register">
+      <div id="registrationForm" class="register overlay">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
       </div>`)
     $('.register').html(renderRegisterScreen())
+    document.getElementById("registrationForm").style.height = "100%"
   })
 }
 
@@ -475,9 +477,11 @@ function handleDeleteComponentButton() {
 
 function handleLogout() {
   $('nav').on('click', '#logout', function(event) {
+    console.log("Logging out...")
     user = null
-    renderNavigation()
-    getSystemComponents(displaySystemComponentGroupStatusScreen)
+    jwt = null
+    displayNavigation()
+    $('#componentGroupArea').empty()
   })
 }
 
@@ -506,6 +510,7 @@ function setupEventHandlers() {
   handleAddReadingButton()
   handleAddReadingFormSubmit()
   handleDeleteComponentButton()
+  handleLogout()
   handleCancelButton()
 }
 
@@ -547,9 +552,9 @@ function loginUser(userData, callback) {
       callback()
     },
     failure: function(data) {
-      console.log("login failed.")
-      console.log(userData)
-      $('.login').remove()
+//      console.log("login failed.")
+//      console.log(userData)
+//      $('.login').append('<section>You have entered an invalid username or password.</section>')
       apiFailure
     }
   }

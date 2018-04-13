@@ -42,7 +42,7 @@ header a {
 .systemSummary {
   background-color: white;
   height: 500px;
-  width: 90%;
+  width: 90vw;
   border: solid rgba(255,0,0,0.25) 1px;
   margin-left: auto;
   margin-right: auto;
@@ -50,7 +50,7 @@ header a {
 
 .systemSummaryChartArea {
   height: 250px;
-  width: 95%;
+  width: 90%;
   border: dotted black 1px;
   margin-top: 75px;
   margin-left: auto;
@@ -77,9 +77,50 @@ header a {
   box-shadow: 6px 7px 11px -5px rgba(0,0,0,0.75);
   margin-left: 0;
   margin-right: 0;
-  padding: 4px;
   min-height: 33vh;
+  max-height: 50vh;
   margin-bottom: 1vh;
+}
+
+.overlay {
+    height: 0%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.3);
+    overflow-y: hidden;
+    transition: 3.0s;
+}
+
+.overlay-content {
+    position: relative;
+    top: 25%;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block;
+    transition: 3.0s;
+}
+
+.overlay a:hover, .overlay a:focus {
+    color: #f1f1f1;
+}
+
+.overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
 }
 
 #login {
@@ -104,4 +145,13 @@ header a {
   padding: 8px;
   text-decoration: none;
   color: black;
+}
+
+@media screen and (max-height: 450px) {
+  .overlay {overflow-y: auto;}
+  .overlay a {font-size: 20px}
+  .overlay .closebtn {
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
 }
