@@ -246,7 +246,7 @@ function renderRegisterScreen() {
 }
 
 function renderLogInScreen() {
-  return `<form class="logInForm">
+  return `<form class="logInForm overlay-content">
     <fieldset>
       <legend>Log In:</legend>
       <input type="text" name="username" id="username" placeholder="username" required>
@@ -273,9 +273,11 @@ function handleLogInshow() {
   console.log("Waiting for someone to click the log in item...")
   $('nav').on('click', '#login', function(event) {
     $('main').append(`
-      <div class="login">
+      <div id="loginForm" class="login overlay">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
       </div>`)
     $('.login').html(renderLogInScreen())
+    document.getElementById("loginForm").style.height = "100%"
   })
 }
 
@@ -302,15 +304,17 @@ function handleAddComponentShow() {
   console.log("waiting for someone to click the add component item...")
   $('nav').on('click', '#addSystemComponent', function(event) {
     $('main').append(`
-      <div class="addSystemComponent">
+      <div id="addSystemComponentForm" class="addSystemComponent overlay">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
       </div>`)
     $('.addSystemComponent').html(renderAddComponentScreen())
+    document.getElementById("addSystemComponentForm").style.height = "100%"
   })
 }
 
 function renderAddComponentScreen(user = null) {
   return `
-  <form class="addSystemComponentForm">
+  <form class="addSystemComponentForm overlay-content">
     <fieldset>
       <legend>Add A Device For Management:</legend>
       <input type="text" name="name" id="name" placeholder="Name" required>
@@ -343,7 +347,7 @@ function handleAddComponentFormSubmit() {
 
 function renderUpdateComponentScreen(systemComponent, user = null) {
   return `
-  <form class="updateSystemComponentForm" data-id="${systemComponent.id}">
+  <form class="updateSystemComponentForm overlay-content" data-id="${systemComponent.id}">
     <fieldset>
       <legend>Modify Device "${systemComponent.id}"</legend>
       <input type="text" name="name" id="name" placeholder="Name" value="${systemComponent.name}">
@@ -411,7 +415,7 @@ function handleUpdateComponentFormSubmit() {
 
 function renderAddReadingScreen(systemComponent, user = null) {
   return `
-  <form class="addReadingForm" data-id="${systemComponent.id}">
+  <form class="addReadingForm overlay-content" data-id="${systemComponent.id}">
     <fieldset>
       <legend>Add A Device Reading for "${systemComponent.id}":</legend>
       <input type="text" name="temperature" id="temperature" placeholder="Temperature">
@@ -441,9 +445,11 @@ function handleAddReadingFormSubmit() {
 
 function displayUpdateComponentScreen(systemComponent) {
   $('main').append(`
-    <div class="updateSystemComponent">
+    <div id="updateComponentForm" class="updateSystemComponent overlay">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     </div>`)
   $('.updateSystemComponent').html(renderUpdateComponentScreen(systemComponent))
+  document.getElementById("updateComponentForm").style.height = "100%"
 }
 
 function handleEditComponentButton() {
@@ -455,9 +461,11 @@ function handleEditComponentButton() {
 
 function displayAddReadingScreen(systemComponent) {
   $('main').append(`
-    <div class="addReading">
+    <div id="addReadingForm" class="addReading overlay">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     </div>`)
   $('.addReading').append(renderAddReadingScreen(systemComponent))
+  document.getElementById("addReadingForm").style.height = "100%"
 }
 
 function handleAddReadingButton() {
