@@ -232,29 +232,33 @@ function renderSystemComponent(systemComponent, user = null) {
 }
 
 function renderRegisterScreen() {
-  return `<form class="registerForm overlay-content">
-    <fieldset>
-      <legend>Register:</legend>
-      <input type="text" name="firstName" id="firstName" placeholder="First Name" required>
-      <input type="text" name="lastName" id="lastName" placeholder="Last Name" required>
-      <input type="text" name="username" id="username" placeholder="User ID" required>
-      <input type="text" name="password" id="password" placeholder="Password" required>
-      <input type="submit" value="SUBMIT" id="submit"></input>
-      <button type="button" id="cancelButton">CANCEL</button>
-    </fieldset>
-  </form>`
+  return `<div class="register overlay-content">
+    <form class="registerForm">
+      <fieldset>
+        <legend>Register:</legend>
+        <input type="text" name="firstName" id="firstName" placeholder="First Name" required>
+        <input type="text" name="lastName" id="lastName" placeholder="Last Name" required>
+        <input type="text" name="username" id="username" placeholder="User ID" required>
+        <input type="text" name="password" id="password" placeholder="Password" required>
+        <input type="submit" value="REGISTER" id="submit"></input>
+        <button type="button" id="cancelButton">CANCEL</button>
+      </fieldset>
+    </form>
+</div>`
 }
 
 function renderLogInScreen() {
-  return `<form class="logInForm overlay-content">
-    <fieldset>
-      <legend>Log In:</legend>
-      <input type="text" name="username" id="username" placeholder="username" required>
-      <input type="text" name="password" id="password" placeholder="password" required>
-      <input type="submit" value="SUBMIT" id="submit"></input>
-      <button type="button" id="cancelButton">CANCEL</button>
-    </fieldset>
-  </form>`
+  return `<div class="logIn overlay-content">
+    <form class="logInForm">
+      <fieldset>
+        <legend>Log In:</legend>
+        <input type="text" name="username" id="username" placeholder="username" required>
+        <input type="text" name="password" id="password" placeholder="password" required>
+        <input type="submit" value="LOG IN" id="submit"></input>
+        <button type="button" id="cancelButton">CANCEL</button>
+      </fieldset>
+    </form>
+</div>`
 }
 
 function handleRegistershow() {
@@ -324,7 +328,7 @@ function renderAddComponentScreen(user = null) {
         <option value="true">Human</option>
       </select>
       <input type="text" name="safeTempThreshold" id="safeTempThreshold" placeholder="Safe Temperature Threshold" required>
-      <input type="submit" value="ADD" id="submit"></input>
+      <input type="submit" value="ADD COMPONENT" id="submit"></input>
       <button type="button" id="cancelButton">CANCEL</button>
     </fieldset>
   </form>
@@ -357,7 +361,7 @@ function renderUpdateComponentScreen(systemComponent, user = null) {
         <option value="true"${systemComponent.isHuman ? ' selected' : ''}>Human</option>
       </select>
       <input type="text" name="safeTempThreshold" id="safeTempThreshold" placeholder="Safe Temperature Threshold" value="${systemComponent.safeTempThreshold}">
-      <input type="submit" value="UPDATE" id="submit"></input>
+      <input type="submit" value="UPDATE COMPONENT" id="submit"></input>
       <button type="button" id="cancelButton">CANCEL</button>
     </fieldset>
   </form>
@@ -419,7 +423,7 @@ function renderAddReadingScreen(systemComponent, user = null) {
     <fieldset>
       <legend>Add A Device Reading for "${systemComponent.id}":</legend>
       <input type="text" name="temperature" id="temperature" placeholder="Temperature">
-      <input type="submit" value="UPDATE" id="submit"></input>
+      <input type="submit" value="ADD READING" id="submit"></input>
       <button type="button" id="cancelButton">CANCEL</button>
     </fieldset>
   </form>
