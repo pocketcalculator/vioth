@@ -499,7 +499,7 @@ function handleLogout() {
 
 function handleCancelButton() {
   $('main').on('click', '#cancelButton', function(event) {
-    $(this).closest('div').remove()
+    $(this).closest('div').parent('div').remove()
     getAndDisplaySystemComponentGroupStatusScreen()
   })
 }

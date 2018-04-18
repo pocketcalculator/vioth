@@ -127,11 +127,17 @@ select, input[type="text"] {
 }
 
 .overlay-content {
+    background-color: white;
     position: relative;
     top: 25%;
-    width: 100%;
+    width: 50%;
     text-align: center;
     margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 3px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .overlay a {
