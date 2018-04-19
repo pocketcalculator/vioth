@@ -238,9 +238,9 @@ function renderRegisterScreen() {
         <legend>Register:</legend>
         <input type="text" name="firstName" id="firstName" placeholder="First Name" required>
         <input type="text" name="lastName" id="lastName" placeholder="Last Name" required>
-        <input type="text" name="username" id="username" placeholder="User ID" required>
+        <input type="text" name="username" id="username" placeholder="Username" required>
         <input type="text" name="password" id="password" placeholder="Password" required>
-        <input type="submit" value="REGISTER" id="submit"></input>
+        <input type="submit" value="SUBMIT" id="submit"></input>
         <button type="button" id="cancelButton">CANCEL</button>
       </fieldset>
     </form>
@@ -317,22 +317,22 @@ function handleAddComponentShow() {
 }
 
 function renderAddComponentScreen(user = null) {
-  return `
-  <form class="addSystemComponentForm overlay-content">
-    <fieldset>
-      <legend>Add A Device For Management:</legend>
-      <input type="text" name="name" id="name" placeholder="Name" required>
-      <select name="isHuman" id="isHuman" required>
-        <option value="">Human or Machine?</option>
-        <option value="false">Machine</option>
-        <option value="true">Human</option>
-      </select>
-      <input type="text" name="safeTempThreshold" id="safeTempThreshold" placeholder="Safe Temperature Threshold" required>
-      <input type="submit" value="ADD COMPONENT" id="submit"></input>
-      <button type="button" id="cancelButton">CANCEL</button>
-    </fieldset>
-  </form>
-  `
+  return `<div class="addComponent overlay-content">
+    <form class="addSystemComponentForm">
+      <fieldset>
+        <legend>Add A Device For Management:</legend>
+        <input type="text" name="name" id="name" placeholder="Name" required>
+        <select name="isHuman" id="isHuman" required>
+          <option value="">Human or Machine?</option>
+          <option value="false">Machine</option>
+          <option value="true">Human</option>
+        </select>
+        <input type="text" name="safeTempThreshold" id="safeTempThreshold" placeholder="Safe Temperature Threshold" required>
+        <input type="submit" value="ADD COMPONENT" id="submit"></input>
+        <button type="button" id="cancelButton">CANCEL</button>
+      </fieldset>
+    </form>
+  </div>`
 }
 
 function handleAddComponentFormSubmit() {
@@ -350,22 +350,22 @@ function handleAddComponentFormSubmit() {
 }
 
 function renderUpdateComponentScreen(systemComponent, user = null) {
-  return `
-  <form class="updateSystemComponentForm overlay-content" data-id="${systemComponent.id}">
-    <fieldset>
-      <legend>Modify Device "${systemComponent.id}"</legend>
-      <input type="text" name="name" id="name" placeholder="Name" value="${systemComponent.name}">
-      <select name="isHuman" id="isHuman">
-        <option value="">Human or Machine?</option>
-        <option value="false"${systemComponent.isHuman ? '' : ' selected'}>Machine</option>
-        <option value="true"${systemComponent.isHuman ? ' selected' : ''}>Human</option>
-      </select>
-      <input type="text" name="safeTempThreshold" id="safeTempThreshold" placeholder="Safe Temperature Threshold" value="${systemComponent.safeTempThreshold}">
-      <input type="submit" value="UPDATE COMPONENT" id="submit"></input>
-      <button type="button" id="cancelButton">CANCEL</button>
-    </fieldset>
-  </form>
-  `
+  return `<div class="updateComponent overlay-content">
+    <form class="updateSystemComponentForm" data-id="${systemComponent.id}">
+      <fieldset>
+        <legend>Modify Device "${systemComponent.id}"</legend>
+        <input type="text" name="name" id="name" placeholder="Name" value="${systemComponent.name}">
+        <select name="isHuman" id="isHuman">
+          <option value="">Human or Machine?</option>
+          <option value="false"${systemComponent.isHuman ? '' : ' selected'}>Machine</option>
+          <option value="true"${systemComponent.isHuman ? ' selected' : ''}>Human</option>
+        </select>
+        <input type="text" name="safeTempThreshold" id="safeTempThreshold" placeholder="Safe Temperature Threshold" value="${systemComponent.safeTempThreshold}">
+        <input type="submit" value="UPDATE COMPONENT" id="submit"></input>
+        <button type="button" id="cancelButton">CANCEL</button>
+      </fieldset>
+    </form>
+  </div>`
 }
 
 function handleRegisterFormSubmit() {
@@ -418,16 +418,16 @@ function handleUpdateComponentFormSubmit() {
 }
 
 function renderAddReadingScreen(systemComponent, user = null) {
-  return `
-  <form class="addReadingForm overlay-content" data-id="${systemComponent.id}">
-    <fieldset>
-      <legend>Add A Device Reading for "${systemComponent.id}":</legend>
-      <input type="text" name="temperature" id="temperature" placeholder="Temperature">
-      <input type="submit" value="ADD READING" id="submit"></input>
-      <button type="button" id="cancelButton">CANCEL</button>
-    </fieldset>
-  </form>
-  `
+  return `<div class="addReading overlay-content">
+    <form class="addReadingForm" data-id="${systemComponent.id}">
+      <fieldset>
+        <legend>Add A Device Reading for "${systemComponent.id}":</legend>
+        <input type="text" name="temperature" id="temperature" placeholder="Temperature">
+        <input type="submit" value="ADD READING" id="submit"></input>
+        <button type="button" id="cancelButton">CANCEL</button>
+      </fieldset>
+    </form>
+  </div>`
 }
 
 function handleAddReadingFormSubmit() {

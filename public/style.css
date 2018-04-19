@@ -42,7 +42,7 @@ header a {
 fieldset {
   border: 0;
   border-radius: 5px;
-  width: 40%;
+  width: 90%;
   margin-left: auto;
   margin-right: auto;
   background-color: white;
@@ -57,7 +57,7 @@ input {
   margin-bottom: 1rem;
   border-bottom: 1px solid #cccccc;
   outline: none;
-  font-size: 15px;
+  font-size: 18px;
 }
 
 select, input[type="text"] {
@@ -182,6 +182,19 @@ select, input[type="text"] {
   padding: 8px;
   text-decoration: none;
   color: black;
+}
+
+#isHuman {
+  font-size: 18px;
+  background-color: white;
+  padding-left: 7px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #cccccc;
+  border-left: none;
+  border-right: none;
+  border-top: none;
 }
 
 @media screen and (max-height: 450px) {
