@@ -7,7 +7,7 @@ function StorageException(message) {
 }
 
 function renderNavigation(user = null){
-  return `<ul>
+  return `<ul class="topnav" id="myTopnav">
     ${!user? `<li>
       <a id="login">Log In</a>
     </li>
@@ -20,7 +20,19 @@ function renderNavigation(user = null){
       <a id="status" href="#componentGroupArea">Status</a>
       <a id="addSystemComponent">Add Component</a>
     </li>`: ''}
+    <li class="icon">
+      <a href="javascript:void(0);" style="font-size:15px;" onclick="mobileMenuRender()">&#9776;</a>
+    </li>
   </ul>`
+}
+
+function mobileMenuRender() {
+    const x = document.getElementById("myTopnav");
+    if (x.className === "topnav") {
+        x.className += " responsive";
+    } else {
+        x.className = "topnav";
+    }
 }
 
 function displayNavigation(user = null) {
