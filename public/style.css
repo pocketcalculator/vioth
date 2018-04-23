@@ -4,11 +4,13 @@ body * {
 
 body {
   background-color: #f6f6f7;
+  font-family: 'Montserrat', sans-serif;
 }
 
 header {
   padding-top: 8px;
   padding-bottom: 8px;
+  height: 65px;
   background-color: #f6f6f7;
 }
 
@@ -16,27 +18,39 @@ header h1 {
   margin-top: 0;
   margin-bottom: 0;
   margin-left: 5%;
-  display: inline-block;
 }
 
 header nav {
  position: absolute;
- top: 25px;
- right: 6%;
+ top: 15px;
+ right: 5%;
 }
 
 header nav ul {
   padding-left: 0;
   margin-top: 0;
   margin-bottom: 0;
+  font-size: 0;
 }
 
 header nav ul li {
   display: inline-block;
+  background-color: #f6f6f7;
+  padding: 14px 16px;
+  font-size: 18px;
+}
+
+header nav ul li:hover {
+  color: red;
 }
 
 header a {
   text-decoration: none;
+  color: black;
+}
+
+header a:hover {
+  color: red;
 }
 
 fieldset {
@@ -64,8 +78,13 @@ select, input[type="text"] {
   width: 100%;
 }
 
+.icon {
+  padding: 0 !important;
+}
+
 .topnav .icon {
     display: none;
+    font-size: 18px;
 }
 
 .loginForm {
@@ -77,8 +96,7 @@ select, input[type="text"] {
 .systemSummary {
   background-color: white;
   height: 500px;
-  width: 90vw;
-  border: solid rgba(255,0,0,0.25) 1px;
+  width: 100vw;
   margin-left: auto;
   margin-right: auto;
 }
@@ -169,8 +187,6 @@ select, input[type="text"] {
 }
 
 #register {
-  border: solid red 1px;
-  color: red;
   padding: 8px;
 }
 
@@ -184,8 +200,6 @@ select, input[type="text"] {
 
 #status {
   padding: 8px;
-  text-decoration: none;
-  color: black;
 }
 
 #isHuman {
@@ -213,7 +227,7 @@ select, input[type="text"] {
 */
 
 /* When the screen is less than 600 pixels wide, hide all links. Show the link that contains should open and close the topnav (.icon) */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 650px) {
  .topnav li {display: none;}
  .topnav li.icon {
    float: right;
@@ -222,7 +236,7 @@ select, input[type="text"] {
 }
 
 /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 650px) {
  .topnav.responsive {position: relative;}
  .topnav.responsive li.icon {
    position: absolute;

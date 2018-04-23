@@ -17,11 +17,13 @@ function renderNavigation(user = null){
       <a id="logout">Log Out</a>
     </li>`}
     ${user? `<li>
-      <a id="status" href="#componentGroupArea">Status</a>
-      <a id="addSystemComponent">Add Component</a>
+        <a id="status" href="#componentGroupArea">Status</a>
+        </li>
+        <li>
+          <a id="addSystemComponent">Add Component</a>
     </li>`: ''}
     <li class="icon">
-      <a href="javascript:void(0);" style="font-size:15px;" onclick="mobileMenuRender()">&#9776;</a>
+      <a href="javascript:void(0);" style="font-size:24px;color:black;" onclick="mobileMenuRender()">&#9776;</a>
     </li>
   </ul>`
 }
