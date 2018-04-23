@@ -1,10 +1,14 @@
-body * {
+* {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
   background-color: #f6f6f7;
   font-family: 'Montserrat', sans-serif;
+  min-width: 320px;
+  min-height: 530px;
 }
 
 header {
@@ -15,7 +19,7 @@ header {
 }
 
 header h1 {
-  margin-top: 0;
+  margin-top: 10px;
   margin-bottom: 0;
   margin-left: 5%;
 }
@@ -94,18 +98,32 @@ select, input[type="text"] {
 }
 
 .systemSummary {
-  background-color: white;
+  background-image: url("http://thinkful.pocketcalculator.io/vioth/vioth-bg-5.jpg");
+  background-size: cover;
+  background-position: cover;
+  overflow: hidden;
   height: 500px;
   width: 100vw;
   margin-left: auto;
   margin-right: auto;
 }
 
+.systemSummaryText {
+  margin-left: 20px;
+  margin-top: 20px;
+  width: 80%;
+}
+
+.systemSummaryText p {
+  margin: 0px;
+}
+
 .systemSummaryChartArea {
+  background-color: white;
   height: 250px;
   width: 90%;
   border: dotted black 1px;
-  margin-top: 75px;
+  margin-top: 50px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -151,10 +169,9 @@ select, input[type="text"] {
 .overlay-content {
     background-color: white;
     position: relative;
-    top: 25%;
+    top: 15%;
     width: 50%;
     text-align: center;
-    margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
     border-radius: 3px;
@@ -213,6 +230,12 @@ select, input[type="text"] {
   border-left: none;
   border-right: none;
   border-top: none;
+}
+
+#tagLine {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 /*
