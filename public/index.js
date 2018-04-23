@@ -23,7 +23,7 @@ function renderNavigation(user = null){
           <a id="addSystemComponent">Add Component</a>
     </li>`: ''}
     <li class="icon">
-      <a href="javascript:void(0);" style="font-size:24px;color:black;" onclick="mobileMenuRender()">&#9776;</a>
+      <a href="javascript:void(0);" style="font-size:24px;color:#fe8723;" onclick="mobileMenuRender()">&#9776;</a>
     </li>
   </ul>`
 }
