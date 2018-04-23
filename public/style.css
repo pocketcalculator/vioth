@@ -91,11 +91,17 @@ select, input[type="text"] {
 
 .icon {
   padding: 0 !important;
+  color: #fe7823;
+}
+
+.icon:hover {
+  text-decoration: none !important;
 }
 
 .topnav .icon {
     display: none;
     font-size: 18px;
+    color: #fe7823;
 }
 
 .loginForm {
@@ -261,6 +267,7 @@ select, input[type="text"] {
 @media screen and (max-width: 670px) {
  .topnav li {display: none;}
  .topnav li.icon {
+   text-decoration: none;
    float: right;
    display: block;
  }
@@ -270,6 +277,7 @@ select, input[type="text"] {
 @media screen and (max-width: 670px) {
  .topnav.responsive {position: relative;}
  .topnav.responsive li.icon {
+   text-decoration: none;
    position: absolute;
    right: 0;
    top: 0;
