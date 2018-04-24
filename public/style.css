@@ -109,7 +109,7 @@ select, input[type="text"] {
 }
 
 .systemSummary {
-  background-image: url("http://thinkful.pocketcalculator.io/vioth/vioth-bg-5.jpg");
+  background-image: url("http://thinkful.pocketcalculator.io/vioth/vioth-bg-7.jpg");
   background-size: cover;
   background-position: cover;
   overflow: hidden;
@@ -123,6 +123,7 @@ select, input[type="text"] {
   margin-left: 20px;
   margin-top: 20px;
   width: 80%;
+  color: #f0f8ff;
 }
 
 .systemSummaryText p {
@@ -133,6 +134,11 @@ select, input[type="text"] {
   background-color: white;
   height: 250px;
   width: 90%;
+  border: solid rgba(100,100,100,0.25) 1px;
+  border-radius: 5px;
+  -webkit-box-shadow: 6px 7px 14px -5px rgba(0,0,0,0.75);
+  -moz-box-shadow: 6px 7px 14px -5px rgba(0,0,0,0.75);
+  box-shadow: 6px 7px 11px -5px rgba(0,0,0,0.75);
   border: dotted black 1px;
   margin-top: 50px;
   margin-left: auto;
@@ -182,7 +188,7 @@ select, input[type="text"] {
     background-color: white;
     position: relative;
     top: 15%;
-    width: 50%;
+    width: 80%;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
