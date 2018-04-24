@@ -236,7 +236,7 @@ function renderSystemComponent(systemComponent, user = null) {
     'value': 'DELETE',
     'text': 'DELETE'
   })
-  div.append(`<caption>${systemComponent.name} ${systemComponent.id}</caption>`)
+  div.append(`<caption><section id="componentWindowName">${systemComponent.name}</section><section id="componentWindowId">${systemComponent.id}</section></caption>`)
   const graph = drawComponentGraph(systemComponent)
   div.append(graph)
   div.append(editButton)
@@ -367,7 +367,7 @@ function renderUpdateComponentScreen(systemComponent, user = null) {
   return `<div class="updateComponent overlay-content">
     <form class="updateSystemComponentForm" data-id="${systemComponent.id}">
       <fieldset>
-        <legend>Modify Device "${systemComponent.id}"</legend>
+        <legend>Modify "${systemComponent.name}"</legend>
         <input type="text" name="name" id="name" placeholder="Name" value="${systemComponent.name}">
         <select name="isHuman" id="isHuman">
           <option value="">Human or Machine?</option>
@@ -435,7 +435,7 @@ function renderAddReadingScreen(systemComponent, user = null) {
   return `<div class="addReading overlay-content">
     <form class="addReadingForm" data-id="${systemComponent.id}">
       <fieldset>
-        <legend>Add A Device Reading for "${systemComponent.id}":</legend>
+        <legend>Add Reading For "${systemComponent.name}":</legend>
         <input type="text" name="temperature" id="temperature" placeholder="Temperature">
         <input type="submit" value="ADD READING" id="submit"></input>
         <button type="button" id="cancelButton">CANCEL</button>

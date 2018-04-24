@@ -167,7 +167,7 @@ select, input[type="text"] {
   margin-left: 0;
   margin-right: 0;
   min-height: 33vh;
-  max-height: 50vh;
+  max-height: 55vh;
   margin-bottom: 1vh;
 }
 
@@ -217,6 +217,99 @@ select, input[type="text"] {
     font-size: 60px;
 }
 
+.editComponentButton {
+  display: inline-block;
+  width: 25%;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 2px;
+  background-color: white;
+  font-weight: 600;
+  color: #213140;
+  border-top: 1px solid #b1c4d7;
+  border-bottom: 1px solid #b1c4d7;
+  border-left: none;
+  border-right: none;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+}
+
+.editComponentButton:hover {
+  border: 1px solid #213140;
+  background-color: #fe7823;
+  color: #213140;
+}
+
+.editComponentButton:active {
+  border: 1px solid #213140;
+  background-color: #fe7823; /* Green */
+  color: #213140;
+}
+
+.addReadingButton {
+  display: inline-block;
+  width: 50%;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 2px;
+  background-color: white;
+  font-weight: 600;
+  color: #213140;
+  border-top: 1px solid #b1c4d7;
+  border-bottom: 1px solid #b1c4d7;
+  border-left: 1px solid #b1c4d7;
+  border-right: 1px solid #b1c4d7;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+}
+
+.addReadingButton:hover {
+  border: 1px solid #213140;
+  background-color: #fe7823;
+  color: #213140;
+}
+
+.addReadingButton:active {
+  border: 1px solid #213140;
+  background-color: #fe7823;
+  color: #213140;
+}
+
+.deleteComponentButton {
+  display: inline-block;
+  width: 25%;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 2px;
+  background-color: white;
+  font-weight: 600;
+  color: #213140;
+  border-left: none;
+  border-top: 1px solid #b1c4d7;
+  border-bottom: 1px solid #b1c4d7;
+  border-right: none;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+}
+
+.deleteComponentButton:hover {
+  border: 1px solid #213140;
+  background-color: #fe7823;
+  color: #213140;
+}
+
+.deleteComponentButton:active {
+  border: 1px solid #213140;
+  background-color: #fe7823;
+  color: #213140;
+}
+
 #login {
   padding: 8px;
 }
@@ -254,6 +347,19 @@ select, input[type="text"] {
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 10px;
+}
+
+#componentWindowName {
+  margin-top: 5px;
+  margin-left:10px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+#componentWindowId {
+  margin-left: 10px;
+  font-size: 12px;
+  margin-bottom: 5px;
 }
 
 /*
