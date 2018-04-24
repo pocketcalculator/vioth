@@ -166,9 +166,9 @@ select, input[type="text"] {
   box-shadow: 6px 7px 11px -5px rgba(0,0,0,0.75);
   margin-left: 0;
   margin-right: 0;
+  margin-bottom: 10px;
   min-height: 33vh;
   max-height: 55vh;
-  margin-bottom: 1vh;
 }
 
 .overlay {

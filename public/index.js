@@ -335,13 +335,13 @@ function renderAddComponentScreen(user = null) {
     <form class="addSystemComponentForm">
       <fieldset>
         <legend>Add A Device For Management:</legend>
-        <input type="text" name="name" id="name" placeholder="Name" required>
+        <input type="text" name="name" id="name" placeholder="Name" maxLength="12" required>
         <select name="isHuman" id="isHuman" required>
           <option value="">Human or Machine?</option>
           <option value="false">Machine</option>
           <option value="true">Human</option>
         </select>
-        <input type="text" name="safeTempThreshold" id="safeTempThreshold" placeholder="Safe Temperature Threshold" required>
+        <input type="number" name="safeTempThreshold" id="safeTempThreshold" min="-100" max="100" placeholder="Safe Temperature Threshold" required>
         <input type="submit" value="ADD COMPONENT" id="submit"></input>
         <button type="button" id="cancelButton">CANCEL</button>
       </fieldset>
@@ -368,13 +368,13 @@ function renderUpdateComponentScreen(systemComponent, user = null) {
     <form class="updateSystemComponentForm" data-id="${systemComponent.id}">
       <fieldset>
         <legend>Modify "${systemComponent.name}"</legend>
-        <input type="text" name="name" id="name" placeholder="Name" value="${systemComponent.name}">
+        <input type="text" name="name" id="name" placeholder="Name" maxLength="12" value="${systemComponent.name}">
         <select name="isHuman" id="isHuman">
           <option value="">Human or Machine?</option>
           <option value="false"${systemComponent.isHuman ? '' : ' selected'}>Machine</option>
           <option value="true"${systemComponent.isHuman ? ' selected' : ''}>Human</option>
         </select>
-        <input type="text" name="safeTempThreshold" id="safeTempThreshold" placeholder="Safe Temperature Threshold" value="${systemComponent.safeTempThreshold}">
+        <input type="number" name="safeTempThreshold" id="safeTempThreshold" min="-100" max="100" placeholder="Safe Temperature Threshold" value="${systemComponent.safeTempThreshold}">
         <input type="submit" value="UPDATE COMPONENT" id="submit"></input>
         <button type="button" id="cancelButton">CANCEL</button>
       </fieldset>
@@ -426,7 +426,7 @@ function handleUpdateComponentFormSubmit() {
       }
     })
     console.log(componentUpdates)
-    $('.updateSystemComponentForm').remove()
+    $('.updateSystemComponent').remove()
     putSystemComponent(componentUpdates, getAndDisplaySystemComponentGroupStatusScreen)
   })
 }
@@ -436,7 +436,7 @@ function renderAddReadingScreen(systemComponent, user = null) {
     <form class="addReadingForm" data-id="${systemComponent.id}">
       <fieldset>
         <legend>Add Reading For "${systemComponent.name}":</legend>
-        <input type="text" name="temperature" id="temperature" placeholder="Temperature">
+        <input type="number" name="temperature" id="temperature" min="-100" max="100" placeholder="Temperature">
         <input type="submit" value="ADD READING" id="submit"></input>
         <button type="button" id="cancelButton">CANCEL</button>
       </fieldset>
