@@ -236,7 +236,7 @@ function renderSystemComponent(systemComponent, user = null) {
     'value': 'DELETE',
     'text': 'DELETE'
   })
-  div.append(`<caption><section id="componentWindowName">${systemComponent.name}</section><section id="componentWindowId">${systemComponent.id}</section></caption>`)
+  div.append(`<caption><section class="componentWindowName">${systemComponent.name}</section><section id="componentWindowId">${systemComponent.id}</section></caption>`)
   const graph = drawComponentGraph(systemComponent)
   div.append(graph)
   div.append(editButton)

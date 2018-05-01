@@ -310,6 +310,13 @@ select, input[type="text"] {
   color: #213140;
 }
 
+.componentWindowName {
+  margin-top: 5px;
+  margin-left:10px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
 #submit {
   margin-left: auto;
   margin-right: auto;
@@ -395,13 +402,6 @@ select, input[type="text"] {
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 10px;
-}
-
-#componentWindowName {
-  margin-top: 5px;
-  margin-left:10px;
-  font-size: 22px;
-  font-weight: 600;
 }
 
 #componentWindowId {
