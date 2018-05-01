@@ -192,7 +192,7 @@ function drawComponentGraph(systemComponent, user = null) {
           display: true,
           scaleLabel: {
             display: true,
-            labelString: "Date",
+            labelString: "Time",
           }
         }],
         yAxes: [{
