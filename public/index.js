@@ -557,7 +557,7 @@ function addUser(userData, callback) {
       console.log("new user added!")
       callback(data)
     },
-    failure: apiFailure
+    error: apiFailure
   }
   $.ajax(settings)
 }
@@ -577,11 +577,11 @@ function loginUser(userData, callback) {
       jwt = data.authToken
       callback()
     },
-    failure: function(data) {
-//      console.log("login failed.")
+    error: function(error) {
+      console.log("login failed.")
 //      console.log(userData)
-//      $('.login').append('<section>You have entered an invalid username or password.</section>')
-      apiFailure
+      $('.logIn').append('<section>You have entered an invalid username or password.</section>')
+//      apiFailure
     }
   }
   $.ajax(settings)
@@ -599,7 +599,7 @@ function getSystemComponentById(id, callback) {
     success: function(data) {
       callback(data, jwt)
     },
-    failure: apiFailure
+    error: apiFailure
   }
   $.ajax(settings)}
 
@@ -611,7 +611,7 @@ function getSystemComponents(callback) {
     success: function(data) {
       callback(data.systemComponents, jwt)
     },
-    failure: apiFailure
+    error: apiFailure
   }
   $.ajax(settings)
 }
@@ -626,7 +626,7 @@ function postSystemComponent(systemComponent, callback) {
     success: function(data) {
       callback(data, jwt)
     },
-    failure: apiFailure
+    error: apiFailure
   }
   if (jwt) {
     settings.headers = {Authorization: `Bearer ${jwt}`}
@@ -644,7 +644,7 @@ function putSystemComponent(systemComponent, callback) {
     success: function(data) {
       callback(data, jwt)
     },
-    failure: apiFailure
+    error: apiFailure
   }
   if (jwt) {
     settings.headers = {Authorization: `Bearer ${jwt}`}
@@ -660,7 +660,7 @@ function deleteSystemComponent(systemComponent, callback) {
     success: function(data) {
       callback(data, jwt)
     },
-    failure: apiFailure
+    error: apiFailure
   }
   if (jwt) {
     settings.headers = {Authorization: `Bearer ${jwt}`}
