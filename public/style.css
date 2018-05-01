@@ -317,6 +317,12 @@ select, input[type="text"] {
   font-weight: 600;
 }
 
+.componentWindowId {
+  margin-left: 10px;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
 #submit {
   margin-left: auto;
   margin-right: auto;
@@ -402,12 +408,6 @@ select, input[type="text"] {
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 10px;
-}
-
-#componentWindowId {
-  margin-left: 10px;
-  font-size: 12px;
-  margin-bottom: 5px;
 }
 
 /* When the screen is less than 600 pixels wide, hide all links. Show the link that contains should open and close the topnav (.icon) */
