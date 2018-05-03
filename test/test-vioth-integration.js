@@ -67,7 +67,7 @@ describe('System Components API resource', function() {
   // `seedRestaurantData` and `tearDownDb` each return a promise,
   // so we return the value returned by these function calls.
   before(function() {
-    return runServer(DATABASE_URL)
+    return runServer(TEST_DATABASE_URL)
     .then(function() {
       return chai.request(app).post('/api/user').send({username,password})
     })
