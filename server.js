@@ -41,7 +41,7 @@ app.use('/api/systemcomponent/', componentRouter)
 
 app.use(function (error, req, res, next) {
   res.status(500).json({ message: error.message})
-}
+})
 
 // catch-all endpoint if client makes request to non-existent endpoint
 app.use('*', function (req, res) {
