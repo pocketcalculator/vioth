@@ -43,7 +43,13 @@ function displayNavigation(user = null) {
 
 function displaySystemSummaryChart(systemComponents) {
   $('.systemSummaryChartArea').html(drawSystemSummaryChart(systemComponents))
-  $('.systemSummaryChartArea').append('<ol id="accessibilityList" aria-live="assertive"</ol>')
+  $('.systemSummaryChartArea').append('<ol id="accessibilityList" aria-live="assertive"></ol>')
+  const accessibilityComponentList = []
+  systemComponents.forEach(function(component, index) {
+    const accessibilityComponentListString = `<li>${component.name} status, safe temperature threshold: ${component.safeTempThreshold}, last reading: ${component.readings[component.readings.length - 1].temperature}</li>`
+    accessibilityComponentList.push(accessibilityComponentListString)
+  })
+  $('#accessibilityList').html(accessibilityComponentList.join('\n'))
 }
 
 // This function renders the systemSummary Chart.js graph
