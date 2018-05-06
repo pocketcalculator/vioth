@@ -5,7 +5,6 @@
 }
 
 body {
-/*  background-color: #f6f6f7; */
   background-color: #213140;
   font-family: 'Montserrat', sans-serif;
   min-width: 320px;
@@ -16,7 +15,6 @@ header {
   padding-top: 8px;
   padding-bottom: 8px;
   height: 65px;
-  /*  background-color: #f6f6f7; */
   background-color: #213140;
 }
 
@@ -42,7 +40,6 @@ header nav ul {
 
 header nav ul li {
   display: inline-block;
-  /*  background-color: #f6f6f7; */
   background-color: #213140;
   color: #fe7823;
   padding: 14px 16px;
@@ -248,7 +245,7 @@ legend {
 
 .editComponentButton:active {
   border: 1px solid #213140;
-  background-color: #fe7823; /* Green */
+  background-color: #fe7823;
   color: #213140;
 }
 
@@ -424,7 +421,6 @@ legend {
   overflow: hidden;
 }
 
-/* When the screen is less than 600 pixels wide, hide all links. Show the link that contains should open and close the topnav (.icon) */
 @media screen and (max-width: 670px) {
  .topnav li {display: none;}
  .topnav li.icon {
@@ -435,7 +431,6 @@ legend {
  }
 }
 
-/* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
 @media screen and (max-width: 670px) {
  .topnav.responsive {position: relative;}
  .topnav.responsive li.icon {

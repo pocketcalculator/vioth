@@ -54,7 +54,6 @@ function displaySystemSummaryChart(systemComponents) {
 
 // This function renders the systemSummary Chart.js graph
 function drawSystemSummaryChart(systemComponents) {
-  console.log("Creating the system components summary chart...")
   const greenBackgroundColor = "rgba(70, 191, 189, 0.2)"
   const greenBorderColor = "rgb(70, 191, 189)"
   const redBackgroundColor = "rgba(247, 70, 74, 0.2)"
@@ -155,7 +154,6 @@ function drawSystemSummaryChart(systemComponents) {
 
 // This function renders a Chart.js graph
 function drawComponentGraph(systemComponent, user = null) {
-  console.log("Creating a graph...")
   const ctx = $('<canvas/>', {
     'class': 'systemComponentGraph',
     id: '${systemComponent.name}'
@@ -220,7 +218,6 @@ function drawComponentGraph(systemComponent, user = null) {
 }
 
 function renderSystemComponent(systemComponent, user = null) {
-  console.log(systemComponent)
   const div = $('<div></div>', {
     'class': 'systemComponentWindow',
     id: `${systemComponent.name}-div`
@@ -284,7 +281,6 @@ function renderLogInScreen() {
 }
 
 function handleRegistershow() {
-  console.log("Waiting for someone to click the register item...")
   $('nav').on('click', '#register', function(event) {
     $('main').append(`
       <div id="registrationForm" class="register overlay">
@@ -296,7 +292,6 @@ function handleRegistershow() {
 }
 
 function handleLogInshow() {
-  console.log("Waiting for someone to click the log in item...")
   $('nav').on('click', '#login', function(event) {
     $('main').append(`
       <div id="loginForm" class="login overlay">
@@ -309,8 +304,6 @@ function handleLogInshow() {
 
 // Loop which joins all system components in the model as LIs in a UL and displays it
 function renderSystemComponentGroupStatusScreen(systemComponents, user = null) {
-  console.log("Building System Component Group Status Screen...")
-  console.log(`systemComponents: ${systemComponents}`)
   const systemComponentListItems = systemComponents.map(function(systemComponent) {
     return $('<li></li>').append(renderSystemComponent(systemComponent))
   })
@@ -327,7 +320,6 @@ function displaySystemComponentGroupStatusScreen(systemComponents, user = jwt) {
 }
 
 function handleAddComponentShow() {
-  console.log("waiting for someone to click the add component item...")
   $('nav').on('click', '#addSystemComponent', function(event) {
     $('main').append(`
       <div id="addSystemComponentForm" class="addSystemComponent overlay">
@@ -399,7 +391,6 @@ function handleRegisterFormSubmit() {
       username: $('#username').val(),
       password: $('#password').val()
     }
-    console.log(registerData)
     $('.register').remove()
     addUser(registerData, getAndDisplaySystemComponentGroupStatusScreen)
   })
@@ -412,8 +403,6 @@ function handleLogInFormSubmit() {
       username: $('#username').val(),
       password: $('#password').val()
     }
-    console.log(logInData)
-//    $('.logInForm').remove()
     loginUser(logInData, getAndDisplaySystemComponentGroupStatusScreen)
   })
 }
@@ -427,13 +416,11 @@ function handleUpdateComponentFormSubmit() {
       value: $(event.currentTarget).data('id')
     })
     const componentUpdates = {}
-    console.log(formData)
     $(formData).each(function(index, obj) {
       if (obj.value) {
         componentUpdates[obj.name] = obj.value
       }
     })
-    console.log(componentUpdates)
     $('.updateSystemComponent').remove()
     putSystemComponent(componentUpdates, getAndDisplaySystemComponentGroupStatusScreen)
   })
@@ -462,8 +449,6 @@ function handleAddReadingFormSubmit() {
         date: Date.now()
       }
     }
-    console.log('component updates for readings...')
-    console.log(componentUpdate)
     $('.addReading').remove()
     putSystemComponent(componentUpdate, getAndDisplaySystemComponentGroupStatusScreen)
   })
@@ -511,7 +496,6 @@ function handleDeleteComponentButton() {
 
 function handleLogout() {
   $('nav').on('click', '#logout', function(event) {
-    console.log("Logging out...")
     user = null
     jwt = null
     displayNavigation()
@@ -532,7 +516,6 @@ function setUpSocketListener() {
 }
 
 function setupEventHandlers() {
-  console.log("Running Event Handlers...")
   handleRegistershow()
   handleRegisterFormSubmit()
   handleLogInshow()
@@ -549,12 +532,10 @@ function setupEventHandlers() {
 }
 
 function apiFailure(error) {
-  console.log("API Failure")
   console.error(error)
 }
 
 function addUser(userData, callback) {
-  console.log("running addUser...")
   const settings = {
     url: '/api/user',
     data: JSON.stringify(userData),
@@ -562,7 +543,6 @@ function addUser(userData, callback) {
     dataType: 'json',
     type: 'POST',
     success: function(data) {
-      console.log("new user added!")
       callback(data)
     },
     error: apiFailure
@@ -571,7 +551,6 @@ function addUser(userData, callback) {
 }
 
 function loginUser(userData, callback) {
-  console.log("attempting login...")
   const settings = {
     url: '/api/auth/login',
     data: JSON.stringify(userData),
@@ -579,17 +558,12 @@ function loginUser(userData, callback) {
     dataType: 'json',
     type: 'POST',
     success: function(data) {
-      console.log(data)
-      console.log("login successful!")
       $('.login').remove()
       jwt = data.authToken
       callback()
     },
     error: function(error) {
-      console.log("login failed.")
-//      console.log(userData)
       $('#loginStatus').html('You have entered an invalid username or password.')
-//      apiFailure
     }
   }
   $.ajax(settings)
@@ -673,7 +647,6 @@ function deleteSystemComponent(systemComponent, callback) {
   if (jwt) {
     settings.headers = {Authorization: `Bearer ${jwt}`}
   }
-  console.log(`Deleting ${systemComponent.id}`)
   $.ajax(settings)
 }
 
@@ -684,4 +657,3 @@ function initializeUI() {
 }
 
 $(initializeUI)
-console.log("Loaded.")
