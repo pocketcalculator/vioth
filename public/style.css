@@ -89,6 +89,10 @@ select, input[type="text"] {
   width: 100%;
 }
 
+legend {
+  font-weight: 600;
+}
+
 .icon {
   padding: 0 !important;
   color: #fe7823 !important;
@@ -408,6 +412,16 @@ select, input[type="text"] {
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 10px;
+}
+
+#loginStatus {
+  color: red;
+}
+
+#accessibilityList {
+  height: 0;
+  width: 0;
+  overflow: hidden;
 }
 
 /* When the screen is less than 600 pixels wide, hide all links. Show the link that contains should open and close the topnav (.icon) */

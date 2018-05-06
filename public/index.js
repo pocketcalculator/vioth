@@ -43,6 +43,7 @@ function displayNavigation(user = null) {
 
 function displaySystemSummaryChart(systemComponents) {
   $('.systemSummaryChartArea').html(drawSystemSummaryChart(systemComponents))
+  $('.systemSummaryChartArea').append('<ol id="accessibilityList" aria-live="assertive"</ol>')
 }
 
 // This function renders the systemSummary Chart.js graph
@@ -266,6 +267,7 @@ function renderLogInScreen() {
     <form class="logInForm">
       <fieldset>
         <legend>Log In:</legend>
+        <section id="loginStatus"></section>
         <input type="text" name="username" id="username" placeholder="username" required>
         <input type="text" name="password" id="password" placeholder="password" required>
         <input type="submit" value="LOG IN" id="submit"></input>
@@ -405,7 +407,7 @@ function handleLogInFormSubmit() {
       password: $('#password').val()
     }
     console.log(logInData)
-    $('.logInForm').remove()
+//    $('.logInForm').remove()
     loginUser(logInData, getAndDisplaySystemComponentGroupStatusScreen)
   })
 }
@@ -580,7 +582,7 @@ function loginUser(userData, callback) {
     error: function(error) {
       console.log("login failed.")
 //      console.log(userData)
-      $('.logIn').append('<section>You have entered an invalid username or password.</section>')
+      $('#loginStatus').html('You have entered an invalid username or password.')
 //      apiFailure
     }
   }
