@@ -46,7 +46,8 @@ function displaySystemSummaryChart(systemComponents) {
   $('.systemSummaryChartArea').append('<ol id="accessibilityList" aria-live="assertive"></ol>')
   const accessibilityComponentList = []
   systemComponents.forEach(function(component, index) {
-    const accessibilityComponentListString = `<li>${component.name} status, safe temperature threshold: ${component.safeTempThreshold}, last reading: ${component.readings[component.readings.length - 1].temperature}</li>`
+    const lastReading = component.readings[component.readings.length - 1]
+    const accessibilityComponentListString = `<li>${component.name} status, safe temperature threshold: ${component.safeTempThreshold}${lastReading?`, last reading: ${lastReading.temperature}`:''}</li>`
     accessibilityComponentList.push(accessibilityComponentListString)
   })
   $('#accessibilityList').html(accessibilityComponentList.join('\n'))
