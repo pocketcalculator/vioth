@@ -169,7 +169,11 @@ legend {
   margin-right: 0;
   margin-bottom: 10px;
   min-height: 33vh;
-  max-height: 55vh;
+}
+
+.systemComponentGraphWrapper {
+  min-height: 200px;
+  max-height: 65%;
 }
 
 .overlay {

@@ -241,9 +241,13 @@ function renderSystemComponent(systemComponent, user = null) {
     'value': 'DELETE',
     'text': 'DELETE'
   })
+  const graphWrapper = $('<div></div>', {
+    'class': 'systemComponentGraphWrapper'
+  })
   div.append(`<caption><section class="componentWindowName">${systemComponent.name}</section><section class="componentWindowId">${systemComponent.id}</section></caption>`)
+  div.append(graphWrapper)
   const graph = drawComponentGraph(systemComponent)
-  div.append(graph)
+  graphWrapper.append(graph)
   div.append(editButton)
   div.append(addReadingButton)
   div.append(deleteButton)
