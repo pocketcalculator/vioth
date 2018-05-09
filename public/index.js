@@ -146,6 +146,9 @@ function drawSystemSummaryChart(systemComponents) {
             max: 100
           }
         }]
+      },
+      responsiveAnimationDuration: {
+        duration: 3000
       }
     }
   }
@@ -211,6 +214,9 @@ function drawComponentGraph(systemComponent, user = null) {
             labelString: 'Temperature (℃)',
           }
         }]
+      },
+      responsiveAnimationDuration: {
+        duration: 3000
       }
     }
   }
