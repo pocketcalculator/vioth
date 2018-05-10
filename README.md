@@ -19,6 +19,7 @@ The application runs on Node.js, just use 'npm start' to get it going.  It relie
 * [jQuery](https://maven.jquery.com) - Client-side HTML manipulation and event handlers
 * [MongoDB](https://mongodb.com) - User & component details are stored to and retrieved from this document-oriented database
 * [Chart.js](https://chartjs.org) - Javascript Chart library that allows for VIOTH bar and line chart dashboards
+* [JWT](https://jwt.io) - Java Web Tokens for authentication
 * [Socket.io](https://socket.io) - Enables real-time updates for all users viewing the dashboard
 
 ## Contributing
