@@ -11,7 +11,7 @@ A working example of VIOTH can be accessed [here](https://safe-coast-16974.herok
 
 ## Deployment
 
-The application runs on Node.js, just use 'npm start' to get it going.  It relies on MongoDB for its database.  Create a db and configure the path appropriately.  Authentication is built with [JWT](https://jwt.io/).  System managers will register their account in VIOTH and then use the 'Add Component' option to enter a new device for management.  Device readings can be performed manually via the web console or programtically via a script with a tool like [curl](https://curl.haxx.se/) which can make CLI-based RESTful API calls.
+The application runs on Node.js, just use 'npm start' to get it going.  It relies on MongoDB for its database.  Create a db and configure the path appropriately.  Authentication is built with [JWT](https://jwt.io/).  System managers will register their account in VIOTH and then use the 'Add Component' option to enter a new device for management.  Device readings can be performed manually via the web console or programmatically via a script with a tool like [curl](https://curl.haxx.se/) which can make CLI-based RESTful API calls.
 
 ## Built With
 
